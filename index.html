@@ -285,11 +285,10 @@ textarea.in{resize:vertical;min-height:76px}
 .howto li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:14px;counter-increment:s}
 .howto li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;display:grid;place-items:center}
 
-.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.phone.wide .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px}
 .kpi span{font-size:12px;color:var(--muted);font-weight:700}
-.kpi b{display:block;font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:2px}
+.kpi b{display:block;font-family:var(--display);font-size:clamp(19px,2.2vw + 10px,24px);overflow-wrap:anywhere;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:2px}
 .hero{background:linear-gradient(150deg,#f95e0a,#ff8a1f);color:#fff;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:4px}
 .hero span{font-size:12.5px;opacity:.92}
 .hero b{font-family:var(--display);font-size:30px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
@@ -322,6 +321,63 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .empty .il{width:72px;height:72px;margin:0 auto 8px}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:50;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- Lógica premium: reloj, alertas, dinero ---------- */
+.clock{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.clock>div{margin-right:auto;display:flex;flex-direction:column}
+.clock b{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.1}
+.clock button,.clock-mini button{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:6px 10px;font-weight:800;font-size:12px;color:var(--ink)}
+.clock-mini{display:inline-flex;align-items:center;gap:4px}
+.clock-mini b{font-variant-numeric:tabular-nums;margin-right:2px}
+.clock-mini button{padding:2px 7px;background:transparent;color:inherit;border-color:currentColor}
+.cases{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--ink)}
+.alert{display:flex;gap:10px;border-radius:16px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--warn)}
+.alert.alta{border-left-color:#d63a2f}
+.alert h3{font-size:14.5px}.alert p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-weight:700;font-size:13px;color:var(--ink)}
+.chipbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chipbtn:disabled{opacity:.45}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.seg .chipbtn{padding:8px 4px}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+.kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:0}
+.kv>span:first-child{color:var(--muted)}
+.kv>span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.pincard{align-items:center;background:var(--ink);color:var(--bg);border:0}
+.pincard .eyebrow,.pincard .muted{color:inherit;opacity:.75}
+.pinbig{font-family:ui-monospace,Menlo,monospace;font-size:40px;font-weight:800;letter-spacing:.32em;padding-left:.32em}
+.pin-in{font-family:ui-monospace,Menlo,monospace;font-size:26px;letter-spacing:.45em;text-align:center}
+.mono{font-family:ui-monospace,Menlo,monospace}
+.timer{font-size:12.5px;font-weight:800;color:var(--warn);background:var(--warn-soft);border-radius:10px;padding:6px 10px;align-self:flex-start}
+.timer.urge{color:#fff;background:#d63a2f}
+.offer{border:2px solid var(--ok);box-shadow:0 10px 24px -14px rgba(20,135,79,.6)}
+.flag{border-color:#d63a2f}
+.prow{flex-direction:row;align-items:center;gap:12px;text-align:left;color:inherit;width:100%;padding:12px}
+.prow h3{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.timeline li{display:grid;grid-template-columns:44px 1fr;gap:8px}
+.timeline time{color:var(--muted);font-variant-numeric:tabular-nums}
+.doc{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.doc .ok,.okc{color:var(--ok);font-weight:800}.doc .no{color:#d63a2f;font-weight:800}
+.limitbar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.limitbar i{display:block;height:100%;background:var(--ok);border-radius:4px}
+.limitbar i.warn{background:var(--warn)}.limitbar i.bad{background:#d63a2f}
+.note-demo{font-size:12.5px;color:var(--muted);background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;padding:9px 11px}
+.tag-ad{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block}
+h3 .tag-ad{display:inline;margin-left:4px}
+.bizc.closed .cover{filter:grayscale(.85);opacity:.6}
+.item.dim h3{color:var(--muted)}
+.risk-medio{background:var(--warn-soft);color:var(--warn)}
+.risk-alto{background:#fde2df;color:#c0281c}
+.p-pago_pendiente{background:var(--warn-soft);color:var(--warn)}
+.p-buscando,.p-comprando,.p-por_aprobar,.p-en_puerta{background:var(--info-soft);color:var(--info)}
+.p-cancelado{background:var(--surface-2);color:var(--muted)}
+.p-no_entregado{background:#fde2df;color:#c0281c}
+.shield-art{display:block;color:#fff;width:150px!important;height:150px}
+.shield-art svg{width:100%;height:100%}
+.upload{cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -331,571 +387,40 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
     <div>
       <div id="brandbig"></div>
       <div class="tag">¿Qué ocupas? Te lo manda2.</div>
-      <div class="note">Comida, tiendita, farmacia, gas, garrafones y mandados para Toscana Alta, Casas Quma y la zona de Atotonilco de Tula y Huehuetoca. Maqueta con datos de ejemplo. En el celular se abre a pantalla completa y se instala como app, sin App Store.</div>
+      <div class="note">Comida, tiendita, farmacia, gas, garrafones y mandados para Toscana Alta, Casas Quma y la zona de Atotonilco de Tula y Huehuetoca. Maqueta con datos de ejemplo: todas las reglas (precios, dinero, tiempos y antifraude) corren en un motor probado.</div>
     </div>
-    <div>
-      <div class="eyebrow">La marca</div>
+    <div id="reloj"></div>
+    <div><div class="eyebrow">Ver la app como</div><div class="roles" id="roles"></div></div>
+    <div><div class="eyebrow">Prueba un pedido de punta a punta</div><ol class="flow">
+      <li><b>Cliente:</b> pide en Tacos El Atlante y paga en efectivo.</li>
+      <li><b>Negocio:</b> elige el tiempo, acepta y marca listo.</li>
+      <li><b>Repartidor:</b> acepta la oferta y llega a la tienda.</li>
+      <li><b>Negocio:</b> le entrega el pedido y le cobra en tienda.</li>
+      <li><b>Repartidor:</b> entrega con el código del cliente.</li>
+      <li><b>Admin:</b> mira cómo se repartió el dinero.</li>
+    </ol></div>
+    <div><div class="eyebrow">Casos difíciles para probar</div><ul class="cases">
+      <li>Adelanta el reloj 2 min: Tacos no le contestó a Ricardo y su pedido se cancela solo.</li>
+      <li>Paga por transferencia y no simules el pago: a los 15 min se cancela.</li>
+      <li>Como repartidor, escribe un código equivocado tres veces.</li>
+      <li>En la puerta, llama 2 veces, espera 10 min y marca que el cliente no salió.</li>
+      <li>Activa la ley seca en Ajustes y trata de pedir cerveza.</li>
+      <li>Cambia a operador y devuelve más de $100 en un reclamo.</li>
+    </ul></div>
+    <div><div class="eyebrow">La marca</div>
       <div class="brandcard"><span id="appicon"></span><div class="stack" style="gap:8px;min-width:0"><div class="small"><b>El pin con el 2</b> dice lo que hace la app: te lo lleva a tu ubicación. Las rayas son la velocidad.</div>
-        <div class="swatches"><span class="sw"><i style="background:#f95e0a"></i>Naranja</span><span class="sw"><i style="background:#ff8a1f"></i>Mandarina</span><span class="sw"><i style="background:#ffc21a"></i>Promo</span><span class="sw"><i style="background:#2b1b12"></i>Chocolate</span><span class="sw"><i style="background:#fbf6f2"></i>Crema</span></div></div></div>
-    </div>
-    <div>
-      <div class="eyebrow">Ver la app como</div>
-      <div class="roles" id="roles"></div>
-    </div>
-    <div>
-      <div class="eyebrow">Prueba un pedido de punta a punta</div>
-      <ol class="flow">
-        <li><b>Cliente:</b> pide en Tacos El Atlante y deja propina.</li>
-        <li><b>Negocio:</b> acéptalo y márcalo listo.</li>
-        <li><b>Repartidor:</b> toma el viaje y entrégalo.</li>
-        <li><b>Cliente:</b> mira el mapa y califica.</li>
-        <li><b>Admin:</b> revisa lo que ganó manda2.</li>
-      </ol>
-    </div>
-    <div>
-      <div class="eyebrow">Modelo de negocio</div>
-      <div class="model" id="model"></div>
-    </div>
+        <div class="swatches"><span class="sw"><i style="background:#f95e0a"></i>Naranja</span><span class="sw"><i style="background:#ff8a1f"></i>Mandarina</span><span class="sw"><i style="background:#ffc21a"></i>Promo</span><span class="sw"><i style="background:#2b1b12"></i>Chocolate</span><span class="sw"><i style="background:#fbf6f2"></i>Crema</span></div></div></div></div>
+    <div><div class="eyebrow">Modelo de negocio</div><div class="model" id="model"></div></div>
   </aside>
   <div class="phone-wrap"><div class="phone" id="phone">
-    <div class="demo-bar"><span>Maqueta manda2</span><label>Ver como <select id="demo-role" data-change="role" aria-label="Ver la app como"></select></label></div>
+    <div class="demo-bar"><span>Maqueta</span><span id="reloj-mini"></span><label>Ver como <select id="demo-role" data-change="role" aria-label="Ver la app como"></select></label></div>
     <div class="app" id="app"></div>
   </div></div>
 </div>
 <div class="toast" id="toast" role="status"></div>
-
 <script src="ilustraciones.js"></script>
-<script>
-const ICONS = {
-  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7v9h-5v-6h-6v6H4Z"/></svg>',
-  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>',
-  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/></svg>',
-  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
-  menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
-  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg>',
-  bike:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9 8 5H6M15 9l1-3h2"/></svg>',
-  coin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.5c-.5-1-1.4-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.2 0-2.1-.5-2.6-1.5M12 6.5V8M12 16v1.5"/></svg>',
-  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></svg>',
-  inbox:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l3-8h12l3 8v6H3Z"/><path d="M3 13h5l1 2h6l1-2h5"/></svg>',
-  tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8Z"/><circle cx="7.5" cy="8" r="1.3"/></svg>',
-  store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v10h16V10M3 10l2-6h14l2 6Z"/><path d="M10 20v-5h4v5"/></svg>',
-  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.5-4A8 8 0 1 1 8 19.5Z"/></svg>',
-  cash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
-  bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 12 4l9 5M5 10v7M10 10v7M14 10v7M19 10v7M3 20h18"/></svg>',
-  camera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
-  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6Z"/><path d="M9 12h6M9 16h6"/></svg>',
-};
-
-/* ---------- Marca ---------- */
-const PIN_D='M24 2C12 2 3 11 3 23c0 15 21 35 21 35s21-20 21-35C45 11 36 2 24 2Z', TWO_D='M16.5 19.5a7.5 7.5 0 1 1 12.6 5.5L16.5 37h15';
-const PIN=`<svg class="pin2" viewBox="0 0 48 60" aria-hidden="true"><path class="pb" d="${PIN_D}"/><path class="pf" d="${TWO_D}" fill="none" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-const brand=(cls='')=>`<span class="wordmark ${cls}" aria-label="manda2">manda${PIN}</span>`;
-const APPICON=`<svg viewBox="0 0 512 512" aria-label="Ícono de manda2"><rect width="512" height="512" rx="116" fill="#f95e0a"/><g transform="translate(-46.5 -46.5) scale(1.1636)"><g stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".9"><path d="M80 200h62M100 245h44M88 290h52"/></g><g transform="translate(150 76) scale(6)"><path d="${PIN_D}" fill="#fff"/><path d="${TWO_D}" fill="none" stroke="#f95e0a" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
-const ill=(k,cls='')=>`<svg viewBox="0 0 64 64" class="il ${cls}" aria-hidden="true">${IL[k]||IL.bag}</svg>`;
-const blogo=(n,s=44)=>`<span class="blogo" style="--c:${n.color};width:${s}px;height:${s}px">${n.il?`<span class="disc">${ill(n.il)}</span>`:''}</span>`;
-const cover=(n,cls='')=>`<div class="cover ${cls}" style="background-color:${n.color};background-image:radial-gradient(rgba(255,255,255,.22) 1.4px,transparent 1.8px),linear-gradient(140deg,rgba(255,255,255,.3),rgba(0,0,0,.1));background-size:16px 16px,100% 100%">${(n.extra||[]).map((k,i)=>ill(k,'a'+(i+2))).join('')}${ill(n.il,'a1')}`;
-const thumb=(k,s=72)=>`<div class="thumb" style="width:${s}px;height:${s}px">${ill(k)}</div>`;
-
-const FR = ['Toscana Alta','Casas Quma','Paseos de la Pradera','Atotonilco centro','Huehuetoca centro'];
-const CATS = [
-  {id:'comida',n:'Restaurantes',il:'burger'},{id:'tiendita',n:'Tiendita',il:'basket'},{id:'farmacia',n:'Farmacia',il:'bottle'},
-  {id:'gas',n:'Gas',il:'gas'},{id:'agua',n:'Garrafones',il:'garrafon'},{id:'mandado',n:'Mandados',il:'moto'}
-];
-const NEG = [
-  {id:'tacos',n:'Tacos El Atlante',cat:'comida',il:'taco',extra:['glass'],color:'#f2611d',desc:'Pastor, suadero y campechanos',fracc:'Toscana Alta',min:'25–35',rating:4.8,ops:312,pago:'pagado',promo:'2x1 los martes',
-    menu:[{id:1,n:'Orden de pastor (5)',d:'Con piña, cebolla y cilantro',p:65,il:'taco',on:true,top:true},{id:2,n:'Orden de suadero (5)',d:'Tortilla de maíz hecha a mano',p:70,il:'taco',on:true},{id:3,n:'Gringa de pastor',d:'Harina, queso y pastor',p:55,il:'tortilla',on:true},{id:4,n:'Agua de horchata 1 L',d:'',p:30,il:'glass',on:true}]},
-  {id:'pizza',n:'Pizzería La Toscana',cat:'comida',il:'pizza',extra:['soda','chicken'],color:'#d93a2b',desc:'Pizzas, alitas y papas',fracc:'Toscana Alta',min:'35–45',rating:4.6,ops:204,pago:'pagado',promo:'Envío gratis',envioGratis:true,
-    menu:[{id:1,n:'Pizza mediana pepperoni',d:'8 rebanadas',p:149,il:'pizza',on:true,top:true},{id:2,n:'Pizza mediana hawaiana',d:'8 rebanadas',p:159,il:'pizza',on:true},{id:3,n:'Alitas BBQ (10)',d:'Con aderezo ranch',p:129,il:'chicken',on:true},{id:4,n:'Refresco 2 L',d:'',p:45,il:'soda',on:true}]},
-  {id:'burger',n:'Burgers Quma',cat:'comida',il:'burger',extra:['fries','soda'],color:'#f08a24',desc:'Hamburguesas al carbón',fracc:'Casas Quma',min:'30–40',rating:4.7,ops:98,pago:'pagado',promo:'Nuevo',
-    menu:[{id:1,n:'Hamburguesa clásica',d:'Con papas',p:99,il:'burger',on:true,top:true},{id:2,n:'Hamburguesa doble con tocino',d:'Con papas',p:139,il:'burger',on:true},{id:3,n:'Papas a la francesa',d:'',p:45,il:'fries',on:true}]},
-  {id:'lupe',n:'Cocina Doña Lupe',cat:'comida',il:'bowl',extra:['chila','glass'],color:'#7a42d6',desc:'Comida corrida y desayunos',fracc:'Casas Quma',min:'20–30',rating:4.9,ops:421,pago:'pendiente',
-    menu:[{id:1,n:'Comida corrida',d:'Sopa, guisado del día, arroz y agua',p:85,il:'bowl',on:true,top:true},{id:2,n:'Chilaquiles con pollo',d:'Rojos o verdes',p:70,il:'chila',on:true},{id:3,n:'Agua del día 1 L',d:'',p:20,il:'glass',on:true}]},
-  {id:'mary',n:'Abarrotes Mary',cat:'tiendita',il:'basket',extra:['milk','bread'],color:'#14937a',desc:'Abarrotes, bebidas y botanas',fracc:'Casas Quma',min:'15–25',rating:4.7,ops:188,pago:'pagado',
-    menu:[{id:1,n:'Leche entera 1 L',d:'',p:28,il:'milk',on:true},{id:2,n:'Huevo blanco 18 pzs',d:'',p:72,il:'egg',on:true,top:true},{id:3,n:'Pan de caja grande',d:'',p:52,il:'bread',on:true},{id:4,n:'Refresco de cola 3 L',d:'',p:58,il:'soda',on:true},{id:5,n:'Tortillas 1 kg',d:'',p:24,il:'tortilla',on:true}]},
-  {id:'farma',n:'Farmacia del Fracc',cat:'farmacia',il:'bottle',extra:['pill','babybottle'],color:'#2e63d6',desc:'Medicamentos y bebé',fracc:'Atotonilco centro',min:'20–30',rating:4.5,ops:77,pago:'pagado',
-    menu:[{id:1,n:'Paracetamol 500 mg (10)',d:'Genérico',p:38,il:'pill',on:true,top:true},{id:2,n:'Suero oral 625 ml',d:'Sabor coco',p:32,il:'bottle',on:true},{id:3,n:'Pañales etapa 3 (40)',d:'',p:189,il:'babybottle',on:true},{id:4,n:'Termómetro digital',d:'',p:95,il:'thermo',on:true}]},
-  {id:'gas',n:'Gas Aliado (ejemplo)',cat:'gas',il:'gas',color:'#e2531a',desc:'Gas LP en cilindro',fracc:'Huehuetoca centro',min:'60–120',rating:4.4,ops:150,pago:'pagado',propia:true,
-    menu:[{id:1,n:'Cilindro 20 kg',d:'Precio de ejemplo',p:420,il:'gas',on:true},{id:2,n:'Cilindro 30 kg',d:'Precio de ejemplo',p:630,il:'gas',on:true}]},
-  {id:'agua',n:'Purificadora Cristal',cat:'agua',il:'garrafon',color:'#1c8fd1',desc:'Garrafones de 20 L',fracc:'Toscana Alta',min:'30–60',rating:4.8,ops:260,pago:'pagado',propia:true,
-    menu:[{id:1,n:'Garrafón 20 L (recarga)',d:'Precio de ejemplo',p:40,il:'garrafon',on:true}]},
-];
-
-const now=()=>new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
-const money=n=>(n<0?'−$':'$')+Math.abs(Math.round(n)).toLocaleString('es-MX');
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const neg=id=>NEG.find(n=>n.id===id);
-const order=id=>S.orders.find(o=>o.id===+id);
-const isStandalone=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}};
-
-const S={
-  role:'cliente',
-  t:{mismo:25,cerca:35,lejos:45,mandado:45,servicio:7,mensual:399,repa:85,bienvenida:true,vecino:30},
-  cli:{step:'onb',onb:0,nombre:'Ana Martínez',tel:'55 1234 5678',fracc:'Toscana Alta',dir:'Calle Siena 14',screen:'inicio',cat:null,q:'',negId:null,cart:[],cartNeg:null,pago:'efectivo',nota:'',tip:10,cupon:null,orderId:null,gasItem:1,garrafones:2,pedidos:0,rated:{},sheet:null},
-  neg:{reg:false,id:'tacos',abierto:true,screen:'pedidos',tab:'nuevo'},
-  rep:{reg:false,nombre:'Luis Hernández',on:true,screen:'viajes',vehiculo:'moto'},
-  adm:{screen:'resumen'},
-  orders:[],
-  solicitudes:[{id:'s1',tipo:'Negocio',n:'Pollos Asados El Güero',det:'Restaurante · Casas Quma'},{id:'s2',tipo:'Repartidor',n:'Karla Ríos',det:'Moto · Toscana Alta'}],
-  repas:3, next:1041,
-};
-function envioPara(nf,cf){const t=S.t;if(nf===cf)return t.mismo;if(nf==='Huehuetoca centro'||cf==='Huehuetoca centro')return t.lejos;return t.cerca}
-function makeOrder(o){
-  const subtotal=o.items.reduce((a,i)=>a+i.p*i.q,0);
-  const ord={id:S.next++,hora:now(),repa:null,pago:'efectivo',tip:0,desc:0,...o,subtotal};
-  ord.total=subtotal+ord.envio+ord.servicio+ord.tip-ord.desc;
-  S.orders.unshift(ord);return ord;
-}
-makeOrder({cliente:'Jorge P.',fracc:'Casas Quma',dir:'Privada Quma 8',negId:'mary',tipo:'tiendita',items:[{n:'Huevo blanco 18 pzs',p:72,q:1},{n:'Tortillas 1 kg',p:24,q:2}],envio:25,servicio:7,tip:10,status:'entregado',repa:'Luis Hernández'});
-makeOrder({cliente:'Mónica S.',fracc:'Toscana Alta',dir:'Calle Florencia 3',negId:'pizza',tipo:'comida',items:[{n:'Pizza mediana hawaiana',p:159,q:1},{n:'Refresco 2 L',p:45,q:1}],envio:25,servicio:7,tip:15,desc:25,status:'entregado',repa:'Luis Hernández',pago:'transferencia'});
-makeOrder({cliente:'Diana R.',fracc:'Casas Quma',dir:'Av. Principal 120',negId:null,tipo:'mandado',origen:'Paquetería, Huehuetoca centro',items:[{n:'Mandado: recoger un paquete',p:0,q:1}],envio:45,servicio:7,status:'listo'});
-makeOrder({cliente:'Ricardo T.',fracc:'Casas Quma',dir:'Calle Roble 22',negId:'tacos',tipo:'comida',items:[{n:'Orden de pastor (5)',p:65,q:2},{n:'Agua de horchata 1 L',p:30,q:1}],envio:35,servicio:7,tip:10,status:'nuevo'});
-
-const STATUS={nuevo:'Pedido enviado',preparando:'Preparando',listo:'Buscando repartidor',en_camino:'En camino',entregado:'Entregado'};
-const pill=s=>`<span class="pill p-${s}">${STATUS[s]||s}</span>`;
-const origenDe=o=>o.negId?neg(o.negId).n:(o.origen||'Mandado');
-const ilDe=o=>o.negId?neg(o.negId).il:'bag';
-const gananciaRepa=o=>o.envio*S.t.repa/100+(o.tip||0);
-const ingresoM2=o=>o.servicio+o.envio*(100-S.t.repa)/100-(o.desc||0);
-let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2300)}
-
-function hdr(title,sub,{back=null,right='',lead=''}={}){
-  return `<div class="top"><div class="top-row"><div class="row" style="min-width:0">${back?`<button class="icon-btn" data-act="${back}" aria-label="Regresar">${ICONS.back}</button>`:''}${lead}<div style="min-width:0"><h1>${title}</h1>${sub?`<small>${sub}</small>`:''}</div></div>${right}</div></div>`;
-}
-function nav(items,cur){return `<nav class="nav">${items.map(i=>`<button data-act="${i.act}" aria-current="${i.id===cur}">${ICONS[i.icon]}${i.n}${i.badge?`<span class="badge">${i.badge}</span>`:''}</button>`).join('')}</nav>`}
-const empty=(k,txt)=>`<div class="empty">${ill(k)}${txt}</div>`;
-
-/* =============== CLIENTE =============== */
-const ONB=[
-  {ils:['burger','taco','pizza'],t:'Lo que se te antoje, sin salir del fracc',d:'Tacos, pizza, tiendita y farmacia de tu zona en un solo lugar.'},
-  {ils:['gas','garrafon'],t:'Gas y garrafones hasta tu puerta',d:'Pídelos desde el celular y te avisamos cuando van en camino.'},
-  {ils:['gift','house'],t:'Tu primer envío es gratis',d:'Y si invitas a un vecino, ganan $30 cada uno.'},
-];
-function vCliente(){
-  const c=S.cli;
-  if(c.step==='onb'){const o=ONB[c.onb];return `<div class="onb"><div class="row between">${brand('sm inv')}<button class="link" style="color:#fff" data-act="c-step:tel">Saltar</button></div>
-    <div><div class="onb-art">${o.ils.map((k,i)=>ill(k,'o'+i)).join('')}</div><div class="dots">${ONB.map((_,i)=>`<i class="${i===c.onb?'on':''}"></i>`).join('')}</div><h1>${o.t}</h1><p>${o.d}</p></div>
-    <button class="btn white block" data-act="${c.onb<2?'c-onb':'c-step:tel'}">${c.onb<2?'Siguiente':'Empezar'}</button></div>`}
-  if(c.step==='tel') return hdr('¿Cuál es tu número?','Te mandamos un código por WhatsApp',{back:'c-step:onb'})+`<div class="scroll">
-    <label class="f">Número de celular<div class="phone-in"><span>+52</span><input id="c-tel" inputmode="tel" value="${esc(c.tel)}" aria-label="Número"></div></label>
-    <p class="small muted" style="margin:0">Sin contraseñas. Entras siempre con un código, como en Rappi o DiDi.</p>
-    <button class="btn block" data-act="c-sendcode">Enviar código</button></div>`;
-  if(c.step==='code') return hdr('Escribe el código',`Lo enviamos al +52 ${esc(c.tel)}`,{back:'c-step:tel'})+`<div class="scroll">
-    <div class="otp">${'1234'.split('').map((d,i)=>`<input value="${d}" maxlength="1" inputmode="numeric" aria-label="Dígito ${i+1}">`).join('')}</div>
-    <div class="banner small">Maqueta: el código de prueba ya viene escrito.</div>
-    <button class="btn block" data-act="c-step:datos">Verificar</button></div>`;
-  if(c.step==='datos') return hdr('¿A dónde te llevamos?','Solo te lo pedimos una vez')+`<div class="scroll">
-    <label class="f">Tu nombre<input class="in" id="c-nombre" value="${esc(c.nombre)}"></label>
-    <label class="f">Fraccionamiento<select class="in" id="c-fracc">${FR.map(f=>`<option ${f===c.fracc?'selected':''}>${f}</option>`).join('')}</select></label>
-    <label class="f">Calle y número<input class="in" id="c-dir" value="${esc(c.dir)}"></label>
-    <label class="f">Referencias (opcional)<input class="in" id="c-ref" placeholder="Casa blanca, portón negro"></label>
-    <button class="btn block" data-act="c-registrar">Empezar a pedir</button></div>`;
-
-  const s=c.screen;
-  const navC=nav([{id:'inicio',n:'Inicio',icon:'home',act:'c-go:inicio'},{id:'buscar',n:'Buscar',icon:'search',act:'c-go:buscar'},{id:'pedidos',n:'Pedidos',icon:'list',act:'c-go:pedidos'},{id:'cuenta',n:'Cuenta',icon:'user',act:'c-go:cuenta'}],s);
-  const V={negocio:vTienda,carrito:vCarrito,seguimiento:vSeguimiento,gas:vGas,agua:vAgua,mandado:vMandado,buscar:vBuscar,pedidos:vPedidos,cuenta:vCuenta,cat:vCategoria};
-  return (V[s]||vInicio)()+cartFab()+navC+sheet();
-}
-function cartFab(){
-  const c=S.cli;if(!c.cart.length||['carrito','seguimiento','gas','agua','mandado'].includes(c.screen))return'';
-  const n=c.cart.reduce((a,i)=>a+i.q,0),sub=c.cart.reduce((a,i)=>a+i.q*i.p,0);
-  return `<button class="cartfab" data-act="c-go:carrito"><span><span class="n">${n}</span>Ver carrito</span><span>${money(sub)}</span></button>`;
-}
-function bizCard(n){
-  const e=n.envioGratis?0:envioPara(n.fracc,S.cli.fracc);
-  return `<button class="bizc" data-act="c-neg:${n.id}">${cover(n)}${n.promo?`<span class="chip">${esc(n.promo)}</span>`:''}<span class="eta">${n.min} min</span></div>
-    <div class="meta"><div class="row" style="min-width:0;gap:10px">${blogo(n,42)}<div style="min-width:0"><h3>${esc(n.n)}</h3><p>${esc(n.desc)}<span class="dot">•</span>${e?'Envío '+money(e):'<b style="color:var(--ok)">Envío gratis</b>'}</p></div></div><span class="rating">★ ${n.rating}</span></div></button>`;
-}
-function miniCard(n){return `<button class="mini" data-act="c-neg:${n.id}">${cover(n)}</div><h3>${esc(n.n)}</h3><p>★ ${n.rating} · ${n.min} min</p></button>`}
-function installCard(){
-  if(isStandalone()) return '';
-  return `<button class="install" data-act="c-sheet:install"><span class="ic">${APPICON}</span><span style="flex:1"><b>Instala manda2 en tu celular</b><span>Queda en tu pantalla de inicio como cualquier app. Sin App Store.</span></span></button>`;
-}
-function vInicio(){
-  const c=S.cli;
-  const active=S.orders.find(o=>o.id===c.orderId&&o.status!=='entregado');
-  const tienda=NEG.filter(n=>['comida','tiendita','farmacia'].includes(n.cat));
-  const top4=[...tienda].sort((a,b)=>b.ops-a.ops).slice(0,4);
-  return `<div class="top hot"><div class="top-row"><button class="addr" data-act="c-sheet:dir"><span>Entregar en</span><b>${esc(c.dir)}, ${esc(c.fracc)}</b></button>${brand('sm inv')}</div>
-    <button class="search" data-act="c-go:buscar" style="text-align:left">${ICONS.search}<span class="muted" style="padding:12px 0">¿Qué se te antoja hoy?</span></button></div>
-  <div class="scroll">
-    ${active?`<button class="live" data-act="c-ver:${active.id}"><span class="pulse"></span><div class="grow"><b>${STATUS[active.status]} · #${active.id}</b><small>${esc(origenDe(active))} · ver seguimiento</small></div><span>›</span></button>`:''}
-    <div class="promos">
-      ${c.pedidos===0&&S.t.bienvenida?`<div class="promo pr-1"><div><b>Tu primer envío es gratis</b><span>Se aplica solo en tu primer pedido</span><span class="code">BIENVENIDO</span></div><span class="big">${ill('gift')}</span></div>`:''}
-      <button class="promo pr-2" data-act="c-neg:tacos"><div><b>Martes de tacos 2x1</b><span>En Tacos El Atlante, Toscana Alta</span></div><span class="big">${ill('taco')}</span></button>
-      <button class="promo pr-3" data-act="c-go:cuenta"><div><b>Invita a un vecino y ganen $${S.t.vecino}</b><span>Cada uno, en su siguiente pedido</span></div><span class="big">${ill('house')}</span></button>
-      <button class="promo pr-4" data-act="c-cat:gas"><div><b>¿Se acabó el gas?</b><span>Pídelo aquí y llega en menos de 2 h</span></div><span class="big">${ill('gas')}</span></button>
-    </div>
-    <div class="cats">${CATS.map(k=>`<button class="cat" data-act="c-cat:${k.id}"><span class="ic-box">${ill(k.il)}</span>${k.n}</button>`).join('')}</div>
-    ${installCard()}
-    <div class="stack"><h2>Lo más pedido en ${esc(c.fracc)}</h2><div class="hscroll">${top4.map(miniCard).join('')}</div></div>
-    <button class="gasband" data-act="c-cat:gas"><span class="duo">${ill('gas')}${ill('garrafon')}</span><span style="flex:1"><b>Gas y garrafones</b><span>Te los lleva una gasera o purificadora de la zona</span></span><span style="font-size:22px">›</span></button>
-    <div class="stack"><h2>Todos los negocios</h2>${tienda.map(bizCard).join('')}</div>
-    <p class="small muted" style="margin:0;text-align:center">Negocios, promos y precios de ejemplo.</p>
-  </div>`;
-}
-function vCategoria(){
-  const c=S.cli,k=CATS.find(x=>x.id===c.cat),list=NEG.filter(n=>n.cat===c.cat);
-  return hdr(k.n,`${list.length} negocios cerca de ti`,{back:'c-go:inicio',lead:`<span class="ill-box" style="width:40px;height:40px">${ill(k.il)}</span>`})+`<div class="scroll">${list.length?list.map(bizCard).join(''):empty('bag','Pronto habrá negocios aquí.')}</div>`;
-}
-function vBuscar(){
-  const c=S.cli,q=c.q.trim().toLowerCase();let res='';
-  if(q){
-    const ns=NEG.filter(n=>(n.n+' '+n.desc).toLowerCase().includes(q));
-    const ps=[];NEG.forEach(n=>n.menu.forEach(m=>{if(m.on&&m.n.toLowerCase().includes(q))ps.push({n,m})}));
-    res=(ns.length?`<div class="stack"><div class="eyebrow">Negocios</div>${ns.map(bizCard).join('')}</div>`:'')+
-      (ps.length?`<div class="stack"><div class="eyebrow">Productos</div><div class="card" style="padding:4px 14px">${ps.map(({n,m})=>`<button class="item" style="width:100%;border-left:0;border-right:0;border-top:0;background:none;text-align:left;color:inherit" data-act="c-neg:${n.id}">${thumb(m.il,52)}<div class="grow"><h3>${esc(m.n)}</h3><p>${esc(n.n)}</p></div><span class="price">${money(m.p)}</span></button>`).join('')}</div></div>`:'');
-    if(!res)res=empty('moto','No encontramos eso. Pídelo como mandado.')+'<button class="btn ghost" data-act="c-cat:mandado">Pedir un mandado</button>';
-  } else res=`<div class="stack"><div class="eyebrow">Lo que más buscan en tu zona</div><div class="row" style="flex-wrap:wrap;gap:8px">${['tacos','pizza','gas','garrafón','huevo','paracetamol','hamburguesa'].map(w=>`<button class="chip soft" style="border:0;padding:8px 12px;font-size:13px" data-act="c-q:${w}">${w}</button>`).join('')}</div></div>`;
-  return `<div class="top"><label class="search">${ICONS.search}<input id="c-q" placeholder="Busca tacos, gas, farmacia…" value="${esc(c.q)}" data-input="c-q" aria-label="Buscar"></label></div><div class="scroll">${res}</div>`;
-}
-function vTienda(){
-  const c=S.cli,n=neg(c.negId),e=n.envioGratis?0:envioPara(n.fracc,c.fracc);
-  const q=id=>{const it=c.cartNeg===n.id&&c.cart.find(x=>x.id===id);return it?it.q:0};
-  const prod=m=>`<div class="item"><div class="grow"><h3>${esc(m.n)}</h3>${m.d?`<p>${esc(m.d)}</p>`:''}<div class="price" style="margin-top:6px">${money(m.p)}</div>
-      ${q(m.id)?`<div class="qty" style="margin-top:8px;width:max-content"><button data-act="c-menos:${m.id}" aria-label="Quitar uno">−</button>${q(m.id)}<button class="add" data-act="c-mas:${m.id}" aria-label="Agregar uno">+</button></div>`:''}</div>
-      <div class="thumb">${ill(m.il)}${q(m.id)?'':`<button class="add-f" data-act="c-mas:${m.id}" aria-label="Agregar ${esc(m.n)}">+</button>`}</div></div>`;
-  const on=n.menu.filter(m=>m.on),tops=on.filter(m=>m.top),rest=on.filter(m=>!m.top);
-  return `<div class="scroll" style="padding:0 0 110px;gap:0">
-    ${cover(n,'store-cover')}<button class="icon-btn glass" data-act="c-go:inicio" aria-label="Regresar">${ICONS.back}</button></div>
-    <div class="store-head">${blogo(n,68)}<h1>${esc(n.n)}</h1><div class="small muted">${esc(n.desc)} · ${esc(n.fracc)}</div>
-      <div class="facts"><div class="fact"><b>★ ${n.rating}</b>${n.ops}+ pedidos</div><div class="fact"><b>${n.min} min</b>Entrega</div><div class="fact"><b>${e?money(e):'Gratis'}</b>Envío</div></div>
-      ${n.promo?`<div><span class="chip">${esc(n.promo)}</span></div>`:''}</div>
-    <div style="padding:0 16px;display:flex;flex-direction:column;gap:6px">
-      ${tops.length?`<h2 style="margin-top:14px">Lo más pedido</h2><div>${tops.map(prod).join('')}</div>`:''}
-      ${rest.length?`<h2 style="margin-top:14px">Menú</h2><div>${rest.map(prod).join('')}</div>`:''}
-    </div></div>`;
-}
-function precioCarrito(){
-  const c=S.cli,n=neg(c.cartNeg),sub=c.cart.reduce((a,i)=>a+i.q*i.p,0),envio=n.envioGratis?0:envioPara(n.fracc,c.fracc);
-  let desc=0,etq='';
-  if(c.pedidos===0&&S.t.bienvenida&&envio){desc=envio;etq='BIENVENIDO · tu primer envío es gratis'}
-  else if(c.cupon==='VECINO'){desc=S.t.vecino;etq=`Código de vecino · ${money(S.t.vecino)} de descuento`}
-  return {n,sub,envio,desc,etq,sv:S.t.servicio,tip:c.tip,total:sub+envio+S.t.servicio+c.tip-desc};
-}
-function vCarrito(){
-  const c=S.cli;
-  if(!c.cart.length) return hdr('Carrito','',{back:'c-go:inicio'})+`<div class="scroll">${empty('bag','Tu carrito está vacío.')}<button class="btn ghost" data-act="c-go:inicio">Ver negocios</button></div>`;
-  const p=precioCarrito();
-  return hdr('Tu pedido',esc(p.n.n),{back:'c-neg:'+p.n.id,lead:blogo(p.n,38)})+`<div class="scroll">
-    <div class="card" style="padding:4px 14px">${c.cart.map(i=>`<div class="item">${thumb(i.il,48)}<div class="grow"><h3>${esc(i.n)}</h3><div class="price">${money(i.p*i.q)}</div></div><div class="qty"><button data-act="c-menos:${i.id}" aria-label="Quitar uno">−</button>${i.q}<button class="add" data-act="c-mas:${i.id}" aria-label="Agregar uno">+</button></div></div>`).join('')}
-      <button class="link" style="padding:12px 0;text-align:left" data-act="c-neg:${p.n.id}">+ Agregar más productos</button></div>
-    <label class="f">Nota para el negocio<textarea class="in" id="c-nota" data-input="c-nota" placeholder="Ej. sin cebolla, salsa aparte">${esc(c.nota)}</textarea></label>
-    <div class="card"><div class="row between"><div class="row">${thumb('house',44)}<div><div class="eyebrow">Entregar en</div><div style="font-weight:700">${esc(c.dir)}</div><div class="small muted">${esc(c.fracc)}</div></div></div><button class="link" data-act="c-sheet:dir">Cambiar</button></div></div>
-    <div class="stack"><div><h2>Propina para tu repartidor</h2><p class="small muted" style="margin:2px 0 0">El 100 % es para quien te lo lleva.</p></div>
-      <div class="tips">${[0,10,15,20].map(v=>`<button class="tip" data-act="c-tip:${v}" aria-pressed="${c.tip===v}">${v?money(v):'Ahora no'}${v===10?'<small>Sugerida</small>':''}</button>`).join('')}</div></div>
-    ${p.desc?`<div class="coupon">${ill('gift')}<span style="flex:1">${p.etq}</span><span>${money(-p.desc)}</span></div>`:`<div class="row"><input class="in" id="c-cupon" placeholder="Código de descuento" style="flex:1"><button class="btn ghost" data-act="c-cupon">Aplicar</button></div>`}
-    ${pagoOpts()}
-    <div class="card sum"><div><span>Productos</span><span>${money(p.sub)}</span></div><div><span>Envío</span><span>${p.envio?money(p.envio):'Gratis'}</span></div><div><span>Servicio</span><span>${money(p.sv)}</span></div><div><span>Propina</span><span>${money(p.tip)}</span></div>${p.desc?`<div class="disc"><span>Descuento</span><span>${money(-p.desc)}</span></div>`:''}<div class="tot"><span>Total</span><span>${money(p.total)}</span></div></div>
-    <button class="btn block" data-act="c-pedir">Hacer pedido · ${money(p.total)}</button>
-  </div>`;
-}
-function pagoOpts(){
-  const p=S.cli.pago;
-  const o=(id,ic,t,d,dis)=>`<button class="opt" data-act="c-pago:${id}" aria-pressed="${p===id}" ${dis?'disabled':''}><span class="r"></span><span style="width:22px;height:22px;flex:none;color:var(--muted)">${ICONS[ic]}</span><span><b>${t}</b><small>${d}</small></span></button>`;
-  return `<div class="stack"><h2>Forma de pago</h2><div class="opts">${o('efectivo','cash','Efectivo','Pagas al recibir. Ten cambio a la mano.')}${o('transferencia','bank','Transferencia','Te damos la CLABE al confirmar')}${o('tarjeta','card','Tarjeta','Próximamente',true)}</div></div>`;
-}
-const nest=(k,x,y,s)=>`<svg x="${x}" y="${y}" width="${s}" height="${s}" viewBox="0 0 64 64">${IL[k]}</svg>`;
-function mapSvg(o){
-  const prog={nuevo:0,preparando:0,listo:.04,en_camino:.6,entregado:1}[o.status]??0;
-  return `<div class="map"><svg viewBox="0 0 360 210" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Mapa del recorrido">
-    <rect width="360" height="210" fill="var(--map)"/>
-    <g stroke="var(--street)" stroke-width="12" stroke-linecap="round"><path d="M0 60H360M0 150H360M70 0V210M200 0V210M300 0V210"/></g>
-    <g fill="var(--line)"><rect x="90" y="75" width="95" height="60" rx="8"/><rect x="215" y="75" width="70" height="60" rx="8"/><rect x="10" y="75" width="45" height="60" rx="8"/><rect x="90" y="165" width="95" height="40" rx="8"/><rect x="215" y="5" width="70" height="40" rx="8"/></g>
-    <path id="ruta" d="M70 40 V150 H300 V105" fill="none" stroke="var(--accent)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
-    <circle cx="70" cy="40" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest(ilDe(o),56,26,28)}
-    <circle cx="300" cy="105" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest('house',286,90,28)}
-    <g id="moto" data-p="${prog}"><circle r="21" fill="#2b1b12"/>${nest('moto',-15,-16,30)}</g>
-  </svg></div>`;
-}
-function vSeguimiento(){
-  const o=order(S.cli.orderId),propia=o.negId&&neg(o.negId).propia;
-  const flow=o.tipo==='mandado'
-    ?[['listo','Buscando repartidor','Avisamos a los repartidores cercanos'],['en_camino','En camino','Compra lo que pediste y va hacia ti'],['entregado','Entregado','Pagas el ticket y el mandado al recibir']]
-    :propia?[['nuevo','Pedido enviado','Esperando que lo confirme el negocio'],['preparando','Confirmado','Preparan tu entrega'],['en_camino','En camino','Lo lleva el repartidor del negocio'],['entregado','Entregado','¡Listo!']]
-    :[['nuevo','Pedido enviado','Esperando que el negocio lo acepte'],['preparando','Preparando','Ya están cocinando'],['listo','Listo','Buscando repartidor'],['en_camino','En camino',o.repa?`${o.repa} va hacia tu casa`:''],['entregado','Entregado','¡Buen provecho!']];
-  const idx=flow.findIndex(f=>f[0]===o.status);
-  const pct=o.status==='entregado'?100:Math.round(((idx+.5)/flow.length)*100);
-  const eta={nuevo:'35–45',preparando:'25–35',listo:'20–30',en_camino:'8–12',entregado:''}[o.status];
-  const rated=S.cli.rated[o.id];
-  return hdr(`Pedido #${o.id}`,esc(origenDe(o)),{back:'c-go:inicio'})+`<div class="scroll">
-    ${mapSvg(o)}
-    <div class="card"><div class="eta-card"><div><div class="small muted" style="font-weight:700">${o.status==='entregado'?'Tu pedido':'Llega en'}</div>${eta?`<b>${eta} min</b>`:'<b>¡Llegó!</b>'}</div>${pill(o.status)}</div><div class="bar"><i style="width:${pct}%"></i></div></div>
-    ${o.repa?`<div class="card courier"><div class="avatar">${esc(o.repa[0])}</div><div style="flex:1;min-width:0"><h3>${esc(o.repa)}</h3><p class="small muted" style="margin:2px 0 0">${propia?'Repartidor del negocio':'Moto · ★ 4.9'}</p></div><button class="icon-btn" data-act="c-chat" aria-label="Escribir por WhatsApp">${ICONS.chat}</button></div>`:''}
-    ${o.status==='entregado'?`<div class="card" style="text-align:center"><h2>¿Qué tal estuvo?</h2><div class="stars">${[1,2,3,4,5].map(v=>`<button class="${(rated||0)>=v?'on':''}" data-act="c-rate:${o.id}:${v}" aria-label="${v} estrellas">★</button>`).join('')}</div>${rated?'<p class="small muted" style="margin:0">¡Gracias! Tu calificación ayuda a tus vecinos.</p>':''}</div>`:''}
-    <div class="card"><ol class="steps">${flow.map((f,i)=>`<li class="${i<idx||o.status==='entregado'?'done':i===idx?'now':''}"><span class="mk"></span><div><b>${f[1]}</b><span>${f[2]}</span></div></li>`).join('')}</ol></div>
-    ${o.status!=='entregado'?`<div class="banner accent small">Maqueta: el pedido avanza cuando cambias a la vista <b>${o.status==='nuevo'||o.status==='preparando'||propia?'Negocio':'Repartidor'}</b> y lo mueves desde ahí.</div>`:''}
-    <div class="card sum">${o.items.map(i=>`<div><span>${i.q} × ${esc(i.n)}</span><span>${i.p?money(i.p*i.q):''}</span></div>`).join('')}<div><span>Envío</span><span>${money(o.envio)}</span></div><div><span>Servicio</span><span>${money(o.servicio)}</span></div>${o.tip?`<div><span>Propina</span><span>${money(o.tip)}</span></div>`:''}${o.desc?`<div class="disc"><span>Descuento</span><span>${money(-o.desc)}</span></div>`:''}<div class="tot"><span>Total · ${o.pago}</span><span>${money(o.total)}</span></div></div>
-  </div>`;
-}
-function vGas(){
-  const c=S.cli,g=neg('gas'),it=g.menu.find(m=>m.id===c.gasItem),sv=S.t.servicio;
-  return hdr('Gas LP','Te lo lleva una gasera aliada',{back:'c-go:inicio'})+`<div class="scroll">
-    <div class="card row" style="flex-direction:row">${blogo(g,56)}<div><h3>${esc(g.n)}</h3><p class="small muted" style="margin:2px 0 0">Llega en ${g.min} min · ★ ${g.rating}</p></div></div>
-    <div class="stack"><h2>¿Qué cilindro?</h2><div class="opts">${g.menu.map(m=>`<button class="opt" data-act="c-gasitem:${m.id}" aria-pressed="${c.gasItem===m.id}"><span class="r"></span><span class="ill-box" style="width:${m.id===1?36:44}px;height:44px">${ill('gas')}</span><span style="flex:1"><b>${m.n}</b><small>${m.d}</small></span><span class="price">${money(m.p)}</span></button>`).join('')}</div></div>
-    <div class="banner small">manda2 toma tu pedido y se lo pasa a la gasera. Ella entrega con su camión y su personal, como marca la norma para el gas LP.</div>
-    <div class="card sum"><div><span>${it.n}</span><span>${money(it.p)}</span></div><div><span>Envío</span><span>Incluido</span></div><div><span>Servicio</span><span>${money(sv)}</span></div><div class="tot"><span>Total</span><span>${money(it.p+sv)}</span></div></div>
-    <button class="btn block" data-act="c-pedirgas">Pedir gas · ${money(it.p+sv)}</button></div>`;
-}
-function vAgua(){
-  const c=S.cli,a=neg('agua'),p=a.menu[0].p,n=c.garrafones,sv=S.t.servicio;
-  return hdr('Garrafones','Agua purificada de 20 L',{back:'c-go:inicio'})+`<div class="scroll">
-    <div class="card row" style="flex-direction:row">${blogo(a,56)}<div><h3>${esc(a.n)}</h3><p class="small muted" style="margin:2px 0 0">Llega en ${a.min} min · ${money(p)} por garrafón</p></div></div>
-    <div class="card" style="align-items:center;gap:6px"><div class="row" style="justify-content:center;gap:0;height:84px">${Array.from({length:Math.min(n,5)},(_,i)=>`<span class="ill-box" style="width:56px;height:80px;margin-left:${i?-18:0}px">${ill('garrafon')}</span>`).join('')}</div>
-      <div class="row between" style="width:100%"><div><h3>¿Cuántos garrafones?</h3><p class="small muted" style="margin:2px 0 0">Ten listos los vacíos</p></div><div class="qty"><button data-act="c-garr:-1" aria-label="Uno menos">−</button>${n}<button class="add" data-act="c-garr:1" aria-label="Uno más">+</button></div></div></div>
-    <div class="card sum"><div><span>${n} × garrafón</span><span>${money(p*n)}</span></div><div><span>Envío</span><span>Incluido</span></div><div><span>Servicio</span><span>${money(sv)}</span></div><div class="tot"><span>Total</span><span>${money(p*n+sv)}</span></div></div>
-    <button class="btn block" data-act="c-pediragua">Pedir garrafones · ${money(p*n+sv)}</button></div>`;
-}
-function vMandado(){
-  const t=S.t;
-  return hdr('Mandado','Compramos o recogemos lo que necesites',{back:'c-go:inicio',lead:`<span class="ill-box" style="width:40px;height:40px">${ill('moto')}</span>`})+`<div class="scroll">
-    <label class="f">¿Qué necesitas?<textarea class="in" id="m-que" placeholder="Ej. 2 kg de tortillas y un pollo rostizado">Recoger mi receta y comprar los medicamentos</textarea></label>
-    <label class="f">¿Dónde se compra o se recoge?<select class="in" id="m-donde">${FR.map(f=>`<option>${f}</option>`).join('')}</select></label>
-    <label class="f">Lugar exacto (opcional)<input class="in" id="m-lugar" value="Farmacia de la plaza"></label>
-    <label class="f">¿Cuánto crees que cueste?<input class="in" id="m-presu" inputmode="numeric" value="250"></label>
-    <div class="banner small">El repartidor paga con su dinero y tú le pagas el ticket más el mandado al recibir. Compras de más de $500 se pagan por adelantado.</div>
-    <div class="card sum"><div><span>Mandado</span><span>${money(t.mandado)}</span></div><div><span>Servicio</span><span>${money(t.servicio)}</span></div><div class="tot"><span>Total sin productos</span><span>${money(t.mandado+t.servicio)}</span></div></div>
-    <button class="btn block" data-act="c-pedirmandado">Pedir mandado</button></div>`;
-}
-function vPedidos(){
-  const c=S.cli,mine=S.orders.filter(o=>o.cliente===c.nombre);
-  return hdr('Mis pedidos','')+`<div class="scroll">${mine.length?mine.map(o=>`<button class="card" style="text-align:left;flex-direction:row;align-items:center;gap:12px;color:inherit" data-act="c-ver:${o.id}">${o.negId?blogo(neg(o.negId),48):thumb('moto',48)}<div style="flex:1;min-width:0"><h3>${esc(origenDe(o))}</h3><p class="small muted" style="margin:2px 0 0">#${o.id} · ${o.hora} · ${money(o.total)}</p></div>${pill(o.status)}</button>`).join(''):empty('bag','Aún no haces pedidos.<br>Tu primer envío es gratis.')+'<button class="btn" data-act="c-go:inicio">Explorar negocios</button>'}</div>`;
-}
-function vCuenta(){
-  const c=S.cli,code=(c.nombre.split(' ')[0]||'VECINO').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase()+S.t.vecino;
-  return hdr('Cuenta','')+`<div class="scroll">
-    <div class="card row" style="flex-direction:row"><div class="avatar" style="background:#f95e0a">${esc(c.nombre[0]||'?')}</div><div><h3>${esc(c.nombre)}</h3><p class="small muted" style="margin:2px 0 0">+52 ${esc(c.tel)}</p></div></div>
-    <div class="promo pr-3" style="flex:none;min-height:0"><div><b>Invita a un vecino</b><span>Cuando haga su primer pedido, ganan $${S.t.vecino} cada uno.</span><span class="code">${esc(code)}</span></div><span class="big">${ill('house')}</span></div>
-    <button class="btn block" data-act="c-share:${esc(code)}">Copiar mensaje para WhatsApp</button>
-    ${installCard()}
-    <div class="card"><div class="row between"><div><div class="eyebrow">Dirección</div><div style="font-weight:700">${esc(c.dir)}, ${esc(c.fracc)}</div></div><button class="link" data-act="c-sheet:dir">Cambiar</button></div></div>
-    <div class="card"><h3>¿Tienes un negocio o quieres repartir?</h3><p class="small muted" style="margin:0">Únete a manda2 desde aquí.</p><div class="row"><button class="btn ghost sm" style="flex:1" data-act="role:negocio">Registrar negocio</button><button class="btn ghost sm" style="flex:1" data-act="role:repartidor">Ser repartidor</button></div></div>
-    <button class="btn ghost block" data-act="c-salir">Cerrar sesión</button></div>`;
-}
-function sheet(){
-  const c=S.cli;if(!c.sheet)return'';
-  if(c.sheet==='dir') return `<div class="sheet-bg" data-act="c-sheet:"><div class="sheet" data-stop="1"><span class="grab"></span><h2>¿A dónde te lo llevamos?</h2>
-    <div class="opts">${FR.map(f=>`<button class="opt" data-act="c-fracc:${f}" aria-pressed="${f===c.fracc}"><span class="r"></span><span><b>${f}</b></span></button>`).join('')}</div>
-    <label class="f">Calle y número<input class="in" id="c-dir2" value="${esc(c.dir)}"></label><button class="btn block" data-act="c-savedir">Guardar dirección</button></div></div>`;
-  return `<div class="sheet-bg" data-act="c-sheet:"><div class="sheet" data-stop="1"><span class="grab"></span>
-    <div class="row"><span class="ic" style="width:56px;height:56px">${APPICON}</span><div><h2>Instala manda2</h2><p class="small muted" style="margin:2px 0 0">Pesa menos de 1 MB. Se abre como app, sin la barra del navegador.</p></div></div>
-    ${deferredPrompt?`<button class="btn block" data-act="c-install">Instalar ahora</button>`:''}
-    <div class="stack"><div class="eyebrow">En iPhone (Safari)</div><ol class="howto"><li>Toca el botón Compartir, el cuadro con la flecha hacia arriba.</li><li>Elige “Agregar a inicio”.</li><li>Toca “Agregar”. Ya tienes el ícono de manda2.</li></ol></div>
-    <div class="stack"><div class="eyebrow">En Android (Chrome)</div><ol class="howto"><li>Toca los tres puntos ⋮ arriba a la derecha.</li><li>Elige “Instalar app” o “Agregar a pantalla principal”.</li><li>Confirma con “Instalar”.</li></ol></div>
-    <button class="btn ghost block" data-act="c-sheet:">Ahora no</button></div></div>`;
-}
-
-/* =============== NEGOCIO =============== */
-function vNegocio(){
-  const s=S.neg;
-  if(!s.reg) return hdr('Vende en manda2','Tus vecinos ya están pidiendo',{lead:`<span class="ic" style="width:40px;height:40px">${APPICON}</span>`})+`<div class="scroll">
-    <div class="hero"><span>Plan único para negocios</span><b>${money(S.t.mensual)} al mes</b><span>0 % de comisión por pedido. Lo que vendes es tuyo. Cancelas cuando quieras.</span></div>
-    <div class="banner small">Rappi, DiDi y Uber Eats cobran entre 22 % y 30 % + IVA de cada venta. Con manda2 pagas lo mismo, vendas 10 o 500 pedidos.</div>
-    <label class="f">Nombre del negocio<input class="in" id="n-nombre" value="Pollos Asados El Güero"></label>
-    <label class="f">Giro<select class="in" id="n-giro"><option>Restaurante</option><option>Tiendita</option><option>Farmacia</option><option>Gas</option><option>Agua purificada</option></select></label>
-    <label class="f">Fraccionamiento<select class="in" id="n-fracc">${FR.map(f=>`<option>${f}</option>`).join('')}</select></label>
-    <label class="f">WhatsApp para pedidos<input class="in" id="n-tel" inputmode="tel" value="55 8765 4321"></label>
-    <label class="f">Horario<input class="in" id="n-hor" value="Lun a dom, 9:00 a 21:00"></label>
-    <label class="f">¿Quién entrega?<select class="in" id="n-rep"><option>Los repartidores de manda2</option><option>Mi propio repartidor</option></select></label>
-    <div class="upload"><span class="row" style="gap:8px"><span style="width:20px;height:20px">${ICONS.camera}</span>Logo o foto de tu fachada</span><button class="btn ghost sm" data-act="noop">Subir</button></div>
-    <button class="btn block" data-act="n-registrar">Enviar solicitud</button>
-    <p class="small muted" style="margin:0">Revisamos tu negocio en menos de 24 h y te avisamos por WhatsApp.</p></div>`;
-  const n=neg(s.id),mine=S.orders.filter(o=>o.negId===n.id);
-  const selector=`<select class="in" style="width:auto;padding:6px 8px;font-size:12px;max-width:120px" data-change="n-ver" aria-label="Ver panel de otro negocio">${NEG.map(x=>`<option value="${x.id}" ${x.id===n.id?'selected':''}>${esc(x.n)}</option>`).join('')}</select>`;
-  const nuevos=mine.filter(o=>o.status==='nuevo').length;
-  const navN=nav([{id:'pedidos',n:'Pedidos',icon:'inbox',act:'n-go:pedidos',badge:nuevos||''},{id:'menu',n:'Menú',icon:'menu',act:'n-go:menu'},{id:'plan',n:'Mi plan',icon:'card',act:'n-go:plan'}],s.screen);
-  const head=hdr(esc(n.n),'Panel del negocio',{right:selector,lead:blogo(n,40)});
-  if(s.screen==='menu') return head+`<div class="scroll">
-    <div class="card" style="padding:4px 14px">${n.menu.map(m=>`<div class="item">${thumb(m.il,48)}<div class="grow"><h3>${esc(m.n)}</h3><div class="price">${money(m.p)}</div></div><button class="switch" data-act="n-toggle:${m.id}" aria-pressed="${m.on}" aria-label="Disponible"><span class="t"></span></button></div>`).join('')}</div>
-    <p class="small muted" style="margin:-8px 0 0">Apaga un producto cuando se te acabe y deja de salir en la app.</p>
-    <div class="card"><h3>Agregar producto</h3><label class="f">Nombre<input class="in" id="n-pn" placeholder="Ej. Torta de milanesa"></label><label class="f">Precio<input class="in" id="n-pp" inputmode="numeric" placeholder="75"></label><button class="btn" data-act="n-addprod">Agregar al menú</button></div></div>`+navN;
-  if(s.screen==='plan'){
-    const ent=mine.filter(o=>o.status==='entregado'),ventas=ent.reduce((a,o)=>a+o.subtotal,0);
-    return head+`<div class="scroll">
-      <div class="kpis"><div class="kpi"><span>Ventas de hoy</span><b>${money(ventas)}</b></div><div class="kpi"><span>Entregados</span><b>${ent.length}</b></div></div>
-      <div class="card"><div class="row between"><h3>Plan manda2</h3><span class="pill ${n.pago==='pagado'?'p-entregado':'p-pendiente'}">${n.pago==='pagado'?'Al corriente':'Pago pendiente'}</span></div>
-        <div class="sum"><div><span>Mensualidad</span><span>${money(S.t.mensual)}</span></div><div><span>Comisión por pedido</span><span>0 %</span></div><div><span>Próximo cobro</span><span>1 dic 2026</span></div></div>
-        ${n.pago!=='pagado'?`<button class="btn" data-act="n-pagar">Pagar ${money(S.t.mensual)}</button>`:''}</div>
-      <div class="banner accent small">Con una app grande, por los ${money(ventas)} de hoy habrías pagado unos <b>${money(ventas*.27)}</b> de comisión. Con manda2, $0.</div></div>`+navN;
-  }
-  const groups={nuevo:['nuevo'],prep:['preparando','listo','en_camino'],hist:['entregado']};
-  const shown=mine.filter(o=>groups[s.tab].includes(o.status));
-  return head+`<div class="scroll">
-    <div class="card row between" style="flex-direction:row"><div><h3><span class="dotst" style="background:${s.abierto?'var(--ok)':'#d63a2f'}"></span>${s.abierto?'Recibiendo pedidos':'Cerrado'}</h3><p class="small muted" style="margin:2px 0 0">${s.abierto?'Tu negocio aparece en la app':'No apareces en la app'}</p></div><button class="switch" data-act="n-abierto" aria-pressed="${s.abierto}" aria-label="Abierto"><span class="t"></span></button></div>
-    <div class="tabs"><button data-act="n-tab:nuevo" aria-pressed="${s.tab==='nuevo'}">Nuevos (${nuevos})</button><button data-act="n-tab:prep" aria-pressed="${s.tab==='prep'}">En curso</button><button data-act="n-tab:hist" aria-pressed="${s.tab==='hist'}">Entregados</button></div>
-    ${shown.length?shown.map(o=>ordenNegocio(o,n)).join(''):empty(n.il,s.tab==='nuevo'?'Sin pedidos nuevos.<br>Haz uno desde la vista Cliente.':'Nada por aquí.')}</div>`+navN;
-}
-function ordenNegocio(o,n){
-  let act='';
-  if(o.status==='nuevo')act=`<div class="row"><button class="btn ghost sm" data-act="n-rechazar:${o.id}">Rechazar</button><button class="btn sm" style="flex:1" data-act="n-aceptar:${o.id}">Aceptar pedido</button></div>`;
-  else if(o.status==='preparando')act=n.propia?`<button class="btn sm" data-act="n-salio:${o.id}">Salió a entregar</button>`:`<button class="btn sm" data-act="n-listo:${o.id}">Listo para recoger</button>`;
-  else if(o.status==='en_camino'&&n.propia)act=`<button class="btn ok sm" data-act="n-entregado:${o.id}">Marcar entregado</button>`;
-  else if(o.status==='listo')act=`<p class="small muted" style="margin:0">Buscando repartidor…</p>`;
-  else if(o.status==='en_camino')act=`<p class="small muted" style="margin:0">${esc(o.repa)} lo lleva al cliente</p>`;
-  return `<div class="card"><div class="row between"><h3>#${o.id} · ${esc(o.cliente)}</h3>${pill(o.status)}</div>
-    <div class="small muted">${o.hora} · ${esc(o.dir)}, ${esc(o.fracc)} · ${o.pago}</div>
-    <div class="sum">${o.items.map(i=>`<div><span>${i.q} × ${esc(i.n)}</span><span>${money(i.p*i.q)}</span></div>`).join('')}<div class="tot"><span>Cobras</span><span>${money(o.subtotal)}</span></div></div>
-    ${o.nota?`<div class="banner small">Nota: ${esc(o.nota)}</div>`:''}${act}</div>`;
-}
-
-/* =============== REPARTIDOR =============== */
-function vRepa(){
-  const r=S.rep;
-  if(!r.reg) return hdr('Reparte con manda2','Gana en tu propio fraccionamiento',{lead:`<span class="ill-box" style="width:44px;height:44px">${ill('moto')}</span>`})+`<div class="scroll">
-    <div class="hero"><span>Te quedas con</span><b>${S.t.repa} % del envío</b><span>Más el 100 % de las propinas. Pago semanal por transferencia.</span></div>
-    <label class="f">Nombre completo<input class="in" id="r-nombre" value="${esc(r.nombre)}"></label>
-    <label class="f">WhatsApp<input class="in" id="r-tel" inputmode="tel" value="55 2468 1357"></label>
-    <label class="f">¿En qué repartes?<select class="in" id="r-veh"><option value="moto">Moto</option><option value="bici">Bicicleta</option><option value="auto">Auto</option></select></label>
-    <label class="f">Zona donde vives<select class="in" id="r-fracc">${FR.map(f=>`<option>${f}</option>`).join('')}</select></label>
-    <div class="stack"><div class="eyebrow">Documentos</div>
-      ${[['doc','INE (frente y vuelta)','Subir'],['doc','Licencia de manejo','Subir'],['camera','Selfie para verificar','Tomar']].map(([ic,t,b])=>`<div class="upload"><span class="row" style="gap:8px"><span style="width:20px;height:20px">${ICONS[ic]}</span>${t}</span><button class="btn ghost sm" data-act="noop">${b}</button></div>`).join('')}</div>
-    <button class="btn block" data-act="r-registrar">Enviar solicitud</button></div>`;
-  const mine=S.orders.filter(o=>o.repa===r.nombre),hechos=mine.filter(o=>o.status==='entregado'),gan=hechos.reduce((a,o)=>a+gananciaRepa(o),0);
-  const navR=nav([{id:'viajes',n:'Viajes',icon:'bike',act:'r-go:viajes'},{id:'ganancias',n:'Ganancias',icon:'coin',act:'r-go:ganancias'}],r.screen);
-  const head=hdr(`Hola, ${esc(r.nombre.split(' ')[0])}`,`<span class="dotst" style="background:${r.on?'var(--ok)':'var(--muted)'}"></span>${r.on?'En línea':'Desconectado'}`,{right:`<button class="switch" data-act="r-on" aria-pressed="${r.on}" aria-label="En línea"><span class="t"></span></button>`,lead:`<span class="ill-box" style="width:44px;height:44px">${ill('moto')}</span>`});
-  if(r.screen==='ganancias') return head+`<div class="scroll">
-    <div class="hero"><span>Ganado hoy</span><b>${money(gan)}</b><span>${hechos.length} entregas · se deposita el lunes</span></div>
-    <div class="card" style="padding:4px 14px">${hechos.length?hechos.map(o=>`<div class="item">${o.negId?blogo(neg(o.negId),40):thumb('bag',40)}<div class="grow"><h3>#${o.id} · ${esc(origenDe(o))}</h3><p>${o.hora} · a ${esc(o.fracc)}${o.tip?` · propina ${money(o.tip)}`:''}</p></div><span class="price">${money(gananciaRepa(o))}</span></div>`).join(''):empty('moto','Aún no tienes entregas hoy.')}</div></div>`+navR;
-  const activo=mine.find(o=>o.status==='en_camino'),disp=S.orders.filter(o=>o.status==='listo'&&!o.repa);
-  return head+`<div class="scroll">
-    <div class="kpis"><div class="kpi"><span>Ganado hoy</span><b>${money(gan)}</b></div><div class="kpi"><span>Entregas</span><b>${hechos.length}</b></div></div>
-    ${activo?`<div class="card" style="border-color:var(--accent)"><div class="row between"><h2>Viaje en curso</h2>${pill('en_camino')}</div>
-      <ol class="steps"><li class="done"><span class="mk"></span><div><b>Recogido</b><span>${esc(origenDe(activo))}</span></div></li><li class="now"><span class="mk"></span><div><b>Entregar a ${esc(activo.cliente)}</b><span>${esc(activo.dir)}, ${esc(activo.fracc)}</span></div></li></ol>
-      <div class="sum"><div><span>Cobrar al cliente (${activo.pago})</span><span>${activo.pago==='efectivo'?money(activo.total):'Ya pagado'}</span></div><div><span>Tu ganancia (con propina)</span><span>${money(gananciaRepa(activo))}</span></div></div>
-      <button class="btn ok block" data-act="r-entregar:${activo.id}">Marcar entregado</button></div>`:''}
-    <h2>Viajes disponibles</h2>
-    ${!r.on?empty('moto','Estás desconectado. Actívate arriba para ver viajes.'):disp.length?disp.map(o=>`<div class="card"><div class="row between"><div class="row" style="min-width:0">${o.negId?blogo(neg(o.negId),40):thumb('bag',40)}<h3>${esc(origenDe(o))}</h3></div><span class="price" style="color:var(--ok)">+${money(gananciaRepa(o))}</span></div>
-      <div class="small muted">${o.tipo==='mandado'?esc(o.items[0].n):`${o.items.reduce((a,i)=>a+i.q,0)} productos`} → ${esc(o.dir)}, ${esc(o.fracc)}${o.tip?` · incluye ${money(o.tip)} de propina`:''}</div>
-      <button class="btn sm" data-act="r-aceptar:${o.id}" ${activo?'disabled':''}>${activo?'Termina tu viaje actual':'Aceptar viaje'}</button></div>`).join(''):empty('moto','No hay viajes por ahora.<br>Cuando un negocio marque un pedido como listo, aparece aquí.')}</div>`+navR;
-}
-
-/* =============== ADMIN =============== */
-function vAdmin(){
-  const a=S.adm,t=S.t,pend=S.solicitudes.length;
-  const navA=nav([{id:'resumen',n:'Resumen',icon:'chart',act:'a-go:resumen'},{id:'solicitudes',n:'Solicitudes',icon:'inbox',act:'a-go:solicitudes',badge:pend||''},{id:'tarifas',n:'Tarifas',icon:'tag',act:'a-go:tarifas'},{id:'negocios',n:'Negocios',icon:'store',act:'a-go:negocios'}],a.screen);
-  const head=hdr('Panel de control','Administración · solo tú lo ves',{right:brand('sm')});
-  if(a.screen==='solicitudes') return head+`<div class="scroll"><p class="small muted" style="margin:0">Negocios y repartidores que se registraron y esperan tu aprobación.</p>
-    ${pend?S.solicitudes.map(s=>`<div class="card"><div class="row between"><h3>${esc(s.n)}</h3><span class="pill p-pendiente">${s.tipo}</span></div><div class="small muted">${esc(s.det)}</div><div class="row"><button class="btn ghost sm" data-act="a-rech:${s.id}">Rechazar</button><button class="btn sm" style="flex:1" data-act="a-apr:${s.id}">Aprobar</button></div></div>`).join(''):empty('gift','No hay solicitudes pendientes.')}</div>`+navA;
-  if(a.screen==='tarifas'){
-    const f=(k,n,d,u='$')=>`<div class="tarifa"><div><b>${n}</b><p>${d}</p></div><label class="money-in">${u==='$'?'$':''}<input type="number" min="0" id="t-${k}" value="${t[k]}" data-input="t:${k}" aria-label="${n}">${u==='%'?'%':''}</label></div>`;
-    return head+`<div class="scroll"><div class="card" style="padding:4px 14px">
-      ${f('mismo','Envío mismo fraccionamiento','Negocio y cliente en la misma zona')}${f('cerca','Envío zona cercana','Entre fraccionamientos vecinos')}${f('lejos','Envío desde o hacia Huehuetoca centro','El viaje más largo')}
-      ${f('mandado','Mandado libre','Tarifa fija por mandado')}${f('servicio','Servicio manda2','Lo paga el cliente en cada pedido')}${f('mensual','Mensualidad del negocio','Sin comisión por pedido')}
-      ${f('repa','Parte del envío para el repartidor','El resto se queda manda2','%')}${f('vecino','Premio por invitar a un vecino','Para cada uno')}</div>
-      <div class="card row between" style="flex-direction:row"><div><h3>Primer envío gratis</h3><p class="small muted" style="margin:2px 0 0">Lo absorbe manda2 para atraer clientes nuevos</p></div><button class="switch" data-act="a-bienv" aria-pressed="${t.bienvenida}" aria-label="Primer envío gratis"><span class="t"></span></button></div>
-      <div class="card"><h3>Zonas de cobertura</h3><div class="row" style="flex-wrap:wrap;gap:6px">${FR.map(f=>`<span class="pill p-listo">${f}</span>`).join('')}</div></div></div>`+navA;
-  }
-  if(a.screen==='negocios') return head+`<div class="scroll"><div class="card"><div class="tbl-wrap"><table><thead><tr><th>Negocio</th><th>Zona</th><th class="num">Pedidos</th><th>Mensualidad</th></tr></thead><tbody>
-    ${NEG.map(n=>`<tr><td><span class="row" style="gap:8px">${blogo(n,28)}${esc(n.n)}</span></td><td>${n.fracc}</td><td class="num">${S.orders.filter(o=>o.negId===n.id).length}</td><td><span class="pill ${n.pago==='pagado'?'p-entregado':'p-pendiente'}">${n.pago==='pagado'?'Pagada':'Pendiente'}</span></td></tr>`).join('')}</tbody></table></div></div></div>`+navA;
-  const ent=S.orders.filter(o=>o.status==='entregado'),act=S.orders.filter(o=>o.status!=='entregado');
-  const ventas=S.orders.reduce((x,o)=>x+o.subtotal,0),hoy=ent.reduce((x,o)=>x+ingresoM2(o),0),pag=NEG.filter(n=>n.pago==='pagado').length;
-  const row=o=>`<div class="card" style="flex-direction:row;align-items:center;gap:12px">${o.negId?blogo(neg(o.negId),40):thumb('bag',40)}<div style="flex:1;min-width:0"><div class="row between"><h3>#${o.id} · ${esc(origenDe(o))}</h3>${pill(o.status)}</div><div class="small muted">${esc(o.cliente)} · ${esc(o.fracc)} · ${money(o.total)}${o.status==='entregado'?' · manda2 ganó '+money(ingresoM2(o)):o.repa?' · '+esc(o.repa):''}</div></div></div>`;
-  return head+`<div class="scroll">
-    <div class="hero"><span>Ingreso de manda2 este mes (estimado)</span><b>${money(pag*t.mensual+hoy*30)}</b><span>${pag} mensualidades de ${money(t.mensual)} + servicio y envíos al ritmo de hoy, menos promos</span></div>
-    <div class="kpis"><div class="kpi"><span>Pedidos hoy</span><b>${S.orders.length}</b></div><div class="kpi"><span>Ventas de negocios</span><b>${money(ventas)}</b></div><div class="kpi"><span>Ganado hoy</span><b>${money(hoy)}</b></div><div class="kpi"><span>Repartidores</span><b>${S.repas}</b></div></div>
-    <div class="row between"><h2>En curso</h2><span class="small muted">${act.length}</span></div>
-    ${act.length?act.map(row).join(''):empty('moto','Sin pedidos en curso.')}
-    <div class="row between"><h2>Entregados</h2><span class="small muted">${ent.length}</span></div>
-    ${ent.map(row).join('')}</div>`+navA;
-}
-
-/* =============== Render y acciones =============== */
-const ROLES=[{id:'cliente',n:'Cliente',d:'Pide y sigue su pedido'},{id:'negocio',n:'Negocio',d:'Recibe pedidos y edita menú'},{id:'repartidor',n:'Repartidor',d:'Toma viajes y ve lo que gana'},{id:'admin',n:'Admin',d:'Aprueba, cobra y fija tarifas'}];
-let deferredPrompt=null;
-function placeMoto(){const g=document.getElementById('moto'),p=document.getElementById('ruta');if(!g||!p)return;const L=p.getTotalLength(),pt=p.getPointAtLength(L*(+g.dataset.p));g.setAttribute('transform',`translate(${pt.x} ${pt.y})`)}
-function render(){
-  document.getElementById('roles').innerHTML=ROLES.map(r=>`<button class="role" data-act="role:${r.id}" aria-pressed="${S.role===r.id}"><b>${r.n}</b><span>${r.d}</span></button>`).join('');
-  document.getElementById('demo-role').innerHTML=ROLES.map(r=>`<option value="${r.id}" ${r.id===S.role?'selected':''}>${r.n}</option>`).join('');
-  const t=S.t;
-  document.getElementById('model').innerHTML=`<div><span>Negocio paga al mes, sin comisión</span><b>${money(t.mensual)}</b></div><div><span>Cliente paga por pedido (servicio)</span><b>${money(t.servicio)}</b></div><div><span>Envío por zona</span><b>${money(t.mismo)}–${money(t.lejos)}</b></div><div><span>Repartidor: envío + propina</span><b>${t.repa} % + 100 %</b></div><div><span>Promo de bienvenida</span><b>1er envío gratis</b></div>`;
-  document.getElementById('phone').classList.toggle('wide',S.role==='admin'&&!document.body.classList.contains('mobile'));
-  const app=document.getElementById('app'),sc=app.querySelector('.scroll'),keep=sc?sc.scrollTop:0;
-  app.innerHTML=S.role==='cliente'?vCliente():S.role==='negocio'?vNegocio():S.role==='repartidor'?vRepa():vAdmin();
-  const sc2=app.querySelector('.scroll');if(sc2&&render.keep)sc2.scrollTop=keep;render.keep=false;
-  placeMoto();
-}
-const val=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
-function addCart(n,m){const c=S.cli;if(c.cartNeg&&c.cartNeg!==n.id&&c.cart.length){c.cart=[];toast('Vaciamos el carrito del otro negocio')}c.cartNeg=n.id;const it=c.cart.find(x=>x.id===m.id);if(it)it.q++;else c.cart.push({id:m.id,n:m.n,p:m.p,il:m.il,q:1})}
-function irSeguimiento(o,negId){const c=S.cli;c.orderId=o.id;c.screen='seguimiento';c.pedidos++;if(negId){S.neg.id=negId;S.neg.tab='nuevo'}}
-
-const A={
-  'role':r=>{S.role=r;try{history.replaceState(null,'','#'+r)}catch(e){}},
-  'noop':()=>toast('En la maqueta no se suben archivos'),
-  'c-onb':()=>{S.cli.onb++},
-  'c-step':s=>{S.cli.step=s;if(s==='onb')S.cli.onb=0},
-  'c-sendcode':()=>{S.cli.tel=val('c-tel')||S.cli.tel;S.cli.step='code';toast('Código enviado por WhatsApp')},
-  'c-registrar':()=>{const c=S.cli;c.nombre=val('c-nombre')||c.nombre;c.fracc=val('c-fracc');c.dir=val('c-dir')||c.dir;c.step='app';c.screen='inicio';toast('¡Listo! Tu primer envío es gratis')},
-  'c-go':s=>{S.cli.screen=s;if(s==='buscar')setTimeout(()=>{const i=document.getElementById('c-q');i&&i.focus()},30)},
-  'c-cat':k=>{const c=S.cli;if(['gas','agua','mandado'].includes(k)){c.screen=k;return}c.cat=k;c.screen='cat'},
-  'c-q':w=>{S.cli.q=w},
-  'c-neg':id=>{S.cli.negId=id;S.cli.screen='negocio'},
-  'c-mas':id=>{const c=S.cli,n=neg(c.screen==='carrito'?c.cartNeg:c.negId);addCart(n,n.menu.find(m=>m.id===+id));render.keep=true},
-  'c-menos':id=>{const c=S.cli,it=c.cart.find(x=>x.id===+id);if(it){it.q--;if(!it.q)c.cart=c.cart.filter(x=>x!==it)}render.keep=true},
-  'c-pago':p=>{S.cli.pago=p;render.keep=true},
-  'c-tip':v=>{S.cli.tip=+v;render.keep=true},
-  'c-cupon':()=>{const v=val('c-cupon').toUpperCase();if(/^[A-Z]+\d+$/.test(v)){S.cli.cupon='VECINO';toast('Código aplicado')}else toast('Ese código no existe');render.keep=true},
-  'c-pedir':()=>{const c=S.cli,p=precioCarrito();const o=makeOrder({cliente:c.nombre,fracc:c.fracc,dir:c.dir,negId:p.n.id,tipo:p.n.cat,items:c.cart.map(i=>({n:i.n,p:i.p,q:i.q})),envio:p.envio,servicio:p.sv,tip:p.tip,desc:p.desc,status:'nuevo',pago:c.pago,nota:c.nota});c.cart=[];c.cartNeg=null;c.nota='';c.cupon=null;irSeguimiento(o,p.n.id);toast('Pedido enviado a '+p.n.n)},
-  'c-ver':id=>{S.cli.orderId=+id;S.cli.screen='seguimiento'},
-  'c-gasitem':id=>{S.cli.gasItem=+id},
-  'c-garr':d=>{S.cli.garrafones=Math.max(1,Math.min(10,S.cli.garrafones+(+d)))},
-  'c-pedirgas':()=>{const c=S.cli,it=neg('gas').menu.find(m=>m.id===c.gasItem);irSeguimiento(makeOrder({cliente:c.nombre,fracc:c.fracc,dir:c.dir,negId:'gas',tipo:'gas',items:[{n:it.n,p:it.p,q:1}],envio:0,servicio:S.t.servicio,status:'nuevo'}),'gas');toast('Pedido enviado a la gasera')},
-  'c-pediragua':()=>{const c=S.cli,a=neg('agua');irSeguimiento(makeOrder({cliente:c.nombre,fracc:c.fracc,dir:c.dir,negId:'agua',tipo:'agua',items:[{n:'Garrafón 20 L',p:a.menu[0].p,q:c.garrafones}],envio:0,servicio:S.t.servicio,status:'nuevo'}),'agua');toast('Pedido enviado a la purificadora')},
-  'c-pedirmandado':()=>{const c=S.cli,lugar=val('m-lugar');irSeguimiento(makeOrder({cliente:c.nombre,fracc:c.fracc,dir:c.dir,negId:null,tipo:'mandado',origen:(lugar?lugar+', ':'')+val('m-donde'),items:[{n:'Mandado: '+(val('m-que')||'Mandado'),p:0,q:1}],envio:S.t.mandado,servicio:S.t.servicio,status:'listo'}));toast('Buscando repartidor para tu mandado')},
-  'c-rate':arg=>{const [id,v]=arg.split(':');S.cli.rated[id]=+v;render.keep=true},
-  'c-chat':()=>toast('Aquí se abriría WhatsApp con tu repartidor'),
-  'c-sheet':s=>{S.cli.sheet=s||null;render.keep=true},
-  'c-fracc':f=>{S.cli.fracc=f;render.keep=true},
-  'c-savedir':()=>{S.cli.dir=val('c-dir2')||S.cli.dir;S.cli.sheet=null;toast('Dirección guardada');render.keep=true},
-  'c-install':async()=>{if(!deferredPrompt)return;const p=deferredPrompt;deferredPrompt=null;S.cli.sheet=null;p.prompt();try{await p.userChoice}catch(e){}render()},
-  'c-share':code=>{const msg=`¡Ya llegó manda2 a la zona! Pide comida, gas y garrafones a tu casa. Usa mi código ${code} y ganamos $${S.t.vecino} cada uno.`;try{navigator.clipboard.writeText(msg).then(()=>toast('Mensaje copiado. Pégalo en WhatsApp'),()=>toast(msg))}catch(e){toast(msg)}},
-  'c-salir':()=>{S.cli.step='onb';S.cli.onb=0},
-  'n-registrar':()=>{const nombre=val('n-nombre')||'Negocio nuevo';S.solicitudes.unshift({id:'s'+Date.now(),tipo:'Negocio',n:nombre,det:val('n-giro')+' · '+val('n-fracc'),nuevo:{giro:val('n-giro'),fracc:val('n-fracc')}});S.neg.reg=true;toast('Solicitud enviada. Apruébala en la vista Admin.')},
-  'n-go':s=>{S.neg.screen=s},'n-tab':t=>{S.neg.tab=t},'n-abierto':()=>{S.neg.abierto=!S.neg.abierto},
-  'n-aceptar':id=>{order(id).status='preparando';S.neg.tab='prep';toast('Pedido aceptado')},
-  'n-rechazar':id=>{S.orders=S.orders.filter(o=>o.id!==+id);toast('Pedido rechazado. Avisamos al cliente.')},
-  'n-listo':id=>{order(id).status='listo';toast('Avisamos a los repartidores cercanos')},
-  'n-salio':id=>{const o=order(id);o.status='en_camino';o.repa=neg(o.negId).n},
-  'n-entregado':id=>{order(id).status='entregado';toast('Entregado')},
-  'n-toggle':id=>{const m=neg(S.neg.id).menu.find(x=>x.id===+id);m.on=!m.on;render.keep=true},
-  'n-addprod':()=>{const nm=val('n-pn'),p=+val('n-pp');if(!nm||!p){toast('Escribe nombre y precio');return}neg(S.neg.id).menu.push({id:Date.now(),n:nm,d:'',p,il:neg(S.neg.id).il,on:true});toast('Producto agregado')},
-  'n-pagar':()=>{neg(S.neg.id).pago='pagado';toast('Mensualidad pagada')},
-  'r-registrar':()=>{const r=S.rep;r.nombre=val('r-nombre')||r.nombre;r.vehiculo=val('r-veh');S.solicitudes.unshift({id:'s'+Date.now(),tipo:'Repartidor',n:r.nombre,det:({moto:'Moto',bici:'Bicicleta',auto:'Auto'})[r.vehiculo]+' · '+val('r-fracc')});r.reg=true;toast('Solicitud enviada. En la maqueta ya puedes repartir.')},
-  'r-go':s=>{S.rep.screen=s},'r-on':()=>{S.rep.on=!S.rep.on},
-  'r-aceptar':id=>{const o=order(id);o.repa=S.rep.nombre;o.status='en_camino';toast('Viaje aceptado. Ve por el pedido.')},
-  'r-entregar':id=>{order(id).status='entregado';toast('¡Entregado! +'+money(gananciaRepa(order(id))))},
-  'a-go':s=>{S.adm.screen=s},'a-bienv':()=>{S.t.bienvenida=!S.t.bienvenida;render.keep=true},
-  'a-apr':id=>{const s=S.solicitudes.find(x=>x.id===id);S.solicitudes=S.solicitudes.filter(x=>x!==s);if(s.tipo==='Repartidor')S.repas++;else{const g=(s.nuevo&&s.nuevo.giro)||'Restaurante';const cat={Restaurante:'comida',Tiendita:'tiendita',Farmacia:'farmacia',Gas:'gas','Agua purificada':'agua'}[g]||'comida';NEG.push({id:'n'+Date.now(),n:s.n,cat,il:'chicken',extra:['tortilla'],color:'#c2410c',desc:'Nuevo en manda2',fracc:(s.nuevo&&s.nuevo.fracc)||'Casas Quma',min:'25–35',rating:5,ops:0,pago:'pendiente',promo:'Nuevo',menu:[{id:1,n:'Pollo asado entero',d:'Con tortillas y salsa',p:189,il:'chicken',on:true,top:true}]})}toast(s.tipo+' aprobado')},
-  'a-rech':id=>{S.solicitudes=S.solicitudes.filter(x=>x.id!==id);toast('Solicitud rechazada')},
-};
-
-document.addEventListener('click',e=>{
-  const b=e.target.closest('[data-act]');if(!b||b.disabled)return;
-  if(b.classList.contains('sheet-bg')&&e.target.closest('[data-stop]'))return;
-  const [k,...rest]=b.dataset.act.split(':');if(A[k]){A[k](rest.join(':'));render()}
-});
-document.addEventListener('change',e=>{
-  const k=e.target.dataset.change;if(!k)return;
-  if(k==='n-ver'){S.neg.id=e.target.value;render()}
-  if(k==='role'){A.role(e.target.value);render()}
-});
-document.addEventListener('input',e=>{
-  const k=e.target.dataset.input;if(!k)return;
-  if(k==='c-nota'){S.cli.nota=e.target.value;return}
-  if(k==='c-q'){S.cli.q=e.target.value;const pos=e.target.selectionStart;render();const i=document.getElementById('c-q');i.focus();i.setSelectionRange(pos,pos);return}
-  if(k.startsWith('t:')){S.t[k.slice(2)]=Math.max(0,+e.target.value||0);const id=e.target.id;render.keep=true;render();document.getElementById(id).focus()}
-});
-
-document.getElementById('brandbig').innerHTML=brand();
-document.getElementById('appicon').innerHTML=`<span class="appicon" style="display:block">${APPICON}</span>`;
-const isMobile=()=>isStandalone()||innerWidth<860;
-function layout(){document.body.classList.toggle('mobile',isMobile());render.keep=true;render()}
-window.addEventListener('resize',()=>{if(isMobile()!==document.body.classList.contains('mobile'))layout()});
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
-window.addEventListener('appinstalled',()=>{deferredPrompt=null;toast('manda2 quedó instalada')});
-const h0=(location.hash||'').slice(1);if(ROLES.some(r=>r.id===h0))S.role=h0;
-window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(ROLES.some(r=>r.id===h)&&h!==S.role){S.role=h;render()}});
-layout();
-if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){navigator.serviceWorker.register('sw.js').catch(()=>{})}
-</script>
+<script src="js/motor.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
