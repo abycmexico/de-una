@@ -1,24 +1,26 @@
 /* De Una Delivery · Generador de la marca
  *
- * Una sola fuente para el ícono (el pin que es "!"), el logotipo "de una!" y
- * las piezas que usa la app. Corre con:
+ * Una sola fuente para el logo, el ícono de la app y las piezas que usa la app.
+ * Corre con:
  *
  *   node marca/generar.js
  *
  * y escribe icons/*.svg, marca/*.svg y js/marca.js. Los PNG se sacan de los
- * SVG (en Mac: qlmanage -t -s 512 -o icons icons/icon.svg).
+ * SVG (en Mac: qlmanage -t -s 1024 -o marca marca/logo.svg).
  *
- * La idea: un pin de ubicación con un punto debajo forma el signo "!" de
- * "¡De una!". Dice qué hacemos (te lo llevamos a tu ubicación) y cómo lo
- * hacemos (rápido, sin rodeos).
+ * El logo: "De Una" en letra script gruesa (azul tinta), un pin naranja que
+ * llega volando (las dos chispas amarillas) y un subrayado ámbar. El ícono es
+ * el mismo logo sobre un azulejo amarillo, con el pin en rojo.
+ * Las letras vienen ya convertidas a trazos en marca/trazos.json.
  */
 const fs = require('fs');
 const path = require('path');
 const raiz = path.join(__dirname, '..');
+const T = require('./trazos.json');
 
 const COLOR = {
-  mandarina: '#FF6B1A', mandarinaClara: '#FF9A4D', mandarinaTexto: '#C2410C',
-  noche: '#1C2340', tinta: '#141A2E', crema: '#FFF6EE', miel: '#FFB547', blanco: '#FFFFFF',
+  naranja: '#FF6410', rojo: '#FF3B16', amarillo: '#FFC21A', ambar: '#FFAA14',
+  tinta: '#14203F', crema: '#FBF6F3', blanco: '#FFFFFF', naranjaTexto: '#C2410C',
 };
 const f = (n) => Math.round(n * 100) / 100;
 
@@ -29,62 +31,64 @@ function pin(cx, cy, r, ty) {
 }
 const circ = (cx, cy, r) => `M${f(cx - r)} ${f(cy)}a${r} ${r} 0 1 0 ${f(2 * r)} 0a${r} ${r} 0 1 0 ${f(-2 * r)} 0Z`;
 
-/* La marca en la retícula de 512: pin con hueco + punto. Centrada a lo alto. */
-const MARCA = { pin: `${pin(256, 156, 80, 326)}${circ(256, 156, 31)}`, punto: circ(256, 394, 42) };
-const marca = (color) => `<path fill="${color}" fill-rule="evenodd" d="${MARCA.pin}"/><path fill="${color}" d="${MARCA.punto}"/>`;
+/* Piezas en la retícula del logo (0–512 de ancho) */
+const PIN = `${pin(342, 124, 46, 214)}${circ(342, 124, 17)}`;
+const PIN_T = 'rotate(8 340 140)';
+const CHISPAS = 'M424 104L446 78M430 142L466 126';
+const SUB = 'M164 382C236 362 342 350 436 352C450 353 452 368 440 374C420 384 404 380 380 381C306 384 240 392 182 400C162 403 150 388 164 382Z';
+// Grosor extra de las letras: "De" más fino para que no se tape la "e"
+const GROSOR = { de: 6, una: 13, lema: 3 };
 
-/* Logotipo: letras monolínea de grosor 13 y puntas redondas, dibujadas a mano
-   (no dependen de ninguna tipografía). Línea base en y=100, altura x de 40.
-   Termina con el mismo pin "!" del ícono. */
-const LETRAS = {
-  // Los trazos cortos en la base (M20 94H34, etc.) rellenan la unión de la panza con el palito.
-  de: '<circle cx="20" cy="80" r="14"/><path d="M34 38V94M20 94H34"/><path d="M53 80H81A14 14 0 1 0 70.6 93.5"/>',
-  una: '<path d="M116 66V80A14 14 0 0 0 144 80M144 66V94M130 94H144"/><path d="M163 66V94M163 80A14 14 0 0 1 191 80V94"/><circle cx="224" cy="80" r="14"/><path d="M238 66V94M224 94H238"/>',
-  signo: `${pin(265, 47, 13.5, 79)}${circ(265, 47, 5.2)}`,
-  signoPunto: circ(265, 91.5, 7.5),
-  delivery: '<path d="M0 0H5A10 10 0 0 1 5 20H0Z"/><path d="M35 0H23V20H35M23 10H32"/><path d="M43 0V20H54"/><path d="M62 0V20"/><path d="M70 0L77 20L84 0"/><path d="M104 0H92V20H104M92 10H101"/><path d="M112 20V0H118A5 5 0 0 1 118 10H112M118 10L124 20"/><path d="M132 0L139 10L146 0M139 10V20"/>',
-};
-const trazo = (c, w) => `fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
-function logotipo({ letras = COLOR.noche, signo = COLOR.mandarina, sub = COLOR.mandarina, conSub = true } = {}) {
-  return `<g ${trazo(letras, 13)}>${LETRAS.de}${LETRAS.una}</g>` +
-    `<path fill="${signo}" fill-rule="evenodd" d="${LETRAS.signo}"/><path fill="${signo}" d="${LETRAS.signoPunto}"/>` +
-    (conSub ? `<g transform="translate(162 118) scale(.8)" ${trazo(sub, 4.6)}>${LETRAS.delivery}</g>` : '');
+const letras = (c) =>
+  `<path fill="${c}" stroke="${c}" stroke-width="${GROSOR.de}" stroke-linejoin="round" d="${T.de}"/>` +
+  `<path fill="${c}" stroke="${c}" stroke-width="${GROSOR.una}" stroke-linejoin="round" d="${T.una}"/>`;
+const pinG = (c) => `<g transform="${PIN_T}"><path fill="${c}" fill-rule="evenodd" d="${PIN}"/></g>`;
+const chispas = (c) => `<path d="${CHISPAS}" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round"/>`;
+const sub = (c) => `<path fill="${c}" d="${SUB}"/>`;
+const lema = (c) => `<path fill="${c}" stroke="${c}" stroke-width="${GROSOR.lema}" stroke-linejoin="round" d="${T.lema}"/>`;
+
+function logo({ tinta = COLOR.tinta, pinC = COLOR.naranja, chispa = COLOR.amarillo, subC = COLOR.ambar, conChispas = true, conSub = true } = {}) {
+  return letras(tinta) + pinG(pinC) + (conChispas ? chispas(chispa) : '') + (conSub ? sub(subC) : '');
 }
-const LOGO_VB = '-7 30 292 107'; // caja del logotipo con DELIVERY
+const VB = { logo: '44 60 440 352', lema: '44 60 440 416', compacto: '44 70 420 280' };
 
-const azulejo = (fondo = COLOR.mandarina, tinta = COLOR.blanco, rx = 114) => `<rect width="512" height="512" rx="${rx}" fill="${fondo}"/>${marca(tinta)}`;
+/* Ícono: el logo sin chispas sobre amarillo, pin rojo y subrayado en tinta */
+const ICONO_T = 'translate(14 28) scale(.95)';
+const dentro = (escala) => `<g transform="translate(${f(256 - 256 * escala)} ${f(256 - 256 * escala)}) scale(${escala})"><g transform="${ICONO_T}">${logo({ pinC: COLOR.rojo, conChispas: false, subC: COLOR.tinta })}</g></g>`;
+const azulejo = ({ fondo = COLOR.amarillo, tinta = COLOR.tinta, pinC = COLOR.rojo, subC = COLOR.tinta, rx = 114 } = {}) =>
+  `<rect width="512" height="512" rx="${rx}" fill="${fondo}"/><g transform="${ICONO_T}">${logo({ tinta, pinC, subC, conChispas: false })}</g>`;
+
 const svg = (vb, cuerpo, extra = '') => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}"${extra}>${cuerpo}</svg>\n`;
 const escribir = (rel, txt) => { fs.writeFileSync(path.join(raiz, rel), txt); console.log('escrito', rel); };
-const centrada = (escala) => `<g transform="translate(${f(256 - 256 * escala)} ${f(256 - 256 * escala)}) scale(${escala})">${marca(COLOR.blanco)}</g>`;
 
 // Íconos de la app instalable
 escribir('icons/icon.svg', svg('0 0 512 512', azulejo()));
-escribir('icons/maskable.svg', svg('0 0 512 512', `<rect width="512" height="512" fill="${COLOR.mandarina}"/>${centrada(0.78)}`));
-escribir('icons/apple.svg', svg('0 0 512 512', `<rect width="512" height="512" fill="${COLOR.mandarina}"/>${centrada(0.9)}`));
+escribir('icons/maskable.svg', svg('0 0 512 512', `<rect width="512" height="512" fill="${COLOR.amarillo}"/>${dentro(0.74)}`));
+escribir('icons/apple.svg', svg('0 0 512 512', `<rect width="512" height="512" fill="${COLOR.amarillo}"/>${dentro(0.9)}`));
 
 // Logos para redes, lonas e impresos
+escribir('marca/logo.svg', svg(VB.logo, logo()));
+escribir('marca/logo-lema.svg', svg(VB.lema, logo() + lema(COLOR.tinta)));
+escribir('marca/logo-oscuro.svg', svg('14 30 500 476', `<rect x="14" y="30" width="500" height="476" rx="40" fill="${COLOR.tinta}"/>${logo({ tinta: COLOR.crema })}${lema(COLOR.crema)}`));
+escribir('marca/logo-un-color.svg', svg(VB.logo, logo({ tinta: COLOR.tinta, pinC: COLOR.tinta, chispa: COLOR.tinta, subC: COLOR.tinta })));
 escribir('marca/icono.svg', svg('0 0 512 512', azulejo()));
-escribir('marca/icono-noche.svg', svg('0 0 512 512', azulejo(COLOR.noche, COLOR.mandarina)));
-escribir('marca/simbolo.svg', svg('76 60 360 392', marca(COLOR.mandarina)));
-escribir('marca/logotipo.svg', svg(LOGO_VB, logotipo()));
-escribir('marca/logo.svg', svg('0 0 640 180', `<g transform="translate(16 16) scale(.289)">${azulejo()}</g><g transform="translate(190 -26) scale(1.5)">${logotipo()}</g>`));
-escribir('marca/logo-oscuro.svg', svg('0 0 680 220', `<rect width="680" height="220" rx="32" fill="${COLOR.noche}"/><g transform="translate(36 36) scale(.289)">${azulejo()}</g><g transform="translate(210 -6) scale(1.5)">${logotipo({ letras: COLOR.crema, signo: COLOR.mandarina, sub: COLOR.mandarinaClara })}</g>`));
-escribir('marca/logo-vertical.svg', svg('0 0 420 420', `<g transform="translate(130 24) scale(.3125)">${azulejo()}</g><g transform="translate(70 196) scale(.95)">${logotipo()}</g>`));
-escribir('marca/logo-un-color.svg', svg('0 0 640 180', `<g transform="translate(16 16) scale(.289)">${azulejo(COLOR.tinta, COLOR.blanco)}</g><g transform="translate(190 -26) scale(1.5)">${logotipo({ letras: COLOR.tinta, signo: COLOR.tinta, sub: COLOR.tinta })}</g>`));
+escribir('marca/icono-noche.svg', svg('0 0 512 512', azulejo({ fondo: COLOR.tinta, tinta: COLOR.crema, pinC: COLOR.naranja, subC: COLOR.amarillo })));
+escribir('marca/simbolo.svg', svg('290 70 110 160', pinG(COLOR.naranja)));
 
-// La bolsa de entrega con el logo (para la ilustración de mandados y pantallas vacías), en 64×64
-const bolsa64 = `<path d="M24 20c0-7.5 3.6-11.5 8-11.5s8 4 8 11.5" fill="none" stroke="${COLOR.noche}" stroke-width="3.6" stroke-linecap="round"/>` +
-  `<path d="M12 20h40l-2.6 34.4a4 4 0 0 1-4 3.6H18.6a4 4 0 0 1-4-3.6Z" fill="${COLOR.mandarina}"/>` +
-  `<path d="M12 20h40l-.5 6.2H12.5Z" fill="#E4580C"/>` +
-  `<path fill="#fff" fill-rule="evenodd" d="${pin(32, 35.5, 7, 45.5)}${circ(32, 35.5, 2.7)}"/><path fill="#fff" d="${circ(32, 50.6, 3.6)}"/>`;
+// La bolsa de entrega con el pin (ilustración de mandados y pantallas vacías), en 64×64
+const bolsa64 = `<path d="M24 20c0-7.5 3.6-11.5 8-11.5s8 4 8 11.5" fill="none" stroke="${COLOR.tinta}" stroke-width="3.6" stroke-linecap="round"/>` +
+  `<path d="M12 20h40l-2.6 34.4a4 4 0 0 1-4 3.6H18.6a4 4 0 0 1-4-3.6Z" fill="${COLOR.naranja}"/>` +
+  `<path d="M12 20h40l-.5 6.2H12.5Z" fill="#E0520A"/>` +
+  `<path fill="${COLOR.amarillo}" fill-rule="evenodd" d="${pin(32, 37, 8, 50)}${circ(32, 37, 3)}"/>`;
 
 // Piezas para la app (js/marca.js)
 const PIEZAS = {
   colores: COLOR,
-  letras: LETRAS,
-  logoVB: LOGO_VB,
+  trazos: { de: T.de, una: T.una, lema: T.lema },
+  grosor: GROSOR,
+  pin: PIN, pinT: PIN_T, chispas: CHISPAS, sub: SUB,
+  vb: VB,
   tile: svg('0 0 512 512', azulejo(), ' aria-hidden="true"').trim(),
-  simbolo: MARCA,
   bolsa64,
 };
 escribir('js/marca.js', `/* Generado por marca/generar.js: no editar a mano. */\n(function (r) { r.MARCA = ${JSON.stringify(PIEZAS)}; })(typeof self !== 'undefined' ? self : this);\n`);

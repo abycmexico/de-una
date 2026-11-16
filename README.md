@@ -1,6 +1,6 @@
 # De Una Delivery
 
-<img src="marca/logo.png" alt="De Una Delivery" width="420">
+<img src="marca/logo-lema.png" alt="De Una Delivery: Tu ciudad, a un pedido." width="320">
 
 **¿Se te antojó? ¡De una!** Una app de pedidos hecha para una sola zona: Toscana Alta, Casas Quma, Paseos de la Pradera, Atotonilco de Tula y Huehuetoca. Junta comida, tiendita, farmacia, **gas, garrafones** y mandados, con repartidores de la misma zona.
 

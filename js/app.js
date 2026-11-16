@@ -47,9 +47,10 @@
   const MK = window.MARCA;
   const TILE = MK.tile;
   const APPICON = TILE;
-  const wm = (sub = false) => `<svg class="wm" viewBox="-7 30 292 ${sub ? 107 : 72}" aria-hidden="true"><g class="wm-letras">${MK.letras.de}${MK.letras.una}</g><path class="wm-signo" fill-rule="evenodd" d="${MK.letras.signo}"/><path class="wm-signo" d="${MK.letras.signoPunto}"/>${sub ? `<g class="wm-sub" transform="translate(162 118) scale(.8)">${MK.letras.delivery}</g>` : ''}</svg>`;
-  const brand = (cls = '') => `<span class="brand ${cls}" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm()}</span>`;
-  const brandBig = () => `<span class="brand big" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm(true)}</span>`;
+  // El logo "De Una": letras + pin. Completo (extra) lleva las chispas y el subrayado.
+  const wm = (extra = false) => `<svg class="wm" viewBox="${extra ? MK.vb.logo : MK.vb.compacto}" aria-hidden="true"><g class="wm-letras"><path stroke-width="${MK.grosor.de}" d="${MK.trazos.de}"/><path stroke-width="${MK.grosor.una}" d="${MK.trazos.una}"/></g><g transform="${MK.pinT}"><path class="wm-pin" fill-rule="evenodd" d="${MK.pin}"/></g>${extra ? `<path class="wm-chispas" d="${MK.chispas}"/><path class="wm-sub" d="${MK.sub}"/>` : ''}</svg>`;
+  const brand = (cls = '') => `<span class="brand ${cls}" role="img" aria-label="De Una Delivery">${wm()}</span>`;
+  const brandBig = () => `<span class="brand big" role="img" aria-label="De Una Delivery">${wm(true)}</span>`;
   // Ilustraciones con borde blanco de estampa (filtro #sticker de index.html)
   const ill = (k, cls = '') => `<svg viewBox="-3 -3 70 70" class="il ${cls}" aria-hidden="true"><g filter="url(#sticker)">${IL[k] || IL.bag}</g></svg>`;
   const blogo = (n, s = 44) => `<span class="blogo" style="--c:${n.color};width:${s}px;height:${s}px"><span class="disc">${ill(n.il)}</span></span>`;
@@ -145,7 +146,7 @@
     if (c.step === 'onb') {
       const o = ONB[c.onb];
       const art = o.ils.map((k, i) => ill(k, 'o' + i)).join('');
-      return `<div class="onb"><div class="row between">${brand('on-orange')}<button class="link" data-act="c-step:tel">Saltar</button></div>
+      return `<div class="onb"><div class="row between">${brand('on-yellow')}<button class="link" data-act="c-step:tel">Saltar</button></div>
         <div><div class="onb-art">${art}</div><div class="dots">${ONB.map((_, i) => `<i class="${i === c.onb ? 'on' : ''}"></i>`).join('')}</div><h1>${o.t}</h1><p>${o.d}</p></div>
         <button class="btn dark block" data-act="${c.onb < 2 ? 'c-onb' : 'c-step:tel'}">${c.onb < 2 ? 'Siguiente' : 'Empezar'}</button></div>`;
     }
@@ -318,7 +319,7 @@
       <path id="ruta" d="M70 40 V150 H300 V105" fill="none" stroke="var(--accent)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
       <circle cx="70" cy="40" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest(ilDe(p), 56, 26, 28)}
       <circle cx="300" cy="105" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest('house', 286, 90, 28)}
-      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#1C2340"/>${nest('moto', -15, -16, 30)}</g>` : ''}
+      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#14203F"/>${nest('moto', -15, -16, 30)}</g>` : ''}
     </svg></div>`;
   }
   const incidenciaDe = (p) => W.incidencias.filter((i) => i.pedidoId === p.id && i.tipo !== 'cliente_ausente').pop();
