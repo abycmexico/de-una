@@ -1,0 +1,22 @@
+{
+  "name": "manda2 · Pedidos en tu fracc",
+  "short_name": "manda2",
+  "description": "Comida, tiendita, farmacia, gas, garrafones y mandados en Toscana Alta, Casas Quma, Atotonilco de Tula y Huehuetoca.",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf6f2",
+  "theme_color": "#f95e0a",
+  "categories": ["food", "shopping"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Pedir gas", "url": "./#cliente", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
