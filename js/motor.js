@@ -1,4 +1,4 @@
-/* manda2 · Motor de reglas
+/* De Una Delivery · Motor de reglas
  *
  * Aquí vive TODA la lógica del negocio, separada de las pantallas:
  * precios, estados del pedido, asignación de repartidores, dinero (libro de
@@ -100,8 +100,8 @@
 
   /* ------------------------------------------------------------------ */
   /* Dinero: libro de movimientos                                        */
-  /* Cuentas: repa:<id>, neg:<id>, cli:<id> (positivo = manda2 le debe,  */
-  /* negativo = le debe a manda2) y m2:<línea> (resultados de manda2).   */
+  /* Cuentas: repa:<id>, neg:<id>, cli:<id> (positivo = De Una le debe,  */
+  /* negativo = le debe a De Una) y du:<línea> (resultados de De Una).   */
   /* ------------------------------------------------------------------ */
   function mov(W, cuenta, monto, concepto, pedidoId = null) {
     monto = r2(monto);
@@ -214,7 +214,7 @@
     if (!c) return { errores: ['No encontramos tu cuenta'] };
     const errores = [], avisos = [], requisitos = { mayorEdad: false, receta: false };
     if (c.bloqueado) errores.push('Tu cuenta está bloqueada. Escríbenos.');
-    let n = null, items = [], S = 0, E = 0, entrega = 'manda2', origen = c.fracc;
+    let n = null, items = [], S = 0, E = 0, entrega = 'deuna', origen = c.fracc;
     if (q.tipo === 'mandado') {
       E = t.mandado; origen = q.origen || c.fracc;
       const pres = Math.max(0, Math.round(+q.presupuesto || 0));
@@ -227,7 +227,7 @@
       if (!n) return { errores: ['No encontramos el negocio'] };
       const ab = negocioAbierto(W, n);
       if (!ab.ok) errores.push(`${n.nombre}: ${ab.motivo}`);
-      entrega = n.entregaPropia ? 'propia' : 'manda2';
+      entrega = n.entregaPropia ? 'propia' : 'deuna';
       origen = n.fracc;
       for (const it of q.items || []) {
         const m = n.menu.find((x) => x.id === it.id);
@@ -253,10 +253,10 @@
       Dn = E; descuentos.push({ etq: `Envío gratis, cortesía de ${n.nombre}`, monto: E, fondeo: 'negocio' });
     } else if (E > 0 && bienvenidaElegible(W, c)) {
       Dm = Math.min(E, cfg.promos.bienvenidaTope); promo = 'bienvenida';
-      descuentos.push({ etq: 'Bienvenida: tu primer envío es gratis', monto: Dm, fondeo: 'manda2' });
+      descuentos.push({ etq: 'Bienvenida: tu primer envío es gratis', monto: Dm, fondeo: 'deuna' });
     } else if (E > 0 && q.tipo !== 'mandado' && !propia && plusAplica(W, c, S)) {
       Dm = E; promo = 'plus';
-      descuentos.push({ etq: 'manda2 Plus: envío gratis', monto: E, fondeo: 'manda2' });
+      descuentos.push({ etq: 'De Una Plus: envío gratis', monto: E, fondeo: 'deuna' });
     }
     let T = r2(S + E + L + PP + V + P - Dm - Dn);
     let Dc = 0;
@@ -323,7 +323,7 @@
     hist(W, p, 'cliente', `${c.nombre} hizo el pedido (${q.pago === 'efectivo' ? 'efectivo' : 'transferencia'})`);
     if (q.pago === 'transferencia') {
       p.estado = 'pago_pendiente';
-      p.referencia = 'M2-' + p.id;
+      p.referencia = 'DU-' + p.id;
       hist(W, p, 'sistema', `Esperando la transferencia con referencia ${p.referencia}`);
     } else arrancar(W, p);
     return { ok: true, pedido: p };
@@ -343,7 +343,7 @@
   /* Asignación de repartidores                                          */
   /* ------------------------------------------------------------------ */
   const tasa = (r) => r2(r.ofertas.aceptadas / Math.max(1, r.ofertas.recibidas));
-  const necesitaRepa = (p) => p.entrega === 'manda2' && !p.asignacion.repaId && ['preparando', 'listo', 'buscando'].includes(p.estado);
+  const necesitaRepa = (p) => p.entrega === 'deuna' && !p.asignacion.repaId && ['preparando', 'listo', 'buscando'].includes(p.estado);
 
   function candidatos(W, p) {
     const origen = p.negocioId ? negocio(W, p.negocioId).fracc : p.origen;
@@ -401,7 +401,7 @@
     if (TERMINALES.includes(e) && !['calificar'].includes(acc)) return 'El pedido ya terminó';
     switch (acc) {
       case 'confirmar_pago':
-        if (!esAdmin(a)) return 'El pago se confirma solo cuando llega a la cuenta de manda2';
+        if (!esAdmin(a)) return 'El pago se confirma solo cuando llega a la cuenta de De Una';
         return e === 'pago_pendiente' ? null : 'Este pedido no está esperando pago';
       case 'aceptar':
         if (!esNeg(a, p) && !esAdmin(a)) return 'Solo el negocio acepta pedidos';
@@ -416,7 +416,7 @@
         return d.motivo ? null : 'Elige un motivo';
       case 'listo':
         if (!esNeg(a, p)) return 'Solo el negocio marca listo';
-        if (p.entrega !== 'manda2') return 'Este pedido lo entregas tú';
+        if (p.entrega !== 'deuna') return 'Este pedido lo entregas tú';
         return e === 'preparando' ? null : 'El pedido no está en preparación';
       case 'entregar_a_repa':
         if (!esNeg(a, p)) return 'Solo el negocio entrega al repartidor';
@@ -426,7 +426,7 @@
         return null;
       case 'salio':
         if (!esNeg(a, p)) return 'Solo el negocio';
-        if (p.entrega !== 'propia') return 'Este pedido lo lleva un repartidor de manda2';
+        if (p.entrega !== 'propia') return 'Este pedido lo lleva un repartidor de De Una';
         return e === 'preparando' ? null : 'El pedido no está en preparación';
       case 'aceptar_oferta':
       case 'rechazar_oferta':
@@ -479,12 +479,12 @@
         if (esNeg(a, p)) return ['nuevo', 'preparando', 'listo'].includes(e) ? null : 'Ya entregaste el pedido';
         return 'No puedes cancelar este pedido';
       case 'autorizar_sin_pin':
-        if (!esAdmin(a)) return 'Solo manda2 puede autorizarlo';
+        if (!esAdmin(a)) return 'Solo De Una puede autorizarlo';
         return ['en_camino', 'en_puerta'].includes(e) ? null : 'Solo cuando va en camino';
       case 'asignar':
       case 'subir_bono':
-        if (!esAdmin(a)) return 'Solo manda2';
-        if (p.entrega !== 'manda2') return 'Este pedido lo entrega el negocio';
+        if (!esAdmin(a)) return 'Solo De Una';
+        if (p.entrega !== 'deuna') return 'Este pedido lo entrega el negocio';
         if (!['preparando', 'listo', 'buscando', 'comprando'].includes(e) || (p.estado !== 'buscando' && p.repaEnTienda && acc === 'asignar')) return 'Ya no se puede cambiar el repartidor';
         if (acc === 'subir_bono') return +d.monto > 0 ? null : 'Escribe el monto del bono';
         if (!repartidor(W, d.repaId)) return 'Elige un repartidor';
@@ -517,7 +517,7 @@
     const r = p.asignacion.repaId ? repartidor(W, p.asignacion.repaId) : null;
     switch (acc) {
       case 'confirmar_pago':
-        flujo(W, p, 'cli', 'm2', p.cot.T, 'Transferencia recibida');
+        flujo(W, p, 'cli', 'du', p.cot.T, 'Transferencia recibida');
         p.t.pagado = W.reloj;
         hist(W, p, 'sistema', `Llegó la transferencia de $${p.cot.T}`);
         arrancar(W, p);
@@ -536,7 +536,7 @@
           p.items = quedan;
           recotizar(W, p);
           hist(W, p, 'negocio', `No había ${p.removidos.map((i) => i.n).join(', ')}: se quitó del pedido`);
-          if (p.pago === 'transferencia' && antes > p.cot.T) flujo(W, p, 'm2', 'cli', antes - p.cot.T, 'Reembolso por productos que no había');
+          if (p.pago === 'transferencia' && antes > p.cot.T) flujo(W, p, 'du', 'cli', antes - p.cot.T, 'Reembolso por productos que no había');
         }
         p.estado = 'preparando';
         p.prep = +d.prep;
@@ -545,7 +545,7 @@
         n.perdidos = 0;
         n.met.aceptados++;
         hist(W, p, 'negocio', `${n.nombre} aceptó el pedido (${p.prep} min)`);
-        if (p.entrega === 'manda2') despachar(W, p);
+        if (p.entrega === 'deuna') despachar(W, p);
         return;
       }
       case 'rechazar':
@@ -606,7 +606,7 @@
         p.ticket.disputa = false;
         p.estado = 'en_camino';
         p.t.recogido = W.reloj;
-        hist(W, p, a.rol === 'cliente' ? 'cliente' : 'manda2', `Ticket aprobado: $${p.ticket.monto}`);
+        hist(W, p, a.rol === 'cliente' ? 'cliente' : 'deuna', `Ticket aprobado: $${p.ticket.monto}`);
         return;
       case 'rechazar_ticket':
         p.ticket.disputa = true;
@@ -626,7 +626,7 @@
         if (!p.pinOmitido && String(d.pin || '').trim() !== p.pin) {
           p.pinIntentos++;
           hist(W, p, 'sistema', `Código de entrega equivocado (${p.pinIntentos})`);
-          return { error: p.pinIntentos >= W.config.limites.intentosPin ? 'Código equivocado otra vez. Ya avisamos a manda2 para revisarlo.' : 'Código incorrecto. Pídele al cliente su código de 4 dígitos.' };
+          return { error: p.pinIntentos >= W.config.limites.intentosPin ? 'Código equivocado otra vez. Ya avisamos a De Una para revisarlo.' : 'Código incorrecto. Pídele al cliente su código de 4 dígitos.' };
         }
         p.estado = 'entregado';
         p.t.entregado = W.reloj;
@@ -636,7 +636,7 @@
         if (r) r.entregasHoy++;
         if (n) n.met.entregados++;
         premioVecino(W, c, p);
-        hist(W, p, p.entrega === 'propia' ? 'negocio' : 'repartidor', p.pinOmitido ? 'Entregado (autorizado por manda2 sin código)' : 'Entregado con el código del cliente');
+        hist(W, p, p.entrega === 'propia' ? 'negocio' : 'repartidor', p.pinOmitido ? 'Entregado (autorizado por De Una sin código)' : 'Entregado con el código del cliente');
         return;
       }
       case 'cliente_ausente':
@@ -653,15 +653,15 @@
         return;
       case 'autorizar_sin_pin':
         p.pinOmitido = true;
-        hist(W, p, 'manda2', 'manda2 autorizó entregar sin código');
+        hist(W, p, 'deuna', 'De Una autorizó entregar sin código');
         bit(W, a, `Autorizó entregar sin código el pedido #${p.id}`);
         return;
       case 'asignar': {
         const nuevo = repartidor(W, d.repaId);
-        if (p.asignacion.repaId && p.asignacion.repaId !== nuevo.id) hist(W, p, 'manda2', `Se le quitó el viaje a ${r.nombre}`);
+        if (p.asignacion.repaId && p.asignacion.repaId !== nuevo.id) hist(W, p, 'deuna', `Se le quitó el viaje a ${r.nombre}`);
         p.asignacion.oferta = null;
         nuevo.ofertas.recibidas++;
-        asignar(W, p, nuevo, 'quedó asignado por manda2');
+        asignar(W, p, nuevo, 'quedó asignado por De Una');
         bit(W, a, `Asignó el pedido #${p.id} a ${nuevo.nombre}`);
         return;
       }
@@ -669,7 +669,7 @@
         p.asignacion.bono = r2(p.asignacion.bono + +d.monto);
         p.asignacion.rechazos = [];
         p.asignacion.avisado = false;
-        hist(W, p, 'manda2', `manda2 subió el bono del viaje a $${p.asignacion.bono}`);
+        hist(W, p, 'deuna', `De Una subió el bono del viaje a $${p.asignacion.bono}`);
         bit(W, a, `Subió el bono del pedido #${p.id} a $${p.asignacion.bono}`);
         despachar(W, p);
         return;
@@ -685,7 +685,7 @@
     const c = p.cot, t = W.config.tarifas;
     c.items = clonar(p.items);
     c.S = r2(suma(p.items, (i) => i.p * i.q));
-    const pp = p.tipo === 'tienda' && p.entrega === 'manda2' && c.S > 0 && c.S < t.pedidoPequeno.umbral ? t.pedidoPequeno.cargo : 0;
+    const pp = p.tipo === 'tienda' && p.entrega === 'deuna' && c.S > 0 && c.S < t.pedidoPequeno.umbral ? t.pedidoPequeno.cargo : 0;
     c.PP = Math.min(c.PP, pp); // quitar productos nunca sube el cobro
     const antes = r2(c.S + c.E + c.L + c.PP + c.V + c.P - c.Dm - c.Dn);
     const dc = r2(Math.min(c.Dc, Math.max(0, antes)));
@@ -703,13 +703,13 @@
   function liquidar(W, p) {
     const c = p.cot, k = W.config.tarifas.repaPct / 100, id = p.id;
     const cli = cliente(W, p.clienteId), B = p.asignacion.bono || 0;
-    if (p.entrega === 'manda2') {
+    if (p.entrega === 'deuna') {
       const repa = 'repa:' + p.asignacion.repaId;
       mov(W, repa, c.E * k, `Envío (${W.config.tarifas.repaPct} %)`, id);
       mov(W, repa, c.L, 'Extra por lluvia', id);
       mov(W, repa, c.PP, 'Cargo por pedido pequeño', id);
       mov(W, repa, c.P, 'Propina', id);
-      mov(W, repa, B, 'Bono de manda2', id);
+      mov(W, repa, B, 'Bono extra de De Una', id);
       if (p.pago === 'efectivo') {
         const pagadoEnTienda = p.tipo === 'mandado' ? (p.ticket ? p.ticket.monto : 0) : c.S;
         mov(W, repa, -(c.T - pagadoEnTienda), 'Efectivo cobrado que no es tuyo', id);
@@ -718,17 +718,17 @@
         if (p.pago !== 'efectivo') mov(W, 'neg:' + p.negocioId, c.S, 'Venta pagada en línea', id);
         if (c.Dn) mov(W, 'neg:' + p.negocioId, -c.Dn, 'Envío gratis que regalaste', id);
       }
-      mov(W, 'm2:servicio', c.V, 'Servicio', id);
-      mov(W, 'm2:envio', c.E * (1 - k), 'Parte del envío', id);
-      if (c.Dm) mov(W, 'm2:promos', -c.Dm, p.promoUsada === 'plus' ? 'Envío cubierto por Plus' : 'Promo de bienvenida', id);
-      if (B) mov(W, 'm2:bonos', -B, 'Bono al repartidor', id);
+      mov(W, 'du:servicio', c.V, 'Servicio', id);
+      mov(W, 'du:envio', c.E * (1 - k), 'Parte del envío', id);
+      if (c.Dm) mov(W, 'du:promos', -c.Dm, p.promoUsada === 'plus' ? 'Envío cubierto por Plus' : 'Promo de bienvenida', id);
+      if (B) mov(W, 'du:bonos', -B, 'Bono al repartidor', id);
     } else {
       const neg = 'neg:' + p.negocioId;
       const derecho = c.S + c.E + c.P - c.Dn;
-      if (p.pago === 'efectivo') mov(W, neg, -(c.T - derecho), 'Servicio manda2 que cobraste al cliente', id);
+      if (p.pago === 'efectivo') mov(W, neg, -(c.T - derecho), 'Servicio De Una que cobraste al cliente', id);
       else mov(W, neg, derecho, 'Venta pagada en línea', id);
-      mov(W, 'm2:servicio', c.V, 'Servicio', id);
-      if (c.Dm) mov(W, 'm2:promos', -c.Dm, 'Promo de bienvenida', id);
+      mov(W, 'du:servicio', c.V, 'Servicio', id);
+      if (c.Dm) mov(W, 'du:promos', -c.Dm, 'Promo de bienvenida', id);
     }
     if (c.Dc) {
       mov(W, 'cli:' + cli.id, -c.Dc, 'Usaste tu saldo a favor', id);
@@ -750,10 +750,10 @@
     const viaje = c.E * k + c.L + c.PP + B;
     mov(W, repa, compra, p.tipo === 'mandado' ? 'Te reponemos la compra del mandado' : 'Te reponemos lo que pagaste en tienda', id);
     mov(W, repa, viaje, 'Tu viaje se paga aunque el cliente no salió', id);
-    mov(W, 'm2:garantia', -(compra + viaje), 'Pedido no recibido', id);
+    mov(W, 'du:garantia', -(compra + viaje), 'Pedido no recibido', id);
     const adeudo = r2(compra + c.E + c.V);
     mov(W, 'cli:' + cli.id, -adeudo, `Adeudo del pedido #${id} que no recibiste`, id);
-    mov(W, 'm2:adeudos', adeudo, `Adeudo por cobrar a ${cli.nombre}`, id);
+    mov(W, 'du:adeudos', adeudo, `Adeudo por cobrar a ${cli.nombre}`, id);
   }
 
   function liberarSaldo(W, p) {
@@ -791,11 +791,11 @@
     p.cancelacion = { por: a.rol, motivo, cargo: 0, reembolso: 0 };
     restaurarPromos(W, p);
     if (p.t.pagado != null) {
-      const pagado = r2(p.cot.T + suma(p.flujos.filter((f) => f.de === 'm2' && f.a === 'cli'), (f) => -f.monto));
+      const pagado = r2(p.cot.T + suma(p.flujos.filter((f) => f.de === 'du' && f.a === 'cli'), (f) => -f.monto));
       const cargo = tarde ? Math.round(p.cot.S * W.config.limites.cancelTardiaPct / 100) : 0;
       if (cargo) mov(W, 'neg:' + p.negocioId, cargo, 'Cancelación tardía: pago por insumos', p.id);
       const reembolso = r2(pagado - cargo);
-      flujo(W, p, 'm2', 'cli', reembolso, 'Reembolso por cancelación');
+      flujo(W, p, 'du', 'cli', reembolso, 'Reembolso por cancelación');
       p.cancelacion.cargo = cargo;
       p.cancelacion.reembolso = reembolso;
     }
@@ -806,24 +806,24 @@
       const comp = W.config.limites.compensacionRepa;
       mov(W, repa, comp, 'Compensación por viaje cancelado', p.id);
       if (a.rol === 'negocio') mov(W, 'neg:' + p.negocioId, -comp, 'Compensación al repartidor por cancelar', p.id);
-      else mov(W, 'm2:garantia', -comp, 'Compensación al repartidor', p.id);
+      else mov(W, 'du:garantia', -comp, 'Compensación al repartidor', p.id);
     }
     // Cancelado cuando ya se había recogido o comprado: nadie pierde lo que ya pagó.
-    if (enRuta && p.entrega === 'manda2') {
+    if (enRuta && p.entrega === 'deuna') {
       if (p.tipo === 'mandado' && p.ticket && p.ticket.monto) {
         mov(W, repa, p.ticket.monto, 'Te reponemos la compra del mandado cancelado', p.id);
-        mov(W, 'm2:garantia', -p.ticket.monto, 'Compra de mandado cancelado', p.id);
+        mov(W, 'du:garantia', -p.ticket.monto, 'Compra de mandado cancelado', p.id);
       } else if (p.tipo === 'tienda' && p.pago === 'efectivo') {
         mov(W, repa, p.cot.S, 'Te reponemos lo que pagaste en tienda', p.id);
-        mov(W, 'm2:garantia', -p.cot.S, 'Pedido cancelado ya recogido', p.id);
+        mov(W, 'du:garantia', -p.cot.S, 'Pedido cancelado ya recogido', p.id);
       } else if (p.tipo === 'tienda') {
         mov(W, 'neg:' + p.negocioId, p.cot.S, 'Pedido cancelado que ya habías entregado', p.id);
-        mov(W, 'm2:garantia', -p.cot.S, 'Pedido cancelado ya recogido', p.id);
+        mov(W, 'du:garantia', -p.cot.S, 'Pedido cancelado ya recogido', p.id);
       }
     }
     p.asignacion.oferta = null;
     if (n && a.rol === 'negocio' && !opc.sinPenalizar) n.met.cancelados++;
-    const quien = { cliente: 'cliente', negocio: 'negocio', admin: 'manda2', sistema: 'sistema' }[a.rol] || a.rol;
+    const quien = { cliente: 'cliente', negocio: 'negocio', admin: 'deuna', sistema: 'sistema' }[a.rol] || a.rol;
     hist(W, p, quien, `Pedido cancelado: ${motivo}`);
     if (a.rol === 'admin') bit(W, a, `Canceló el pedido #${p.id}: ${motivo}`);
   }
@@ -834,7 +834,7 @@
     if (!ref) return;
     mov(W, 'cli:' + c.id, v, `Premio por usar el código de ${ref.nombre}`, p.id);
     mov(W, 'cli:' + ref.id, v, `Premio porque ${c.nombre} usó tu código`, p.id);
-    mov(W, 'm2:promos', -2 * v, 'Invita a un vecino', p.id);
+    mov(W, 'du:promos', -2 * v, 'Invita a un vecino', p.id);
     ref.referidosMes = (ref.referidosMes || 0) + 1;
     c.premioVecino = true;
   }
@@ -912,7 +912,7 @@
     for (const n of W.negocios) {
       n.factura = { mes, monto: W.config.negocios.mensualidad, vence, pagada: false };
       mov(W, 'neg:' + n.id, -n.factura.monto, `Mensualidad de ${mes.toLowerCase()}`);
-      mov(W, 'm2:mensualidad', n.factura.monto, `Mensualidad de ${n.nombre}`);
+      mov(W, 'du:mensualidad', n.factura.monto, `Mensualidad de ${n.nombre}`);
     }
   }
   function estadoMensualidad(W, n) {
@@ -948,7 +948,7 @@
     if (n.anuncios.some((x) => x.tipo === tipo && x.hasta >= diaActual(W))) return err('Ya tienes ese anuncio activo');
     n.anuncios.push({ tipo, hasta: diaActual(W) + 6 });
     mov(W, 'neg:' + n.id, -precio, `Anuncio ${tipo === 'destacado' ? 'destacado' : 'en el carrusel'} (7 días)`);
-    mov(W, 'm2:anuncios', precio, `Anuncio de ${n.nombre}`);
+    mov(W, 'du:anuncios', precio, `Anuncio de ${n.nombre}`);
     bit(W, a, `${n.nombre} compró un anuncio ${tipo} por $${precio}`);
     return { ok: true };
   }
@@ -976,11 +976,11 @@
     const c = cliente(W, cliId);
     if (c.plus && c.plus.activo) return err('Ya tienes Plus');
     c.plus = { activo: true, enviosUsados: 0 };
-    mov(W, 'm2:plus', W.config.plus.precio, `Plus de ${c.nombre}`);
+    mov(W, 'du:plus', W.config.plus.precio, `Plus de ${c.nombre}`);
     return { ok: true };
   }
   function cancelarPlus(W, cliId) { const c = cliente(W, cliId); if (c.plus) c.plus.activo = false; return { ok: true }; }
-  const codigoVecino = (c) => 'M2' + c.id.toUpperCase();
+  const codigoVecino = (c) => 'DU' + c.id.toUpperCase();
   function usarCodigoVecino(W, cliId, codigo) {
     const c = cliente(W, cliId), cod = String(codigo || '').trim().toUpperCase();
     const ref = W.clientes.find((x) => codigoVecino(x) === cod);
@@ -1030,22 +1030,22 @@
     const i = W.incidencias.find((x) => x.id === +incId);
     if (!i) return err('No existe el reclamo');
     if (i.estado !== 'abierta') return err('Este reclamo ya se resolvió');
-    if (!esAdmin(a)) return err('Solo manda2 resuelve reclamos');
+    if (!esAdmin(a)) return err('Solo De Una resuelve reclamos');
     const p = pedido(W, i.pedidoId);
     if (res.decision === 'rechazar' || res.decision === 'confirmar') {
       i.estado = res.decision === 'rechazar' ? 'rechazada' : 'resuelta';
-      i.resolucion = { ...res, t: W.reloj, por: a.nombre || 'manda2' };
-      hist(W, p, 'manda2', res.decision === 'rechazar' ? `Reclamo rechazado: ${res.nota || 'sin motivo'}` : 'manda2 confirmó el adeudo');
+      i.resolucion = { ...res, t: W.reloj, por: a.nombre || 'deuna' };
+      hist(W, p, 'deuna', res.decision === 'rechazar' ? `Reclamo rechazado: ${res.nota || 'sin motivo'}` : 'De Una confirmó el adeudo');
       bit(W, a, `${res.decision === 'rechazar' ? 'Rechazó' : 'Confirmó'} el reclamo #${i.id}`);
       return { ok: true };
     }
     if (res.decision === 'perdonar') {
       const deuda = -saldo(W, 'cli:' + i.clienteId);
-      if (deuda > 0) { mov(W, 'cli:' + i.clienteId, deuda, 'manda2 te perdonó el adeudo', p.id); mov(W, 'm2:adeudos', -deuda, 'Adeudo perdonado', p.id); }
+      if (deuda > 0) { mov(W, 'cli:' + i.clienteId, deuda, 'De Una te perdonó el adeudo', p.id); mov(W, 'du:adeudos', -deuda, 'Adeudo perdonado', p.id); }
       const c = cliente(W, i.clienteId);
       c.noShows = Math.max(0, c.noShows - 1);
       i.estado = 'resuelta';
-      i.resolucion = { ...res, t: W.reloj, por: a.nombre || 'manda2' };
+      i.resolucion = { ...res, t: W.reloj, por: a.nombre || 'deuna' };
       bit(W, a, `Perdonó el adeudo del reclamo #${i.id}`);
       return { ok: true };
     }
@@ -1053,15 +1053,15 @@
     if (!(monto > 0)) return err('Escribe el monto a devolver');
     if (monto > p.cot.T) return err(`No puede ser más de lo que pagó ($${p.cot.T})`);
     if (a.permiso === 'operador' && monto > W.config.limites.creditoOperador) return err(`Más de $${W.config.limites.creditoOperador} lo aprueba el dueño`);
-    if (res.destino === 'transferencia') flujo(W, p, 'm2', 'cli', monto, `Reembolso por el reclamo #${i.id}`);
+    if (res.destino === 'transferencia') flujo(W, p, 'du', 'cli', monto, `Reembolso por el reclamo #${i.id}`);
     else mov(W, 'cli:' + i.clienteId, monto, `Saldo a favor por el reclamo #${i.id}`, p.id);
     if (res.cargoA === 'negocio' && p.negocioId) mov(W, 'neg:' + p.negocioId, -monto, `Cargo por el reclamo #${i.id}`, p.id);
     else if (res.cargoA === 'repartidor' && i.repaId) mov(W, 'repa:' + i.repaId, -monto, `Cargo por el reclamo #${i.id}`, p.id);
-    else mov(W, 'm2:reembolsos', -monto, `Reclamo #${i.id}`, p.id);
+    else mov(W, 'du:reembolsos', -monto, `Reclamo #${i.id}`, p.id);
     i.estado = 'resuelta';
-    i.resolucion = { ...res, monto, t: W.reloj, por: a.nombre || 'manda2' };
-    hist(W, p, 'manda2', `Reclamo resuelto: $${monto} ${res.destino === 'transferencia' ? 'por transferencia' : 'como saldo a favor'}`);
-    bit(W, a, `Resolvió el reclamo #${i.id}: $${monto} a cargo de ${res.cargoA || 'manda2'}`);
+    i.resolucion = { ...res, monto, t: W.reloj, por: a.nombre || 'deuna' };
+    hist(W, p, 'deuna', `Reclamo resuelto: $${monto} ${res.destino === 'transferencia' ? 'por transferencia' : 'como saldo a favor'}`);
+    bit(W, a, `Resolvió el reclamo #${i.id}: $${monto} a cargo de ${res.cargoA || 'deuna'}`);
     return { ok: true };
   }
 
@@ -1094,14 +1094,14 @@
       const n = {
         id: 'n' + s.id, nombre: s.nombre, cat: s.giro === 'restaurante' ? 'comida' : s.giro, fracc: s.zona, entregaPropia: !!s.entregaPropia,
         envioGratis: false, abierto: true, saturado: false, pausa: null, horario: { abre: 540, cierra: 1320 }, rating: 5, ops: 0,
-        il: s.il || 'chicken', extra: ['tortilla'], color: '#c2410c', desc: 'Nuevo en manda2', promo: 'Nuevo', anuncios: [],
+        il: s.il || 'chicken', extra: ['tortilla'], color: '#c2410c', desc: 'Nuevo en De Una', promo: 'Nuevo', anuncios: [],
         perdidos: 0, met: { aceptados: 0, rechazados: 0, expirados: 0, cancelados: 0, entregados: 0 },
         menu: [{ id: 1, n: 'Producto de ejemplo', d: 'El negocio carga su menú', p: 80, il: s.il || 'chicken', on: true, top: true }],
       };
       W.negocios.push(n);
       n.factura = { mes: 'Noviembre', monto: W.config.negocios.mensualidad, vence: diaActual(W) + 5, pagada: false };
       mov(W, 'neg:' + n.id, -n.factura.monto, 'Mensualidad de noviembre');
-      mov(W, 'm2:mensualidad', n.factura.monto, `Mensualidad de ${n.nombre}`);
+      mov(W, 'du:mensualidad', n.factura.monto, `Mensualidad de ${n.nombre}`);
     }
     W.solicitudes = W.solicitudes.filter((x) => x !== s);
     bit(W, a, `Aprobó a ${s.nombre} (${s.tipo})`);
@@ -1161,10 +1161,10 @@
   const LINEAS = [
     ['servicio', 'Servicio por pedido'], ['envio', 'Tu parte del envío'], ['mensualidad', 'Mensualidades'],
     ['anuncios', 'Anuncios'], ['plus', 'Membresías Plus'], ['adeudos', 'Adeudos de clientes por cobrar'],
-    ['promos', 'Promociones'], ['bonos', 'Bonos a repartidores'], ['garantia', 'Garantía y compensaciones'], ['reembolsos', 'Reembolsos pagados por manda2'],
+    ['promos', 'Promociones'], ['bonos', 'Bonos a repartidores'], ['garantia', 'Garantía y compensaciones'], ['reembolsos', 'Reembolsos pagados por De Una'],
   ];
   function resumenFinanzas(W) {
-    const lineas = LINEAS.map(([k, n]) => ({ k, n, monto: saldo(W, 'm2:' + k) }));
+    const lineas = LINEAS.map(([k, n]) => ({ k, n, monto: saldo(W, 'du:' + k) }));
     const repas = W.repartidores.filter((r) => r.aprobado).map((r) => ({ id: r.id, nombre: r.nombre, saldo: saldo(W, 'repa:' + r.id), suspendido: r.suspendido }));
     const negs = W.negocios.map((n) => ({ id: n.id, nombre: n.nombre, saldo: saldo(W, 'neg:' + n.id), mens: estadoMensualidad(W, n) }));
     return {
@@ -1180,7 +1180,7 @@
     const ent = W.pedidos.filter((p) => p.estado === 'entregado'), canc = W.pedidos.filter((p) => p.estado === 'cancelado');
     const gmv = r2(suma(ent, (p) => p.cot.S));
     const tiempos = ent.map((p) => p.t.entregado - p.t.creado);
-    const ingresoPedidos = r2(suma(W.movimientos.filter((m) => m.pedidoId && m.cuenta.startsWith('m2:')), (m) => m.monto));
+    const ingresoPedidos = r2(suma(W.movimientos.filter((m) => m.pedidoId && m.cuenta.startsWith('du:')), (m) => m.monto));
     return {
       pedidos: W.pedidos.length, entregados: ent.length, cancelados: canc.length, activos: W.pedidos.filter(activo).length,
       gmv, ticket: ent.length ? Math.round(gmv / ent.length) : 0,
@@ -1198,7 +1198,7 @@
       repa: { caja: caja('repa'), libro: libro('repa:') },
       neg: { caja: caja('neg'), libro: libro('neg:') },
       cli: { caja: caja('cli'), libro: libro('cli:') },
-      m2: { caja: caja('m2'), resultado: libro('m2:') },
+      du: { caja: caja('du'), resultado: libro('du:') },
     };
   }
 

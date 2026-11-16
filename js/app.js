@@ -1,4 +1,4 @@
-/* manda2 · Pantallas de la maqueta
+/* De Una Delivery · Pantallas de la maqueta
  *
  * Este archivo solo dibuja y responde a toques. Ninguna regla de negocio vive
  * aquí: si una pantalla necesita saber si algo se puede, se lo pregunta al
@@ -10,41 +10,48 @@
   let W = window.Datos.sembrar(M);
 
   /* ---------------------------------------------------------------- */
-  /* Íconos, marca e ilustraciones                                     */
+  /* Íconos de la interfaz (duotono propio), marca e ilustraciones      */
   /* ---------------------------------------------------------------- */
-  const sv = (d, w = 2) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  // Cada ícono tiene un trazo y una capa de relleno suave (.acc) que se pinta de naranja cuando está activo.
+  const ic = (o, a = '') => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${a ? `<g class="acc" stroke="none">${a}</g>` : ''}${o}</svg>`;
+  const BOLSA = 'M5.2 8.2h13.6l-1.1 11a1.9 1.9 0 0 1-1.9 1.7H8.2a1.9 1.9 0 0 1-1.9-1.7Z';
   const ICONS = {
-    home: sv('<path d="M4 11 12 4l8 7v9h-5v-6h-6v6H4Z"/>'),
-    search: sv('<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/>'),
-    list: sv('<path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/>'),
-    user: sv('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>'),
-    menu: sv('<rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>'),
-    card: sv('<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/>'),
-    bike: sv('<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9 8 5H6M15 9l1-3h2"/>'),
-    coin: sv('<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.5c-.5-1-1.4-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.2 0-2.1-.5-2.6-1.5M12 6.5V8M12 16v1.5"/>'),
-    chart: sv('<path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/>'),
-    inbox: sv('<path d="M3 13l3-8h12l3 8v6H3Z"/><path d="M3 13h5l1 2h6l1-2h5"/>'),
-    tag: sv('<path d="M3 12V4h8l10 10-8 8Z"/><circle cx="7.5" cy="8" r="1.3"/>'),
-    store: sv('<path d="M4 10v10h16V10M3 10l2-6h14l2 6Z"/><path d="M10 20v-5h4v5"/>'),
-    back: sv('<path d="M15 5l-7 7 7 7"/>', 2.4),
-    chat: sv('<path d="M4 20l1.5-4A8 8 0 1 1 8 19.5Z"/>'),
-    cash: sv('<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'),
-    bank: sv('<path d="M3 9 12 4l9 5M5 10v7M10 10v7M14 10v7M19 10v7M3 20h18"/>'),
-    camera: sv('<path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/>'),
-    doc: sv('<path d="M6 3h8l4 4v14H6Z"/><path d="M9 12h6M9 16h6"/>'),
-    people: sv('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c2 .6 3.2 2.2 3.5 5"/>'),
-    gear: sv('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>'),
-    pulse: sv('<path d="M3 12h4l3-7 4 14 3-7h4"/>'),
-    shield: sv('<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/>'),
-    phone: sv('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>'),
-    check: sv('<path d="m5 12 5 5 9-10"/>', 2.6),
-    x: sv('<path d="M6 6l12 12M18 6 6 18"/>', 2.6),
+    home: ic('<path d="M3.5 10.6 12 3.6l8.5 7V19a1.6 1.6 0 0 1-1.6 1.6h-4.3v-5.4H9.4v5.4H5.1A1.6 1.6 0 0 1 3.5 19Z"/>', '<path d="M3.5 10.6 12 3.6l8.5 7V19a1.6 1.6 0 0 1-1.6 1.6H5.1A1.6 1.6 0 0 1 3.5 19Z"/>'),
+    search: ic('<circle cx="10.6" cy="10.6" r="6.6"/><path d="m15.6 15.6 4.9 4.9M7.8 9.4a3.2 3.2 0 0 1 2.4-2.1"/>', '<circle cx="10.6" cy="10.6" r="6.6"/>'),
+    bolsa: ic(`<path d="${BOLSA}"/><path d="M9 8.2V7a3 3 0 0 1 6 0v1.2M9.7 14q2.3 2.2 4.6 0"/>`, `<path d="${BOLSA}"/>`),
+    user: ic('<circle cx="12" cy="8.4" r="3.9"/><path d="M4.4 20.4c1.3-3.9 4.1-5.9 7.6-5.9s6.3 2 7.6 5.9"/>', '<circle cx="12" cy="8.4" r="3.9"/>'),
+    inbox: ic('<path d="M3.6 13.4 6.2 5h11.6l2.6 8.4V19a1.6 1.6 0 0 1-1.6 1.6H5.2A1.6 1.6 0 0 1 3.6 19Z"/><path d="M3.6 13.4h5l1.2 2.2h4.4l1.2-2.2h5"/>', '<path d="M3.6 13.4h5l1.2 2.2h4.4l1.2-2.2h5V19a1.6 1.6 0 0 1-1.6 1.6H5.2A1.6 1.6 0 0 1 3.6 19Z"/>'),
+    menu: ic('<rect x="4.6" y="3.4" width="14.8" height="17.2" rx="2.6"/><path d="M8.6 8.4h6.8M8.6 12.2h6.8M8.6 16h4"/>', '<rect x="4.6" y="3.4" width="14.8" height="17.2" rx="2.6"/>'),
+    coin: ic('<ellipse cx="12" cy="7" rx="6.6" ry="2.9"/><path d="M5.4 7v5c0 1.6 3 2.9 6.6 2.9s6.6-1.3 6.6-2.9V7M5.4 12v5c0 1.6 3 2.9 6.6 2.9s6.6-1.3 6.6-2.9v-5"/>', '<ellipse cx="12" cy="7" rx="6.6" ry="2.9"/>'),
+    bike: ic('<circle cx="6.2" cy="17.2" r="2.8"/><circle cx="17.8" cy="17.2" r="2.8"/><path d="M9 17.2h5.4l2.6-7h2.4M14.6 5.8h2.6l1.4 4.4"/><rect x="3.4" y="8.2" width="6.4" height="5.2" rx="1.2"/>', '<rect x="3.4" y="8.2" width="6.4" height="5.2" rx="1.2"/>'),
+    pulse: ic('<rect x="3.2" y="4.2" width="17.6" height="15.6" rx="4.4"/><path d="M6.6 12.2h2.4l1.8-3.6 2.4 7 1.8-3.4h2.4"/>', '<rect x="3.2" y="4.2" width="17.6" height="15.6" rx="4.4"/>'),
+    people: ic('<circle cx="9" cy="8.6" r="3.3"/><path d="M3 19.6c.9-3.3 3.2-4.9 6-4.9s5.1 1.6 6 4.9M15.4 5.5a3.1 3.1 0 0 1 0 6.1M17.6 14.9c1.8.6 3 2.1 3.5 4.7"/>', '<circle cx="9" cy="8.6" r="3.3"/>'),
+    gear: ic('<path d="M4 7.2h8.6M17.6 7.2H20M4 16.8h3M12 16.8h8"/><circle cx="15.1" cy="7.2" r="2.4"/><circle cx="9.5" cy="16.8" r="2.4"/>', '<circle cx="15.1" cy="7.2" r="2.4"/><circle cx="9.5" cy="16.8" r="2.4"/>'),
+    chat: ic('<path d="M4.6 18.6 5.9 15A7.6 7.6 0 1 1 8.8 18Z"/><path d="M8.8 11.2h.01M12 11.2h.01M15.2 11.2h.01"/>', '<path d="M4.6 18.6 5.9 15A7.6 7.6 0 1 1 8.8 18Z"/>'),
+    phone: ic('<path d="M5.2 4h3.6l1.9 4.8-2.4 1.5a11 11 0 0 0 5.4 5.4l1.5-2.4L20 15.2v3.6a2 2 0 0 1-2 2A16.4 16.4 0 0 1 3.2 6a2 2 0 0 1 2-2Z"/>', '<path d="M5.2 4h3.6l1.9 4.8-2.4 1.5a11 11 0 0 0 5.4 5.4l1.5-2.4L20 15.2v3.6a2 2 0 0 1-2 2A16.4 16.4 0 0 1 3.2 6a2 2 0 0 1 2-2Z"/>'),
+    cash: ic('<rect x="2.6" y="6.4" width="18.8" height="11.2" rx="2.2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.6v4.8M18 9.6v4.8"/>', '<rect x="2.6" y="6.4" width="18.8" height="11.2" rx="2.2"/>'),
+    bank: ic('<path d="M3.2 9.4 12 4.4l8.8 5Z"/><path d="M5.4 10.6v6.2M9.8 10.6v6.2M14.2 10.6v6.2M18.6 10.6v6.2M3.6 19.8h16.8"/>', '<path d="M3.2 9.4 12 4.4l8.8 5Z"/>'),
+    card: ic('<rect x="3" y="5.4" width="18" height="13.2" rx="2.6"/><path d="M3 10h18M7 15h4"/>', '<path d="M3 8a2.6 2.6 0 0 1 2.6-2.6h12.8A2.6 2.6 0 0 1 21 8v2H3Z"/>'),
+    camera: ic('<path d="M4 8h3l2-3h6l2 3h3v11.4H4Z"/><circle cx="12" cy="13.2" r="3.6"/>', '<circle cx="12" cy="13.2" r="3.6"/>'),
+    doc: ic('<path d="M6.2 3.2h8l4 4v13.6H6.2Z"/><path d="M14.2 3.2v4h4M9.2 12.2h5.6M9.2 16h5.6"/>', '<path d="M6.2 3.2h8l4 4v13.6H6.2Z"/>'),
+    shield: ic('<path d="M12 3 4.6 6v6c0 4.6 3.2 7.7 7.4 9 4.2-1.3 7.4-4.4 7.4-9V6Z"/><path d="m9 12.2 2.1 2.1 4-4.2"/>', '<path d="M12 3 4.6 6v6c0 4.6 3.2 7.7 7.4 9 4.2-1.3 7.4-4.4 7.4-9V6Z"/>'),
+    chart: ic('<path d="M4 20V4M4 20h16"/><rect x="7.4" y="12" width="2.8" height="5" rx=".8"/><rect x="12" y="8" width="2.8" height="9" rx=".8"/><rect x="16.6" y="10.4" width="2.8" height="6.6" rx=".8"/>', '<rect x="7.4" y="12" width="2.8" height="5" rx=".8"/><rect x="12" y="8" width="2.8" height="9" rx=".8"/><rect x="16.6" y="10.4" width="2.8" height="6.6" rx=".8"/>'),
+    tag: ic('<path d="M3.4 12V4.2h7.8l9.4 9.4-7.8 7.8Z"/><circle cx="7.6" cy="8.2" r="1.3"/>', '<path d="M3.4 12V4.2h7.8l9.4 9.4-7.8 7.8Z"/>'),
+    store: ic('<path d="M4.4 10.2V20h15.2v-9.8M10 20v-5h4v5"/><path d="M3.2 10.2 5.2 4h13.6l2 6.2a2.6 2.6 0 0 1-4.6 1.6 2.6 2.6 0 0 1-4.2 0 2.6 2.6 0 0 1-4.2 0 2.6 2.6 0 0 1-4.6-1.6Z"/>', '<path d="M3.2 10.2 5.2 4h13.6l2 6.2a2.6 2.6 0 0 1-4.6 1.6 2.6 2.6 0 0 1-4.2 0 2.6 2.6 0 0 1-4.2 0 2.6 2.6 0 0 1-4.6-1.6Z"/>'),
+    back: ic('<path d="M15 5l-7 7 7 7"/>'),
+    check: ic('<path d="m5 12.4 4.6 4.6L19 7.4"/>'),
+    x: ic('<path d="M6 6l12 12M18 6 6 18"/>'),
   };
-  const PIN_D = 'M24 2C12 2 3 11 3 23c0 15 21 35 21 35s21-20 21-35C45 11 36 2 24 2Z', TWO_D = 'M16.5 19.5a7.5 7.5 0 1 1 12.6 5.5L16.5 37h15';
-  const PIN = `<svg class="pin2" viewBox="0 0 48 60" aria-hidden="true"><path class="pb" d="${PIN_D}"/><path class="pf" d="${TWO_D}" fill="none" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  const brand = (cls = '') => `<span class="wordmark ${cls}" aria-label="manda2">manda${PIN}</span>`;
-  const APPICON = `<svg viewBox="0 0 512 512" aria-label="Ícono de manda2"><rect width="512" height="512" rx="116" fill="#f95e0a"/><g transform="translate(-46.5 -46.5) scale(1.1636)"><g stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".9"><path d="M80 200h62M100 245h44M88 290h52"/></g><g transform="translate(150 76) scale(6)"><path d="${PIN_D}" fill="#fff"/><path d="${TWO_D}" fill="none" stroke="#f95e0a" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
-  const ill = (k, cls = '') => `<svg viewBox="0 0 64 64" class="il ${cls}" aria-hidden="true">${IL[k] || IL.bag}</svg>`;
+  ICONS.list = ICONS.bolsa;
+  // Marca: generada por marca/generar.js (js/marca.js)
+  const MK = window.MARCA;
+  const TILE = MK.tile;
+  const APPICON = TILE;
+  const wm = (sub = false) => `<svg class="wm" viewBox="-7 33 258 ${sub ? 104 : 68}" aria-hidden="true"><g class="wm-de">${MK.letras.de}</g><g class="wm-una">${MK.letras.una}</g>${sub ? `<g class="wm-sub" transform="translate(126 118) scale(.8)">${MK.letras.delivery}</g>` : ''}</svg>`;
+  const brand = (cls = '') => `<span class="brand ${cls}" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm()}</span>`;
+  const brandBig = () => `<span class="brand big" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm(true)}</span>`;
+  // Ilustraciones con borde blanco de estampa (filtro #sticker de index.html)
+  const ill = (k, cls = '') => `<svg viewBox="-3 -3 70 70" class="il ${cls}" aria-hidden="true"><g filter="url(#sticker)">${IL[k] || IL.bag}</g></svg>`;
   const blogo = (n, s = 44) => `<span class="blogo" style="--c:${n.color};width:${s}px;height:${s}px"><span class="disc">${ill(n.il)}</span></span>`;
   const cover = (n, cls = '') => `<div class="cover ${cls}" style="background-color:${n.color};background-image:radial-gradient(rgba(255,255,255,.22) 1.4px,transparent 1.8px),linear-gradient(140deg,rgba(255,255,255,.3),rgba(0,0,0,.1));background-size:16px 16px,100% 100%">${(n.extra || []).map((k, i) => ill(k, 'a' + (i + 2))).join('')}${ill(n.il, 'a1')}`;
   const thumb = (k, s = 72) => `<div class="thumb" style="width:${s}px;height:${s}px">${ill(k)}</div>`;
@@ -74,9 +81,9 @@
     if (t === 'repa') return (M.repartidor(W, id) || {}).nombre || id;
     if (t === 'neg') return (neg(id) || {}).nombre || id;
     if (t === 'cli') return (M.cliente(W, id) || {}).nombre || id;
-    return 'manda2 · ' + (M.LINEAS.find((l) => l[0] === id) || [0, id])[1];
+    return 'De Una · ' + (M.LINEAS.find((l) => l[0] === id) || [0, id])[1];
   };
-  const quien = (p, x) => ({ cli: (M.cliente(W, p.clienteId) || {}).nombre, repa: p.asignacion.repaId ? M.repartidor(W, p.asignacion.repaId).nombre : 'Repartidor', neg: p.negocioId ? neg(p.negocioId).nombre : 'Negocio', m2: 'manda2', tienda: 'Tienda del mandado' }[x] || x);
+  const quien = (p, x) => ({ cli: (M.cliente(W, p.clienteId) || {}).nombre, repa: p.asignacion.repaId ? M.repartidor(W, p.asignacion.repaId).nombre : 'Repartidor', neg: p.negocioId ? neg(p.negocioId).nombre : 'Negocio', du: 'De Una', tienda: 'Tienda del mandado' }[x] || x);
   const origenDe = (p) => p.negocioId ? neg(p.negocioId).nombre : (p.lugar ? p.lugar + ', ' : '') + p.origen;
   const ilDe = (p) => p.negocioId ? neg(p.negocioId).il : 'bag';
   const k85 = () => W.config.tarifas.repaPct / 100;
@@ -86,7 +93,7 @@
   function hdr(title, sub, { back = null, right = '', lead = '' } = {}) {
     return `<div class="top"><div class="top-row"><div class="row" style="min-width:0">${back ? `<button class="icon-btn" data-act="${back}" aria-label="Regresar">${ICONS.back}</button>` : ''}${lead}<div style="min-width:0"><h1>${title}</h1>${sub ? `<small>${sub}</small>` : ''}</div></div>${right}</div></div>`;
   }
-  const nav = (items, cur) => `<nav class="nav">${items.map((i) => `<button data-act="${i.act}" aria-current="${i.id === cur}">${ICONS[i.icon]}${i.n}${i.badge ? `<span class="badge">${i.badge}</span>` : ''}</button>`).join('')}</nav>`;
+  const nav = (items, cur) => `<nav class="nav">${items.map((i) => `<button data-act="${i.act}" aria-current="${i.id === cur}"><span class="nv">${ICONS[i.icon]}</span>${i.n}${i.badge ? `<span class="badge">${i.badge}</span>` : ''}</button>`).join('')}</nav>`;
 
   /* ---------------------------------------------------------------- */
   /* Estado de las pantallas (no es del negocio: eso vive en W)         */
@@ -107,7 +114,7 @@
     aceptar: 'Pedido aceptado. Avisamos al cliente', rechazar: 'Pedido rechazado. Avisamos al cliente', listo: 'Listo. Avisamos al repartidor',
     entregar_a_repa: 'Entregado al repartidor', salio: 'Va en camino', aceptar_oferta: 'Viaje aceptado. Ve a la tienda', rechazar_oferta: 'Rechazaste el viaje',
     llegue_tienda: 'Avisamos a la tienda que llegaste', enviar_ticket: 'Ticket enviado. Esperando al cliente', aprobar_ticket: 'Ticket aprobado. Va en camino',
-    rechazar_ticket: 'Avisamos a manda2 para revisarlo', llegue_domicilio: 'Avisamos al cliente que llegaste', llamar_cliente: 'Llamando al cliente (simulado)',
+    rechazar_ticket: 'Avisamos a De Una para revisarlo', llegue_domicilio: 'Avisamos al cliente que llegaste', llamar_cliente: 'Llamando al cliente (simulado)',
     entregar: '¡Entregado!', cliente_ausente: 'Registramos que el cliente no salió. Se te repone todo', cancelar: 'Pedido cancelado', confirmar_pago: 'Pago confirmado',
     autorizar_sin_pin: 'Autorizado: puede entregar sin código', asignar: 'Repartidor asignado', subir_bono: 'Bono subido. Volvimos a ofrecer el viaje',
     calificar: '¡Gracias por calificar!', soltar: 'Soltaste el viaje. Se lo ofrecemos a alguien más',
@@ -124,9 +131,9 @@
   /* ================================================================ */
   const yo = () => M.cliente(W, UI.cli.id);
   const ONB = [
-    { ils: ['burger', 'taco', 'pizza'], t: 'Lo que se te antoje, sin salir del fracc', d: 'Tacos, pizza, tiendita y farmacia de tu zona en un solo lugar.' },
+    { ils: ['burger', 'taco', 'pizza'], t: '¿Se te antojó? ¡De una!', d: 'Tacos, pizza, tiendita y farmacia de tu fraccionamiento, en un solo lugar.' },
     { ils: ['gas', 'garrafon'], t: 'Gas y garrafones hasta tu puerta', d: 'Pídelos desde el celular y te avisamos cuando van en camino.' },
-    { ils: ['shield', 'house'], t: 'Pagas seguro, recibes con código', d: 'Tu repartidor solo cierra el pedido con tu código de 4 dígitos. Tu primer envío es gratis.' },
+    { ils: ['bag', 'gift'], t: 'Pagas seguro, recibes con código', d: 'Tu repartidor solo cierra el pedido con tu código de 4 dígitos. Tu primer envío es gratis.' },
   ];
   const CATS = [
     { id: 'comida', n: 'Restaurantes', il: 'burger' }, { id: 'tiendita', n: 'Tiendita', il: 'basket' }, { id: 'farmacia', n: 'Farmacia', il: 'bottle' },
@@ -137,10 +144,10 @@
     const c = UI.cli, cl = yo();
     if (c.step === 'onb') {
       const o = ONB[c.onb];
-      const art = o.ils.map((k, i) => k === 'shield' ? `<span class="il o${i} shield-art">${ICONS.shield}</span>` : ill(k, 'o' + i)).join('');
-      return `<div class="onb"><div class="row between">${brand('sm inv')}<button class="link" style="color:#fff" data-act="c-step:tel">Saltar</button></div>
+      const art = o.ils.map((k, i) => ill(k, 'o' + i)).join('');
+      return `<div class="onb"><div class="row between">${brand('on-orange')}<button class="link" data-act="c-step:tel">Saltar</button></div>
         <div><div class="onb-art">${art}</div><div class="dots">${ONB.map((_, i) => `<i class="${i === c.onb ? 'on' : ''}"></i>`).join('')}</div><h1>${o.t}</h1><p>${o.d}</p></div>
-        <button class="btn white block" data-act="${c.onb < 2 ? 'c-onb' : 'c-step:tel'}">${c.onb < 2 ? 'Siguiente' : 'Empezar'}</button></div>`;
+        <button class="btn dark block" data-act="${c.onb < 2 ? 'c-onb' : 'c-step:tel'}">${c.onb < 2 ? 'Siguiente' : 'Empezar'}</button></div>`;
     }
     if (c.step === 'tel') return hdr('¿Cuál es tu número?', 'Te mandamos un código por WhatsApp', { back: 'c-step:onb' }) + `<div class="scroll">
       <label class="f">Número de celular<div class="phone-in"><span>+52</span><input id="c-tel" inputmode="tel" value="${esc(cl.tel)}" aria-label="Número"></div></label>
@@ -178,7 +185,7 @@
   }
   const miniCard = (n) => `<button class="mini" data-act="c-neg:${n.id}">${cover(n)}</div><h3>${esc(n.nombre)}</h3><p>★ ${n.rating.toFixed(1)} · ${n.prep + 10}–${n.prep + 20} min</p></button>`;
   const isStandalone = () => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) { return false; } };
-  const installCard = () => isStandalone() ? '' : `<button class="install" data-act="c-sheet:install"><span class="ic">${APPICON}</span><span style="flex:1"><b>Instala manda2 en tu celular</b><span>Queda en tu pantalla de inicio como cualquier app. Sin App Store.</span></span></button>`;
+  const installCard = () => isStandalone() ? '' : `<button class="install" data-act="c-sheet:install"><span class="ic">${APPICON}</span><span style="flex:1"><b>Instala De Una en tu celular</b><span>Queda en tu pantalla de inicio como cualquier app. Sin App Store.</span></span></button>`;
   const ordenNegocios = (list) => [...list].sort((a, b) => (M.negocioAbierto(W, b).ok - M.negocioAbierto(W, a).ok) || (M.anuncioActivo(W, b, 'destacado') - M.anuncioActivo(W, a, 'destacado')) || b.ops - a.ops);
 
   function vInicio() {
@@ -189,10 +196,11 @@
     const promos = [];
     if (M.bienvenidaElegible(W, cl)) promos.push(`<div class="promo pr-1"><div><b>Tu primer envío es gratis</b><span>Se aplica solo, sin código</span><span class="code">BIENVENIDO</span></div><span class="big">${ill('gift')}</span></div>`);
     for (const n of W.negocios.filter((x) => M.anuncioActivo(W, x, 'carrusel'))) promos.push(`<button class="promo pr-2" data-act="c-neg:${n.id}"><div><span class="tag-ad" style="color:inherit;opacity:.9">Anuncio</span><b>${esc(n.nombre)}</b><span>${esc(n.desc)} · ${esc(n.fracc)}</span></div><span class="big">${ill(n.il)}</span></button>`);
-    if (!cl.plus.activo) promos.push(`<button class="promo pr-3" data-act="c-go:cuenta"><div><b>manda2 Plus: envío gratis</b><span>$${W.config.plus.precio} al mes · en pedidos desde $${W.config.plus.envioGratisDesde}</span></div><span class="big">${ill('moto')}</span></button>`);
+    if (!cl.plus.activo) promos.push(`<button class="promo pr-3" data-act="c-go:cuenta"><div><b>De Una Plus: envío gratis</b><span>$${W.config.plus.precio} al mes · en pedidos desde $${W.config.plus.envioGratisDesde}</span></div><span class="big">${ill('moto')}</span></button>`);
     promos.push(`<button class="promo pr-4" data-act="c-cat:gas"><div><b>¿Se acabó el gas?</b><span>Pídelo aquí; lo lleva una gasera con permiso</span></div><span class="big">${ill('gas')}</span></button>`);
-    return `<div class="top hot"><div class="top-row"><button class="addr" data-act="c-sheet:dir"><span>Entregar en</span><b>${esc(cl.dir)}, ${esc(cl.fracc)}</b></button>${brand('sm inv')}</div>
-      <button class="search" data-act="c-go:buscar" style="text-align:left">${ICONS.search}<span class="muted" style="padding:12px 0">¿Qué se te antoja hoy?</span></button></div>
+    return `<div class="top hot"><div class="top-row"><button class="addr" data-act="c-sheet:dir"><span>Entregar en</span><b>${esc(cl.dir)}, ${esc(cl.fracc)}</b></button>${brand('inv')}</div>
+      <div class="hola">Hola, ${esc(cl.nombre.split(' ')[0])}. <span>¿Qué se te antoja hoy?</span></div>
+      <button class="search" data-act="c-go:buscar" style="text-align:left">${ICONS.search}<span class="muted" style="padding:13px 0">Busca tacos, gas, farmacia…</span></button></div>
     <div class="scroll">
       ${activoP ? `<button class="live" data-act="c-ver:${activoP.id}"><span class="pulse"></span><div class="grow"><b>${M.ESTADO_TXT[activoP.estado]} · #${activoP.id}</b><small>${esc(origenDe(activoP))} · ver seguimiento</small></div><span>›</span></button>` : ''}
       ${t.lluvia.activa ? `<div class="banner accent small">Está lloviendo: el envío sube $${t.lluvia.extra} y todo es para tu repartidor.</div>` : ''}
@@ -203,7 +211,7 @@
       ${top4.length ? `<div class="stack"><h2>Lo más pedido en ${esc(cl.fracc)}</h2><div class="hscroll">${top4.map(miniCard).join('')}</div></div>` : ''}
       <button class="gasband" data-act="c-cat:gas"><span class="duo">${ill('gas')}${ill('garrafon')}</span><span style="flex:1"><b>Gas y garrafones</b><span>Te los lleva una gasera o purificadora de la zona</span></span><span style="font-size:22px">›</span></button>
       <div class="stack"><h2>Todos los negocios</h2>${tienda.map(bizCard).join('')}</div>
-      <p class="small muted" style="margin:0;text-align:center">Mismo precio que en el local: manda2 no le cobra comisión a los negocios.</p>
+      <p class="small muted" style="margin:0;text-align:center">Mismo precio que en el local: De Una no le cobra comisión a los negocios.</p>
     </div>`;
   }
   function vCategoria() {
@@ -261,7 +269,7 @@
     else h += row('Productos', money(c.S)) + row('Envío', c.entrega === 'propia' ? 'Incluido' : money(c.E));
     if (c.L) h += row('Extra por lluvia (para tu repartidor)', money(c.L));
     if (c.PP) h += row(`Pedido menor a $${W.config.tarifas.pedidoPequeno.umbral} (para tu repartidor)`, money(c.PP));
-    h += row('Servicio manda2', money(c.V));
+    h += row('Servicio De Una', money(c.V));
     if (c.P) h += row('Propina (100 % para quien te lo lleva)', money(c.P));
     for (const d of c.descuentos || []) h += `<div class="disc"><span>${esc(d.etq)}</span><span>${money(-d.monto)}</span></div>`;
     return h + `<div class="tot"><span>Total</span><span>${money(c.T)}</span></div></div>`;
@@ -310,7 +318,7 @@
       <path id="ruta" d="M70 40 V150 H300 V105" fill="none" stroke="var(--accent)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
       <circle cx="70" cy="40" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest(ilDe(p), 56, 26, 28)}
       <circle cx="300" cy="105" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest('house', 286, 90, 28)}
-      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#2b1b12"/>${nest('moto', -15, -16, 30)}</g>` : ''}
+      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#3B2416"/>${nest('moto', -15, -16, 30)}</g>` : ''}
     </svg></div>`;
   }
   const incidenciaDe = (p) => W.incidencias.filter((i) => i.pedidoId === p.id && i.tipo !== 'cliente_ausente').pop();
@@ -329,7 +337,7 @@
       const vence = p.t.creado + W.config.tiempos.pago;
       bloque = `<div class="card"><h2>Haz tu transferencia</h2>
         ${kv('Monto exacto', `<b>${money(p.cot.T)}</b>`)}${kv('CLABE', '<span class="mono">646 180 0000 0000 00</span> (ejemplo)')}${kv('Referencia', `<b class="mono">${p.referencia}</b>`)}${kv('Tienes hasta', hora(vence))}
-        <p class="small muted" style="margin:0">Tu pedido se confirma solo cuando el dinero llega a la cuenta de manda2. No necesitas mandar captura: las capturas no confirman pagos.</p>
+        <p class="small muted" style="margin:0">Tu pedido se confirma solo cuando el dinero llega a la cuenta de De Una. No necesitas mandar captura: las capturas no confirman pagos.</p>
         <button class="btn ghost sm" data-act="c-simpago:${p.id}">Maqueta: simular que llegó la transferencia</button></div>`;
     }
     if (p.estado === 'por_aprobar') {
@@ -382,7 +390,7 @@
     return hdr('Gas LP', 'Te lo lleva una gasera con permiso', { back: 'c-go:inicio' }) + `<div class="scroll">
       <div class="card row" style="flex-direction:row">${blogo(g, 56)}<div><h3>${esc(g.nombre)}</h3><p class="small muted" style="margin:2px 0 0">${ab.ok ? `Llega en 1 a 2 horas · ★ ${g.rating.toFixed(1)}` : esc(ab.motivo)}</p><p class="small muted" style="margin:2px 0 0">Permiso: ${esc(g.permiso)}</p></div></div>
       <div class="stack"><h2>¿Qué cilindro?</h2><div class="opts">${g.menu.map((m) => `<button class="opt" data-act="c-gasitem:${m.id}" aria-pressed="${c.gasItem === m.id}"><span class="r"></span><span class="ill-box" style="width:${m.kg > 20 ? 44 : 36}px;height:44px">${ill('gas')}</span><span style="flex:1"><b>${m.n}</b><small>Máximo oficial: ${money(M.precioMaxGas(W, m))}</small></span><span class="price">${money(m.p)}</span></button>`).join('')}</div></div>
-      <div class="banner small">manda2 toma tu pedido y se lo pasa a la gasera. Ella entrega con su camión y su personal, como marca la norma. El precio nunca pasa el máximo oficial de la semana.</div>
+      <div class="banner small">De Una toma tu pedido y se lo pasa a la gasera. Ella entrega con su camión y su personal, como marca la norma. El precio nunca pasa el máximo oficial de la semana.</div>
       ${pagoOpts(cot)}${desglose(cot)}
       ${cot.errores.length ? `<div class="banner small"><b>${esc(cot.errores[0])}</b></div>` : ''}
       <button class="btn block" data-act="c-pedir-directo:gas" ${cot.errores.length ? 'disabled' : ''}>Pedir gas · ${money(cot.T)}</button></div>`;
@@ -420,11 +428,11 @@
   function vCuenta() {
     const cl = yo(), niv = M.nivelCliente(W, cl), saldo = M.saldo(W, 'cli:' + cl.id), pl = W.config.plus, code = M.codigoVecino(cl);
     return hdr('Cuenta', '') + `<div class="scroll">
-      <div class="card row" style="flex-direction:row"><div class="avatar" style="background:#f95e0a">${esc(cl.nombre[0] || '?')}</div><div><h3>${esc(cl.nombre)}</h3><p class="small muted" style="margin:2px 0 0">+52 ${esc(cl.tel)} · verificado por código</p></div></div>
+      <div class="card row" style="flex-direction:row"><div class="avatar" style="background:var(--accent);color:var(--accent-ink)">${esc(cl.nombre[0] || '?')}</div><div><h3>${esc(cl.nombre)}</h3><p class="small muted" style="margin:2px 0 0">+52 ${esc(cl.tel)} · verificado por código</p></div></div>
       <div class="card"><div class="row between"><h3>${esc(niv.etiqueta)}</h3><span class="pill ${niv.nivel === 'confiable' ? 'p-entregado' : niv.nivel === 'nuevo' ? 'p-listo' : 'p-no_entregado'}">${cl.pedidosOk} pedidos</span></div><p class="small muted" style="margin:0">${esc(niv.motivo)}.</p></div>
       ${saldo > 0 ? `<div class="coupon">${ill('gift')}<span style="flex:1">Tienes ${money(saldo)} de saldo a favor. Se aplica solo en tu próximo pedido.</span></div>` : ''}
       ${saldo < 0 ? `<div class="card"><h3>Tienes un adeudo de ${money(-saldo)}</h3><p class="small muted" style="margin:0">Es de un pedido que no recibiste. Págalo por transferencia para volver a la normalidad.</p><button class="btn sm" data-act="c-adeudo">Maqueta: simular que lo pagué</button></div>` : ''}
-      <div class="promo pr-3" style="flex:none;min-height:0"><div><b>${cl.plus.activo ? 'Tienes manda2 Plus' : `manda2 Plus · $${pl.precio} al mes`}</b><span>${cl.plus.activo ? `Usaste ${cl.plus.enviosUsados} de ${pl.enviosMes} envíos gratis este mes` : `Envío gratis en pedidos desde $${pl.envioGratisDesde}, hasta ${pl.enviosMes} al mes. Cancelas cuando quieras.`}</span></div><span class="big">${ill('moto')}</span></div>
+      <div class="promo pr-3" style="flex:none;min-height:0"><div><b>${cl.plus.activo ? 'Tienes De Una Plus' : `De Una Plus · $${pl.precio} al mes`}</b><span>${cl.plus.activo ? `Usaste ${cl.plus.enviosUsados} de ${pl.enviosMes} envíos gratis este mes` : `Envío gratis en pedidos desde $${pl.envioGratisDesde}, hasta ${pl.enviosMes} al mes. Cancelas cuando quieras.`}</span></div><span class="big">${ill('moto')}</span></div>
       <button class="btn ${cl.plus.activo ? 'ghost' : ''} block" data-act="c-plus">${cl.plus.activo ? 'Cancelar Plus' : 'Suscribirme a Plus'}</button>
       <div class="promo pr-4" style="flex:none;min-height:0"><div><b>Invita a un vecino</b><span>Cuando reciba su primer pedido, ganan $${W.config.promos.vecino} cada uno. No vale para alguien de tu misma casa.</span><span class="code">${esc(code)}</span></div><span class="big">${ill('house')}</span></div>
       <button class="btn ghost block" data-act="c-share:${esc(code)}">Copiar invitación para WhatsApp</button>
@@ -447,9 +455,9 @@
         <div class="chips">${motivos.map((m) => chip(m, 'c-motivo:' + m, c.motivo === m)).join('')}</div>
         <div class="row-btns"><button class="btn ghost" data-act="c-sheet:">No, seguir</button><button class="btn" style="flex:1" data-act="c-cancelar:${p.id}" ${c.motivo ? '' : 'disabled'}>Sí, cancelar${pol.costo ? ` (${money(pol.costo)} para el negocio)` : ''}</button></div>`);
     }
-    return wrap(`<div class="row"><span class="ic" style="width:56px;height:56px">${APPICON}</span><div><h2>Instala manda2</h2><p class="small muted" style="margin:2px 0 0">Pesa menos de 1 MB. Se abre como app, sin la barra del navegador.</p></div></div>
+    return wrap(`<div class="row"><span class="ic" style="width:56px;height:56px">${APPICON}</span><div><h2>Instala De Una</h2><p class="small muted" style="margin:2px 0 0">Pesa menos de 1 MB. Se abre como app, sin la barra del navegador.</p></div></div>
       ${deferredPrompt ? '<button class="btn block" data-act="c-install">Instalar ahora</button>' : ''}
-      <div class="stack"><div class="eyebrow">En iPhone (Safari)</div><ol class="howto"><li>Toca el botón Compartir, el cuadro con la flecha hacia arriba.</li><li>Elige “Agregar a inicio”.</li><li>Toca “Agregar”. Ya tienes el ícono de manda2.</li></ol></div>
+      <div class="stack"><div class="eyebrow">En iPhone (Safari)</div><ol class="howto"><li>Toca el botón Compartir, el cuadro con la flecha hacia arriba.</li><li>Elige “Agregar a inicio”.</li><li>Toca “Agregar”. Ya tienes el ícono de De Una.</li></ol></div>
       <div class="stack"><div class="eyebrow">En Android (Chrome)</div><ol class="howto"><li>Toca los tres puntos ⋮ arriba a la derecha.</li><li>Elige “Instalar app” o “Agregar a pantalla principal”.</li><li>Confirma con “Instalar”.</li></ol></div>
       <button class="btn ghost block" data-act="c-sheet:">Ahora no</button>`);
   }
@@ -473,7 +481,7 @@
     const shown = mine.filter((p) => groups[s.tab].includes(p.estado)).slice().reverse();
     return head + `<div class="scroll">
       ${n.pausa ? `<div class="banner" style="border:1px solid var(--line)"><b>${esc(ab.motivo)}.</b> ${n.pausa === 'sin_respuesta' ? 'No respondiste 2 pedidos seguidos, así que dejaste de aparecer para no quedar mal con los clientes.' : 'Paga tu mensualidad para volver a aparecer.'}${n.pausa === 'sin_respuesta' ? '<button class="btn sm" style="margin-top:8px" data-act="n-reactivar">Ya estoy atendiendo: reactivar</button>' : ''}</div>` : ''}
-      <div class="card"><div class="row between"><div><h3><span class="dotst" style="background:${ab.ok ? 'var(--ok)' : '#d63a2f'}"></span>${ab.ok ? 'Recibiendo pedidos' : esc(ab.motivo)}</h3><p class="small muted" style="margin:2px 0 0">Horario: ${hora(n.horario.abre)} a ${hora(n.horario.cierra)}</p></div><button class="switch" data-act="n-abierto" aria-pressed="${n.abierto}" aria-label="Abierto"><span class="t"></span></button></div>
+      <div class="card"><div class="row between"><div><h3><span class="dotst" style="background:${ab.ok ? 'var(--ok)' : 'var(--danger)'}"></span>${ab.ok ? 'Recibiendo pedidos' : esc(ab.motivo)}</h3><p class="small muted" style="margin:2px 0 0">Horario: ${hora(n.horario.abre)} a ${hora(n.horario.cierra)}</p></div><button class="switch" data-act="n-abierto" aria-pressed="${n.abierto}" aria-label="Abierto"><span class="t"></span></button></div>
         <div class="row between"><div><b class="small">Mucha demanda</b><p class="small muted" style="margin:0">Avisa a los clientes que hoy tardas más</p></div><button class="switch" data-act="n-saturado" aria-pressed="${n.saturado}" aria-label="Mucha demanda"><span class="t"></span></button></div></div>
       <div class="tabs"><button data-act="n-tab:nuevo" aria-pressed="${s.tab === 'nuevo'}">Nuevos (${nuevos})</button><button data-act="n-tab:curso" aria-pressed="${s.tab === 'curso'}">En curso</button><button data-act="n-tab:hist" aria-pressed="${s.tab === 'hist'}">Historial</button></div>
       ${shown.length ? shown.map((p) => ordenNegocio(p, n, yoN)).join('') : empty(n.il, s.tab === 'nuevo' ? 'Sin pedidos nuevos.<br>Haz uno desde la vista Cliente.' : 'Nada por aquí.')}</div>` + navN;
@@ -489,13 +497,13 @@
       cuerpo = `<div class="timer ${queda <= 2 ? 'urge' : ''}">Responde antes de las ${hora(p.t.enviado + T.negocio)} · quedan ${Math.max(0, queda)} min</div>
         <div class="stack" style="gap:4px">${p.items.map((i) => `<button class="opt" data-act="nf:${p.id}:agotado:${i.id}" aria-pressed="${f.agotados.includes(i.id)}"><span class="r"></span><span style="flex:1"><b>${i.q} × ${esc(i.n)}</b><small>${f.agotados.includes(i.id) ? 'Marcado: no hay' : 'Toca si no lo tienes'}</small></span><span class="price">${money(i.p * i.q)}</span></button>`).join('')}</div>
         <p class="small muted" style="margin:0">Si falta algo, el cliente prefiere ${sust}.</p>
-        ${f.agotados.length && p.sustitucion === 'llamar' ? `<div class="banner small">Llama a ${esc(cl.nombre)} al ${mask(cl.tel)} (la llamada pasa por manda2). ¿Qué decidió?<div class="chips" style="margin-top:6px">${chip('Quitarlo', `nf:${p.id}:decision:quitar`, f.decision === 'quitar')}${chip('Cancelar pedido', `nf:${p.id}:decision:cancelar`, f.decision === 'cancelar')}</div></div>` : ''}
+        ${f.agotados.length && p.sustitucion === 'llamar' ? `<div class="banner small">Llama a ${esc(cl.nombre)} al ${mask(cl.tel)} (la llamada pasa por De Una). ¿Qué decidió?<div class="chips" style="margin-top:6px">${chip('Quitarlo', `nf:${p.id}:decision:quitar`, f.decision === 'quitar')}${chip('Cancelar pedido', `nf:${p.id}:decision:cancelar`, f.decision === 'cancelar')}</div></div>` : ''}
         ${p.requiereReceta ? `<button class="opt" data-act="nf:${p.id}:receta:1" aria-pressed="${f.recetaOk}"><span class="r"></span><span><b>Revisé la receta (receta.jpg)</b><small>Médico, fecha y medicamento coinciden</small></span></button>` : ''}
         ${p.tieneAlcohol ? '<p class="small muted" style="margin:0">Trae alcohol: el repartidor revisará la INE del cliente.</p>' : ''}
         <div class="eyebrow">Tiempo de preparación</div><div class="seg">${[10, 20, 30, 45].map((m) => chip(m + ' min', `nf:${p.id}:prep:${m}`, f.prep === m)).join('')}</div>
         ${f.rechazo === 'abrir' ? `<div class="chips">${['Ya cerramos', 'No tenemos los productos', 'Estamos saturados', 'Otro'].map((m) => chip(m, `n-rechazar:${p.id}:${m}`)).join('')}</div>` : ''}
         <div class="row-btns"><button class="btn ghost sm" data-act="nf:${p.id}:rechazo:abrir">Rechazar</button><button class="btn sm" style="flex:1" data-act="n-aceptar:${p.id}">Aceptar · ${f.prep} min</button></div>`;
-    } else if (['preparando', 'listo'].includes(p.estado) && p.entrega === 'manda2') {
+    } else if (['preparando', 'listo'].includes(p.estado) && p.entrega === 'deuna') {
       const repTxt = !r ? (p.asignacion.oferta ? `Ofreciendo el viaje a ${M.repartidor(W, p.asignacion.oferta.repaId).nombre}…` : 'Buscando repartidor…') : p.repaEnTienda ? `${r.nombre} ya está en tu tienda` : `${r.nombre} va hacia tu tienda`;
       cuerpo = `<div class="kv"><span>Repartidor</span><span>${esc(repTxt)}</span></div>`;
       if (p.estado === 'preparando') cuerpo += `<button class="btn sm" data-act="n-tx:${p.id}:listo">Ya está listo</button>`;
@@ -509,7 +517,7 @@
     } else if (['en_camino', 'en_puerta'].includes(p.estado)) {
       cuerpo = `<p class="small muted" style="margin:0">${esc(r ? r.nombre : 'El repartidor')} lo lleva al cliente.</p>`;
     } else if (p.estado === 'cancelado') cuerpo = `<p class="small muted" style="margin:0">Cancelado: ${esc(p.cancelacion.motivo)}</p>`;
-    else if (p.estado === 'no_entregado') cuerpo = '<p class="small muted" style="margin:0">El cliente no salió a recibirlo. manda2 lo está revisando.</p>';
+    else if (p.estado === 'no_entregado') cuerpo = '<p class="small muted" style="margin:0">El cliente no salió a recibirlo. De Una lo está revisando.</p>';
     return `<div class="card"><div class="row between"><h3>#${p.id} · ${esc(cl.nombre)}</h3>${pill(p.estado)}</div>
       <div class="small muted">${hora(p.t.creado)} · ${esc(p.dir)}, ${esc(p.destino)} · ${p.pago === 'efectivo' ? 'efectivo' : 'pagado en línea'}</div>
       ${p.estado !== 'nuevo' ? `<div class="sum">${p.items.map((i) => `<div><span>${i.q} × ${esc(i.n)}</span><span>${money(i.p * i.q)}</span></div>`).join('')}${p.removidos.map((i) => `<div style="color:var(--muted);text-decoration:line-through"><span>${i.q} × ${esc(i.n)}</span><span>${money(i.p * i.q)}</span></div>`).join('')}<div class="tot"><span>Te pagan</span><span>${money(p.cot.S - p.cot.Dn)}</span></div></div>` : ''}
@@ -537,7 +545,7 @@
         const v = M.productoVendible(W, n, m);
         return `<div class="item">${thumb(m.il, 48)}<div class="grow"><h3>${esc(m.n)}</h3><div class="row" style="gap:6px;flex-wrap:wrap"><span class="price">${money(m.p)}</span>${m.alcohol ? '<span class="chip soft">+18</span>' : ''}${m.receta === 'requerida' ? '<span class="chip soft">Con receta</span>' : ''}${m.kg ? `<span class="chip soft">Máx. ${money(M.precioMaxGas(W, m))}</span>` : ''}</div>${!v.ok && m.on ? `<p>${esc(v.motivo)}</p>` : ''}</div><button class="switch" data-act="n-toggle:${m.id}" aria-pressed="${m.on}" aria-label="Disponible"><span class="t"></span></button></div>`;
       }).join('')}</div>
-      <p class="small muted" style="margin:-8px 0 0">Apaga un producto cuando se te acabe y deja de salir en la app. En manda2 cobras lo mismo que en tu local.</p>
+      <p class="small muted" style="margin:-8px 0 0">Apaga un producto cuando se te acabe y deja de salir en la app. En De Una cobras lo mismo que en tu local.</p>
       <div class="card"><h3>Agregar producto</h3><label class="f">Nombre<input class="in" id="n-pn" placeholder="Ej. Torta de milanesa"></label><label class="f">Precio<input class="in" id="n-pp" inputmode="numeric" placeholder="75"></label><button class="btn" data-act="n-addprod">Agregar al menú</button></div></div>`;
   }
   function vDineroNegocio(n) {
@@ -546,13 +554,13 @@
     const ventas = hoy.reduce((a, p) => a + p.cot.S, 0), efectivo = hoy.filter((p) => p.pago === 'efectivo').reduce((a, p) => a + p.cot.S, 0);
     const an = W.config.anuncios, mt = n.met, tot = mt.aceptados + mt.rechazados + mt.expirados;
     return `<div class="scroll">
-      <div class="hero"><span>${s >= 0 ? 'manda2 te deposita esta noche' : 'Saldo por pagar a manda2'}</span><b>${money(Math.abs(s))}</b><span>${s >= 0 ? 'Ventas pagadas en línea, menos tus cargos del mes' : 'Mensualidad o anuncios sin cubrir'}</span></div>
-      <div class="kpis"><div class="kpi"><span>Vendido hoy</span><b>${money(ventas)}</b></div><div class="kpi"><span>Cobrado en tienda</span><b>${money(efectivo)}</b></div><div class="kpi"><span>Comisión de manda2</span><b>0 %</b></div><div class="kpi"><span>Aceptación</span><b>${tot ? Math.round(mt.aceptados / tot * 100) : 100} %</b></div></div>
+      <div class="hero"><span>${s >= 0 ? 'De Una te deposita esta noche' : 'Saldo por pagar a De Una'}</span><b>${money(Math.abs(s))}</b><span>${s >= 0 ? 'Ventas pagadas en línea, menos tus cargos del mes' : 'Mensualidad o anuncios sin cubrir'}</span></div>
+      <div class="kpis"><div class="kpi"><span>Vendido hoy</span><b>${money(ventas)}</b></div><div class="kpi"><span>Cobrado en tienda</span><b>${money(efectivo)}</b></div><div class="kpi"><span>Comisión de De Una</span><b>0 %</b></div><div class="kpi"><span>Aceptación</span><b>${tot ? Math.round(mt.aceptados / tot * 100) : 100} %</b></div></div>
       <div class="card"><div class="row between"><h3>Mensualidad · ${money(W.config.negocios.mensualidad)}</h3><span class="pill ${e.estado === 'al_corriente' ? 'p-entregado' : ['vencida', 'pausado'].includes(e.estado) ? 'p-no_entregado' : 'p-pago_pendiente'}">${e.estado === 'al_corriente' ? 'Al corriente' : e.estado === 'se_descuenta' ? 'Se descuenta' : e.estado === 'por_vencer' ? 'Por vencer' : 'Vencida'}</span></div><p class="small muted" style="margin:0">${esc(e.texto)}. Si se te pasa más de ${W.config.negocios.diasGracia} días, tu negocio se pausa hasta que pagues.</p>
         ${['vencida', 'pausado', 'por_vencer'].includes(e.estado) ? `<button class="btn sm" data-act="n-pagar">Maqueta: simular transferencia de ${money(-s)}</button>` : ''}</div>
-      <div class="card"><h3>Anúnciate en manda2</h3><p class="small muted" style="margin:0">Se marca como anuncio para que el cliente lo sepa.</p>
+      <div class="card"><h3>Anúnciate en De Una</h3><p class="small muted" style="margin:0">Se marca como anuncio para que el cliente lo sepa.</p>
         ${[['destacado', 'Destacado en la lista', an.destacado], ['carrusel', 'En el carrusel de la portada', an.carrusel]].map(([k, t, pr]) => `<div class="row between"><div><b class="small">${t}</b><p class="small muted" style="margin:0">${money(pr)} por 7 días${M.anuncioActivo(W, n, k) ? ' · activo' : ''}</p></div><button class="btn sm ${M.anuncioActivo(W, n, k) ? 'ghost' : ''}" data-act="n-anuncio:${k}" ${M.anuncioActivo(W, n, k) ? 'disabled' : ''}>${M.anuncioActivo(W, n, k) ? 'Activo' : 'Comprar'}</button></div>`).join('')}</div>
-      <div class="banner accent small">Con una app que cobra 27 % de comisión, por los ${money(ventas)} de hoy pagarías unos <b>${money(ventas * 0.27)}</b>. Con manda2 pagas ${money(W.config.negocios.mensualidad)} al mes, vendas lo que vendas.</div>
+      <div class="banner accent small">Con una app que cobra 27 % de comisión, por los ${money(ventas)} de hoy pagarías unos <b>${money(ventas * 0.27)}</b>. Con De Una pagas ${money(W.config.negocios.mensualidad)} al mes, vendas lo que vendas.</div>
       <div class="card"><h3>Movimientos</h3>${movs.length ? movs.map((m) => kv(`${esc(m.concepto)}${m.pedidoId ? ` · #${m.pedidoId}` : ''}`, `<b style="color:${m.monto < 0 ? 'inherit' : 'var(--ok)'}">${money(m.monto)}</b>`)).join('') : '<p class="small muted" style="margin:0">Sin movimientos.</p>'}</div>
       <div class="card"><h3>Tu servicio</h3>${kv('Pedidos entregados', mt.entregados)}${kv('Rechazados', mt.rechazados)}${kv('Sin responder', mt.expirados)}${kv('Calificación', '★ ' + n.rating.toFixed(1))}</div></div>`;
   }
@@ -566,7 +574,7 @@
     }
     const giros = [['restaurante', 'Restaurante'], ['tiendita', 'Tiendita'], ['farmacia', 'Farmacia'], ['gas', 'Gas LP'], ['agua', 'Agua purificada']];
     const sol = { tipo: 'negocio', giro: f.giro, vendeAlcohol: f.alcohol };
-    return hdr('Vende en manda2', 'Tus vecinos ya están pidiendo', { back: 'n-go:pedidos', lead: `<span class="ic" style="width:40px;height:40px">${APPICON}</span>` }) + `<div class="scroll">
+    return hdr('Vende en De Una', 'Tus vecinos ya están pidiendo', { back: 'n-go:pedidos', lead: `<span class="ic" style="width:40px;height:40px">${APPICON}</span>` }) + `<div class="scroll">
       <div class="hero"><span>Plan único para negocios</span><b>${money(W.config.negocios.mensualidad)} al mes</b><span>0 % de comisión por pedido. Cobras lo mismo que en tu local. Cancelas cuando quieras.</span></div>
       <label class="f">Nombre del negocio<input class="in" data-bind="neg.reg.nombre" value="${esc(f.nombre)}"></label>
       <div class="stack"><div class="eyebrow">Giro</div><div class="chips">${giros.map(([k, t]) => chip(t, 'nr:giro:' + k, f.giro === k)).join('')}</div></div>
@@ -585,14 +593,14 @@
     if (s.screen === 'registro') return vRegistroRepa();
     const r = M.repartidor(W, s.id), saldo = M.saldo(W, 'repa:' + r.id), L = W.config.limites;
     const navR = nav([{ id: 'viajes', n: 'Viajes', icon: 'bike', act: 'r-go:viajes' }, { id: 'dinero', n: 'Dinero', icon: 'coin', act: 'r-go:dinero' }, { id: 'perfil', n: 'Perfil', icon: 'user', act: 'r-go:perfil' }], s.screen);
-    const head = hdr(`Hola, ${esc(r.nombre.split(' ')[0])}`, `<span class="dotst" style="background:${r.suspendido ? '#d63a2f' : r.enLinea ? 'var(--ok)' : 'var(--muted)'}"></span>${r.suspendido ? 'Suspendido' : r.enLinea ? 'En línea' : 'Desconectado'}`, { right: `<button class="switch" data-act="r-on" aria-pressed="${r.enLinea}" aria-label="En línea"><span class="t"></span></button>`, lead: `<span class="ill-box" style="width:44px;height:44px">${ill('moto')}</span>` });
+    const head = hdr(`Hola, ${esc(r.nombre.split(' ')[0])}`, `<span class="dotst" style="background:${r.suspendido ? 'var(--danger)' : r.enLinea ? 'var(--ok)' : 'var(--muted)'}"></span>${r.suspendido ? 'Suspendido' : r.enLinea ? 'En línea' : 'Desconectado'}`, { right: `<button class="switch" data-act="r-on" aria-pressed="${r.enLinea}" aria-label="En línea"><span class="t"></span></button>`, lead: `<span class="ill-box" style="width:44px;height:44px">${ill('moto')}</span>` });
     if (s.screen === 'dinero') return head + vDineroRepa(r) + navR;
     if (s.screen === 'perfil') return head + vPerfilRepa(r) + navR;
     const oferta = M.ofertaPara(W, r.id), activo = M.activoDe(W, r.id);
     const pct = Math.min(100, Math.max(0, -saldo) / L.efectivoRepa * 100);
     return head + `<div class="scroll">
       ${r.suspendido ? `<div class="banner" style="border:1px solid var(--line)"><b>No recibes viajes:</b> traes ${money(-saldo)} de efectivo sin entregar. Deposítalo para volver.</div>` : ''}
-      <div class="card"><div class="row between"><b class="small">Efectivo que traes de manda2</b><b>${money(Math.max(0, -saldo))}</b></div><div class="limitbar"><i class="${pct >= 100 ? 'bad' : pct >= 80 ? 'warn' : ''}" style="width:${pct}%"></i></div><p class="small muted" style="margin:0">${pct >= 100 ? 'Llegaste al límite: no recibes pedidos en efectivo.' : `Límite ${money(L.efectivoRepa)}. Arriba de eso solo recibes pedidos pagados en línea.`}</p></div>
+      <div class="card"><div class="row between"><b class="small">Efectivo que traes de De Una</b><b>${money(Math.max(0, -saldo))}</b></div><div class="limitbar"><i class="${pct >= 100 ? 'bad' : pct >= 80 ? 'warn' : ''}" style="width:${pct}%"></i></div><p class="small muted" style="margin:0">${pct >= 100 ? 'Llegaste al límite: no recibes pedidos en efectivo.' : `Límite ${money(L.efectivoRepa)}. Arriba de eso solo recibes pedidos pagados en línea.`}</p></div>
       ${oferta ? cardOferta(oferta, r) : ''}
       ${activo ? cardViaje(activo, r) : ''}
       ${!oferta && !activo ? (r.enLinea ? empty('moto', 'Sin viajes por ahora.<br>Cuando un negocio acepte un pedido cerca de ti, te llega aquí.') : empty('moto', 'Estás desconectado. Actívate arriba para recibir viajes.')) : ''}
@@ -602,7 +610,7 @@
     const n = p.negocioId && neg(p.negocioId), g = ganancia(p);
     const dinero = p.tipo === 'mandado' ? `Compras hasta ${money(p.cot.S)} con tu dinero y cobras el ticket + ${money(p.cot.E + p.cot.V + p.cot.P - p.cot.Dm - p.cot.Dc)}` : p.pago === 'efectivo' ? `Pagas ${money(p.cot.S)} en la tienda y cobras ${money(p.cot.T)} al cliente` : 'Ya está pagado: no pagas ni cobras nada';
     return `<div class="card offer"><div class="row between"><div class="row" style="min-width:0">${n ? blogo(n, 44) : thumb('bag', 44)}<div style="min-width:0"><h3>${esc(origenDe(p))}</h3><p class="small muted" style="margin:2px 0 0">${esc(p.origen)} → ${esc(p.destino)} · ${M.viajeMin(W, p.origen, p.destino)} min</p></div></div><span class="price" style="color:var(--ok);font-size:20px">+${money(g)}</span></div>
-      ${kv('Envío (' + W.config.tarifas.repaPct + ' %)', money(p.cot.E * k85()))}${p.cot.L ? kv('Extra por lluvia', money(p.cot.L)) : ''}${p.cot.PP ? kv('Pedido pequeño', money(p.cot.PP)) : ''}${p.cot.P ? kv('Propina', money(p.cot.P)) : ''}${p.asignacion.bono ? kv('Bono de manda2', money(p.asignacion.bono)) : ''}
+      ${kv('Envío (' + W.config.tarifas.repaPct + ' %)', money(p.cot.E * k85()))}${p.cot.L ? kv('Extra por lluvia', money(p.cot.L)) : ''}${p.cot.PP ? kv('Pedido pequeño', money(p.cot.PP)) : ''}${p.cot.P ? kv('Propina', money(p.cot.P)) : ''}${p.asignacion.bono ? kv('Bono de De Una', money(p.asignacion.bono)) : ''}
       <div class="banner small">${dinero}.${p.tieneAlcohol ? ' Trae alcohol: revisa la INE.' : ''}</div>
       <div class="timer">Responde antes de las ${hora(p.asignacion.oferta.hasta)}</div>
       <div class="row-btns"><button class="btn ghost" data-act="r-tx:${p.id}:rechazar_oferta">Rechazar</button><button class="btn" style="flex:1" data-act="r-tx:${p.id}:aceptar_oferta">Aceptar viaje</button></div></div>`;
@@ -616,7 +624,7 @@
       <label class="f">Total del ticket<input class="in" inputmode="numeric" data-bind="rep.ticket" value="${esc(UI.rep.ticket)}" placeholder="235"></label>
       <button class="opt" data-act="r-foto" aria-pressed="${UI.rep.foto}"><span class="r"></span><span style="width:22px;height:22px;flex:none;color:var(--muted)">${ICONS.camera}</span><span><b>${UI.rep.foto ? 'Foto del ticket lista' : 'Tomar foto del ticket'}</b><small>El cliente la ve antes de aprobar</small></span></button>
       <button class="btn block" data-act="r-ticket:${p.id}">Enviar ticket al cliente</button>`;
-    else if (p.estado === 'por_aprobar') paso = `<div class="banner small">Esperando que ${esc(cl.nombre)} apruebe el ticket de ${money(p.ticket.monto)}.${p.ticket.disputa ? ' No estuvo de acuerdo: manda2 ya lo está revisando.' : ''}</div>`;
+    else if (p.estado === 'por_aprobar') paso = `<div class="banner small">Esperando que ${esc(cl.nombre)} apruebe el ticket de ${money(p.ticket.monto)}.${p.ticket.disputa ? ' No estuvo de acuerdo: De Una ya lo está revisando.' : ''}</div>`;
     else if (p.estado === 'en_camino') paso = `<div class="banner small">Lleva el pedido a <b>${esc(p.dir)}</b>, ${esc(p.destino)}.</div><button class="btn block" data-act="r-tx:${p.id}:llegue_domicilio">Llegué al domicilio</button>`;
     else if (p.estado === 'en_puerta') paso = entregaConCodigo(p, 'r');
     return `<div class="card" style="border-color:var(--accent)"><div class="row between"><h2>Viaje #${p.id}</h2>${pill(p.estado)}</div>
@@ -627,10 +635,10 @@
     const hoy = W.movimientos.filter((m) => m.cuenta === 'repa:' + r.id && m.pedidoId && m.monto > 0 && !m.concepto.startsWith('Te reponemos')).reduce((a, m) => a + m.monto, 0);
     return `<div class="scroll">
       <div class="hero"><span>Ganado hoy (envíos, propinas y bonos)</span><b>${money(hoy)}</b><span>${r.entregasHoy} entregas · ★ ${r.rating.toFixed(1)}</span></div>
-      <div class="card"><h3>${s >= 0 ? `manda2 te paga ${money(s)} el lunes` : `Debes entregar ${money(-s)} de efectivo`}</h3>
-        <p class="small muted" style="margin:0">${s >= 0 ? 'Te depositamos cada semana por transferencia.' : 'Es el servicio y la parte del envío de los pedidos que cobraste en efectivo. Deposítalo en OXXO o por transferencia a la CLABE de manda2 con tu referencia.'}</p>
+      <div class="card"><h3>${s >= 0 ? `De Una te paga ${money(s)} el lunes` : `Debes entregar ${money(-s)} de efectivo`}</h3>
+        <p class="small muted" style="margin:0">${s >= 0 ? 'Te depositamos cada semana por transferencia.' : 'Es el servicio y la parte del envío de los pedidos que cobraste en efectivo. Deposítalo en OXXO o por transferencia a la CLABE de De Una con tu referencia.'}</p>
         ${s < 0 ? `${kv('Referencia', `<b class="mono">R-${r.id.toUpperCase()}</b>`)}<button class="btn sm" data-act="r-deposito">Maqueta: simular depósito de ${money(-s)}</button>` : ''}</div>
-      <div class="card"><h3>Cómo se calcula</h3><p class="small muted" style="margin:0">En cada viaje ganas el ${W.config.tarifas.repaPct} % del envío, el extra por lluvia, el cargo por pedido pequeño, el 100 % de la propina y los bonos. Si el cliente paga en efectivo, lo que cobras de más es de manda2 y se descuenta de tus ganancias.</p></div>
+      <div class="card"><h3>Cómo se calcula</h3><p class="small muted" style="margin:0">En cada viaje ganas el ${W.config.tarifas.repaPct} % del envío, el extra por lluvia, el cargo por pedido pequeño, el 100 % de la propina y los bonos. Si el cliente paga en efectivo, lo que cobras de más es de De Una y se descuenta de tus ganancias.</p></div>
       <div class="card"><h3>Movimientos</h3>${movs.map((m) => kv(`${esc(m.concepto)}${m.pedidoId ? ` · #${m.pedidoId}` : ''}`, `<b style="color:${m.monto < 0 ? 'inherit' : 'var(--ok)'}">${money(m.monto)}</b>`)).join('') || '<p class="small muted" style="margin:0">Sin movimientos.</p>'}</div></div>`;
   }
   function vPerfilRepa(r) {
@@ -642,7 +650,7 @@
         ${kv('Viaje cancelado', `Te pagamos ${money(W.config.limites.compensacionRepa)} si ya ibas en camino`)}
         ${kv('Propina', '100 % tuya')}
         ${kv('Código de entrega', 'Sin el código no se cierra el pedido: nadie puede decir que no llegó')}
-        ${kv('Tu número', 'No se comparte: las llamadas pasan por manda2')}</div>
+        ${kv('Tu número', 'No se comparte: las llamadas pasan por De Una')}</div>
       <div class="card"><h3>Reglas que cuidan a todos</h3>
         ${kv('Efectivo', `Si traes más de ${money(W.config.limites.efectivoRepa)}, solo recibes pedidos pagados en línea; con ${money(W.config.limites.suspenderRepa)} se pausa tu cuenta`)}
         ${kv('Ofertas', `Tienes ${W.config.tiempos.oferta} min para aceptar; si no, pasa a otro`)}
@@ -656,7 +664,7 @@
       return hdr('Tu solicitud', s ? 'En revisión' : 'Aprobada', { back: 'r-go:viajes' }) + `<div class="scroll">${s ? `<div class="card"><h3>${esc(s.nombre)}</h3>${M.docsRequeridos(s).map((k) => `<div class="doc"><span>${M.DOCS[k]}</span><span class="${s.docs[k] ? 'ok' : 'no'}">${s.docs[k] ? 'Recibido' : 'Falta'}</span></div>`).join('')}</div>${nota('Maqueta: apruébala en <b>Admin → Personas</b>.')}` : `<div class="hero"><span>¡Bienvenido!</span><b>${esc(f.nombre)}</b><span>Ya puedes conectarte y recibir viajes.</span></div>`}<button class="btn ghost block" data-act="r-go:viajes">Volver a la vista de Luis</button></div>`;
     }
     const sol = { tipo: 'repartidor', vehiculo: f.vehiculo };
-    return hdr('Reparte con manda2', 'Gana en tu propio fraccionamiento', { back: 'r-go:perfil' }) + `<div class="scroll">
+    return hdr('Reparte con De Una', 'Gana en tu propio fraccionamiento', { back: 'r-go:perfil' }) + `<div class="scroll">
       <div class="hero"><span>Te quedas con</span><b>${W.config.tarifas.repaPct} % del envío</b><span>Más el 100 % de las propinas. Pago semanal por transferencia.</span></div>
       <label class="f">Nombre completo<input class="in" data-bind="rep.reg.nombre" value="${esc(f.nombre)}"></label>
       <div class="stack"><div class="eyebrow">¿En qué repartes?</div><div class="chips">${[['moto', 'Moto'], ['bici', 'Bicicleta'], ['auto', 'Auto']].map(([k, t]) => chip(t, 'rr:vehiculo:' + k, f.vehiculo === k)).join('')}</div></div>
@@ -673,7 +681,7 @@
     const a = UI.adm, al = M.alertas(W);
     const nInc = W.incidencias.filter((i) => i.estado === 'abierta').length;
     const navA = nav([{ id: 'vivo', n: 'En vivo', icon: 'pulse', act: 'a-go:vivo', badge: al.filter((x) => x.nivel === 'alta').length || '' }, { id: 'pedidos', n: 'Pedidos', icon: 'list', act: 'a-go:pedidos', badge: nInc || '' }, { id: 'dinero', n: 'Dinero', icon: 'coin', act: 'a-go:dinero' }, { id: 'personas', n: 'Personas', icon: 'people', act: 'a-go:personas', badge: W.solicitudes.length || '' }, { id: 'ajustes', n: 'Ajustes', icon: 'gear', act: 'a-go:ajustes' }], a.screen);
-    const head = hdr('Panel de control', `Entraste como <b>${a.permiso === 'dueño' ? 'dueño' : 'operador'}</b> · ${hora(W.reloj)}`, { right: brand('sm') });
+    const head = hdr('Panel de control', `Entraste como <b>${a.permiso === 'dueño' ? 'dueño' : 'operador'}</b> · ${hora(W.reloj)}`, { right: brand('') });
     const V = { vivo: aVivo, pedidos: aPedidos, dinero: aDinero, personas: aPersonas, ajustes: aAjustes };
     return head + `<div class="scroll">${V[a.screen](al)}</div>` + navA;
   }
@@ -697,9 +705,9 @@
   function aVivo(al) {
     const k = M.kpis(W), f = M.resumenFinanzas(W);
     const act = W.pedidos.filter(M.activo).slice().reverse();
-    return `<div class="kpis"><div class="kpi"><span>Pedidos hoy</span><b>${k.pedidos}</b></div><div class="kpi"><span>Ventas de negocios</span><b>${money(k.gmv)}</b></div><div class="kpi"><span>manda2 ganó con pedidos</span><b>${money(k.ingresoPedidos)}</b></div><div class="kpi"><span>Efectivo en la calle</span><b>${money(f.efectivoEnCalle)}</b></div></div>
+    return `<div class="kpis"><div class="kpi"><span>Pedidos hoy</span><b>${k.pedidos}</b></div><div class="kpi"><span>Ventas de negocios</span><b>${money(k.gmv)}</b></div><div class="kpi"><span>De Una ganó con pedidos</span><b>${money(k.ingresoPedidos)}</b></div><div class="kpi"><span>Efectivo en la calle</span><b>${money(f.efectivoEnCalle)}</b></div></div>
       <div class="row between"><h2>Atiende esto</h2><span class="small muted">${al.length} alertas</span></div>
-      ${al.length ? al.map(alertaHTML).join('') : empty('shield', 'Todo en orden.')}
+      ${al.length ? al.map(alertaHTML).join('') : empty('bag', 'Todo en orden.')}
       <div class="row between"><h2>En curso</h2><span class="small muted">${act.length} · ${k.enLinea} repartidores en línea</span></div>
       ${act.length ? act.map(filaPedido).join('') : empty('moto', 'Sin pedidos en curso.')}
       ${nota('Usa el <b>reloj de la demo</b> para ver qué pasa con el tiempo: el negocio que no contesta se cancela solo, las ofertas pasan a otro repartidor y los pagos que no llegan se cancelan.')}`;
@@ -711,23 +719,23 @@
     const chips = `<div class="chips">${[['activos', 'Activos'], ['reclamos', 'Reclamos'], ['terminados', 'Terminados'], ['todos', 'Todos']].map(([k, t]) => chip(t, 'a-filtro:' + k, a.filtro === k)).join('')}</div>`;
     if (a.filtro === 'reclamos') {
       const incs = W.incidencias.slice().sort((x, y) => (x.estado === 'abierta' ? 0 : 1) - (y.estado === 'abierta' ? 0 : 1) || y.t - x.t);
-      return chips + (incs.length ? incs.map(cardReclamo).join('') : empty('shield', 'Sin reclamos.'));
+      return chips + (incs.length ? incs.map(cardReclamo).join('') : empty('bag', 'Sin reclamos.'));
     }
     const list = fil[a.filtro].slice().reverse();
     return chips + (list.length ? list.map(filaPedido).join('') : empty('bag', 'Nada por aquí.'));
   }
   function cardReclamo(i) {
-    const p = M.pedido(W, i.pedidoId), cl = M.cliente(W, i.clienteId), f = UI.adm.res[i.id] || (UI.adm.res[i.id] = { decision: i.tipo === 'cliente_ausente' ? 'confirmar' : 'reembolso', monto: String(i.monto || ''), destino: 'saldo', cargoA: i.tipo === 'falta' || i.tipo === 'equivocado' ? 'negocio' : 'manda2', nota: '' });
+    const p = M.pedido(W, i.pedidoId), cl = M.cliente(W, i.clienteId), f = UI.adm.res[i.id] || (UI.adm.res[i.id] = { decision: i.tipo === 'cliente_ausente' ? 'confirmar' : 'reembolso', monto: String(i.monto || ''), destino: 'saldo', cargoA: i.tipo === 'falta' || i.tipo === 'equivocado' ? 'negocio' : 'deuna', nota: '' });
     const abierto = i.estado === 'abierta';
     let form = '';
     if (abierto && i.tipo === 'cliente_ausente') form = `<p class="small muted" style="margin:0">Adeudo del cliente: ${money(-M.saldo(W, 'cli:' + cl.id))}. Confírmalo si el repartidor esperó y llamó; perdónalo si el cliente tuvo una razón válida.</p><div class="row-btns"><button class="btn ghost sm" data-act="a-resolver:${i.id}:perdonar">Perdonar adeudo</button><button class="btn sm" style="flex:1" data-act="a-resolver:${i.id}:confirmar">Confirmar adeudo</button></div>`;
     else if (abierto) form = `<div class="chips">${chip('Devolver', `ar:${i.id}:decision:reembolso`, f.decision === 'reembolso')}${chip('No procede', `ar:${i.id}:decision:rechazar`, f.decision === 'rechazar')}</div>
       ${f.decision === 'reembolso' ? `<label class="f">Monto<input class="in" inputmode="numeric" data-bind="adm.res.${i.id}.monto" value="${esc(f.monto)}" placeholder="45"></label>
         <div class="eyebrow">Cómo se le devuelve</div><div class="chips">${chip('Saldo a favor (al momento)', `ar:${i.id}:destino:saldo`, f.destino === 'saldo')}${chip('Transferencia', `ar:${i.id}:destino:transferencia`, f.destino === 'transferencia')}</div>
-        <div class="eyebrow">Quién lo paga</div><div class="chips">${chip('manda2', `ar:${i.id}:cargoA:manda2`, f.cargoA === 'manda2')}${p.negocioId ? chip('El negocio', `ar:${i.id}:cargoA:negocio`, f.cargoA === 'negocio') : ''}${i.repaId ? chip('El repartidor', `ar:${i.id}:cargoA:repartidor`, f.cargoA === 'repartidor') : ''}</div>
+        <div class="eyebrow">Quién lo paga</div><div class="chips">${chip('deuna', `ar:${i.id}:cargoA:De Una`, f.cargoA === 'deuna')}${p.negocioId ? chip('El negocio', `ar:${i.id}:cargoA:negocio`, f.cargoA === 'negocio') : ''}${i.repaId ? chip('El repartidor', `ar:${i.id}:cargoA:repartidor`, f.cargoA === 'repartidor') : ''}</div>
         ${!esDueno() ? `<p class="small muted" style="margin:0">Como operador puedes devolver hasta ${money(W.config.limites.creditoOperador)}; más lo aprueba el dueño.</p>` : ''}` : `<label class="f">Motivo para el cliente<input class="in" data-bind="adm.res.${i.id}.nota" value="${esc(f.nota)}" placeholder="El pedido salió completo según el ticket"></label>`}
       <button class="btn sm" data-act="a-resolver:${i.id}">Resolver reclamo</button>`;
-    else form = `<p class="small muted" style="margin:0">${i.estado === 'resuelta' ? `Resuelto por ${esc(i.resolucion.por)}${i.resolucion.monto ? `: ${money(i.resolucion.monto)} ${i.resolucion.destino === 'transferencia' ? 'por transferencia' : 'como saldo'}, a cargo de ${i.resolucion.cargoA || 'manda2'}` : ''}.` : `No procedió: ${esc(i.resolucion.nota || 'sin motivo')}`}</p>`;
+    else form = `<p class="small muted" style="margin:0">${i.estado === 'resuelta' ? `Resuelto por ${esc(i.resolucion.por)}${i.resolucion.monto ? `: ${money(i.resolucion.monto)} ${i.resolucion.destino === 'transferencia' ? 'por transferencia' : 'como saldo'}, a cargo de ${i.resolucion.cargoA || 'deuna'}` : ''}.` : `No procedió: ${esc(i.resolucion.nota || 'sin motivo')}`}</p>`;
     return `<div class="card ${abierto && i.sospechosa ? 'flag' : ''}"><div class="row between"><h3>#${i.id} · ${esc(M.TIPOS_INC[i.tipo])}</h3><span class="pill ${abierto ? 'p-pago_pendiente' : 'p-entregado'}">${abierto ? 'Abierto' : i.estado === 'resuelta' ? 'Resuelto' : 'No procede'}</span></div>
       <div class="small muted">Pedido <button class="link" data-act="a-ver:${p.id}">#${p.id}</button> · ${esc(cl.nombre)} · ${hora(i.t)}${i.foto ? ' · con foto' : ''}${i.monto ? ` · pide ${money(i.monto)}` : ''}</div>
       ${i.detalle ? `<p class="small" style="margin:0">“${esc(i.detalle)}”</p>` : ''}
@@ -740,7 +748,7 @@
     if (!M.validar(W, p, 'confirmar_pago', A)) acciones.push(`<button class="btn sm" data-act="a-tx:${p.id}:confirmar_pago">Ya llegó la transferencia</button>`);
     if (!M.validar(W, p, 'subir_bono', A, { monto: 10 })) acciones.push(`<button class="btn ghost sm" data-act="a-tx:${p.id}:subir_bono:10">Subir bono $10</button>`);
     if (!M.validar(W, p, 'autorizar_sin_pin', A) && !p.pinOmitido) acciones.push(`<button class="btn ghost sm" data-act="a-tx:${p.id}:autorizar_sin_pin">Autorizar sin código</button>`);
-    const puedeAsignar = p.entrega === 'manda2' && ['preparando', 'listo', 'buscando', 'comprando'].includes(p.estado) && !(p.repaEnTienda && p.estado !== 'buscando');
+    const puedeAsignar = p.entrega === 'deuna' && ['preparando', 'listo', 'buscando', 'comprando'].includes(p.estado) && !(p.repaEnTienda && p.estado !== 'buscando');
     const cands = puedeAsignar ? M.candidatos(W, p) : [];
     const movs = W.movimientos.filter((m) => m.pedidoId === p.id);
     const porCuenta = {};
@@ -758,15 +766,15 @@
       ${desglose(p.cot)}
       <div class="card"><h3>Cómo se movió el dinero</h3>${p.flujos.length ? p.flujos.map((x) => kv(`${esc(quien(p, x.de))} → ${esc(quien(p, x.a))}`, `${money(x.monto)} · ${esc(x.concepto)}`)).join('') : '<p class="small muted" style="margin:0">Todavía no se mueve dinero.</p>'}</div>
       <div class="card"><h3>Libro de movimientos</h3>${Object.keys(porCuenta).length ? Object.entries(porCuenta).map(([c, ms]) => `<div class="stack" style="gap:2px"><b class="small">${esc(nombreCuenta(c))}</b>${ms.map((m) => kv(esc(m.concepto), money(m.monto))).join('')}</div>`).join('') : '<p class="small muted" style="margin:0">Se registra cuando el pedido termina.</p>'}
-        <p class="small muted" style="margin:0">Positivo: manda2 le debe. Negativo: le debe a manda2. Las líneas “manda2 · …” son ingresos y costos de manda2.</p></div>
+        <p class="small muted" style="margin:0">Positivo: De Una le debe. Negativo: le debe a De Una. Las líneas “De Una · …” son ingresos y costos de De Una.</p></div>
       ${W.incidencias.filter((i) => i.pedidoId === p.id).map(cardReclamo).join('')}`;
   }
   function aDinero() {
     const f = M.resumenFinanzas(W), ing = f.lineas.filter((l) => l.monto > 0), cos = f.lineas.filter((l) => l.monto < 0), d = esDueno();
-    return `<div class="hero"><span>Resultado de manda2 (noviembre, hasta hoy)</span><b>${money(f.total)}</b><span>Ingresos menos promociones, bonos, garantías y reembolsos</span></div>
+    return `<div class="hero"><span>Resultado de De Una (noviembre, hasta hoy)</span><b>${money(f.total)}</b><span>Ingresos menos promociones, bonos, garantías y reembolsos</span></div>
       <div class="kpis"><div class="kpi"><span>Efectivo en la calle</span><b>${money(f.efectivoEnCalle)}</b></div><div class="kpi"><span>Por pagar a repartidores</span><b>${money(f.porPagarRepas)}</b></div><div class="kpi"><span>Por depositar a negocios</span><b>${money(f.porDepositarNeg)}</b></div><div class="kpi"><span>Por cobrar a negocios</span><b>${money(f.porCobrarNeg)}</b></div></div>
       <div class="card"><h3>Ingresos</h3>${ing.map((l) => kv(l.n, money(l.monto))).join('') || '<p class="small muted" style="margin:0">Sin ingresos.</p>'}<h3 style="margin-top:6px">Costos</h3>${cos.map((l) => kv(l.n, money(l.monto))).join('') || '<p class="small muted" style="margin:0">Sin costos.</p>'}</div>
-      <div class="card"><h3>Corte de repartidores</h3><p class="small muted" style="margin:0">Cada lunes: quien trae efectivo de manda2 lo deposita; a quien se le debe, se le paga.</p>${f.repas.map((r) => `<div class="row between"><div><b class="small">${esc(r.nombre)}</b><p class="small muted" style="margin:0">${r.saldo < 0 ? `Debe entregar ${money(-r.saldo)}` : r.saldo > 0 ? `Se le deben ${money(r.saldo)}` : 'En cero'}${r.suspendido ? ' · suspendido' : ''}</p></div>${r.saldo < 0 ? `<button class="btn ghost sm" data-act="a-deposito:${r.id}" ${d ? '' : 'disabled'}>Registrar depósito</button>` : r.saldo > 0 ? `<button class="btn sm" data-act="a-pagarrepa:${r.id}" ${d ? '' : 'disabled'}>Pagar</button>` : ''}</div>`).join('')}</div>
+      <div class="card"><h3>Corte de repartidores</h3><p class="small muted" style="margin:0">Cada lunes: quien trae efectivo de De Una lo deposita; a quien se le debe, se le paga.</p>${f.repas.map((r) => `<div class="row between"><div><b class="small">${esc(r.nombre)}</b><p class="small muted" style="margin:0">${r.saldo < 0 ? `Debe entregar ${money(-r.saldo)}` : r.saldo > 0 ? `Se le deben ${money(r.saldo)}` : 'En cero'}${r.suspendido ? ' · suspendido' : ''}</p></div>${r.saldo < 0 ? `<button class="btn ghost sm" data-act="a-deposito:${r.id}" ${d ? '' : 'disabled'}>Registrar depósito</button>` : r.saldo > 0 ? `<button class="btn sm" data-act="a-pagarrepa:${r.id}" ${d ? '' : 'disabled'}>Pagar</button>` : ''}</div>`).join('')}</div>
       <div class="card"><h3>Depósitos y cobros a negocios</h3><p class="small muted" style="margin:0">Cada noche se deposita lo pagado en línea, menos mensualidad, anuncios y cargos.</p>${f.negs.map((n) => `<div class="row between"><div><b class="small">${esc(n.nombre)}</b><p class="small muted" style="margin:0">${n.saldo > 0 ? `Se le depositan ${money(n.saldo)}` : n.saldo < 0 ? `Debe ${money(-n.saldo)}` : 'En cero'} · ${esc(n.mens.texto)}</p></div>${n.saldo > 0 ? `<button class="btn sm" data-act="a-depositar:${n.id}" ${d ? '' : 'disabled'}>Depositar</button>` : n.saldo < 0 ? `<button class="btn ghost sm" data-act="a-pagoneg:${n.id}" ${d ? '' : 'disabled'}>Registrar pago</button>` : ''}</div>`).join('')}</div>
       ${d ? '' : nota('Como operador puedes ver el dinero, pero los pagos y depósitos los registra el dueño.')}`;
   }
@@ -778,7 +786,7 @@
       return `<div class="card"><div class="row between"><h3>${esc(s.nombre)}</h3><span class="pill p-pago_pendiente">${s.tipo === 'negocio' ? 'Negocio' : 'Repartidor'}</span></div><div class="small muted">${esc(s.zona)}${s.giro ? ' · ' + esc(s.giro) : ''}${s.vehiculo ? ' · ' + esc(s.vehiculo) : ''}</div>
         ${M.docsRequeridos(s).map((k) => `<div class="doc"><span>${M.DOCS[k]}</span><span class="${s.docs[k] ? 'ok' : 'no'}">${s.docs[k] ? 'Recibido' : 'Falta'}</span></div>`).join('')}
         <div class="row-btns"><button class="btn ghost sm" data-act="a-solrech:${s.id}">Rechazar</button>${falta.length ? `<button class="btn ghost sm" style="flex:1" data-act="toast:Le pedimos por WhatsApp: ${esc(falta.map((k) => M.DOCS[k]).join(', '))}">Pedir lo que falta</button>` : ''}<button class="btn sm" style="flex:1" data-act="a-solapr:${s.id}">Aprobar</button></div></div>`;
-    }).join('') : empty('people', 'Sin solicitudes pendientes.'));
+    }).join('') : empty('bag', 'Sin solicitudes pendientes.'));
     if (t === 'clientes') return tabs + W.clientes.map((c) => {
       const niv = M.nivelCliente(W, c), s = M.saldo(W, 'cli:' + c.id), k = M.cuentasEnDispositivo(W, c.dispositivo);
       return `<div class="card"><div class="row between"><h3>${esc(c.nombre)}</h3><span class="pill ${niv.nivel === 'confiable' ? 'p-entregado' : niv.nivel === 'nuevo' ? 'p-listo' : 'p-no_entregado'}">${esc(niv.etiqueta)}</span></div>
@@ -804,9 +812,9 @@
     const num = (path, label, help, pre = '$', suf = '') => `<div class="tarifa"><div><b>${label}</b><p>${help}</p></div><label class="money-in">${pre}<input type="number" min="0" step="any" data-cfg="${path}" value="${path.split('.').reduce((o, k) => o[k], cfg)}" aria-label="${label}" ${d ? '' : 'disabled'}>${suf}</label></div>`;
     const sw = (path, label, help) => `<div class="row between"><div><b class="small">${label}</b><p class="small muted" style="margin:0">${help}</p></div><button class="switch" data-act="a-sw:${path}" aria-pressed="${path.split('.').reduce((o, k) => o[k], cfg)}" aria-label="${label}" ${d ? '' : 'disabled'}><span class="t"></span></button></div>`;
     return `<div class="card"><h3>¿Quién eres?</h3><div class="chips">${chip('Dueño', 'a-permiso:dueño', d)}${chip('Operador', 'a-permiso:operador', !d)}</div><p class="small muted" style="margin:0">El operador atiende pedidos y reclamos (devoluciones hasta ${money(cfg.limites.creditoOperador)}). Tarifas, pagos y límites solo los cambia el dueño. Todo queda en la bitácora.</p></div>
-      <div class="card"><h3>Operación de hoy</h3>${sw('tarifas.lluvia.activa', 'Está lloviendo', `Sube el envío ${money(cfg.tarifas.lluvia.extra)}; todo va al repartidor`)}${sw('operacion.leySeca', 'Ley seca', 'No se vende alcohol en toda la app')}${sw('promos.bienvenida', 'Primer envío gratis', 'Lo paga manda2 para atraer clientes')}</div>
-      <div class="card" style="padding:4px 14px">${num('tarifas.mismo', 'Envío en el mismo fraccionamiento', 'Negocio y cliente en la misma zona')}${num('tarifas.cerca', 'Envío a zona cercana', 'Entre fraccionamientos vecinos')}${num('tarifas.lejos', 'Envío desde o hacia Huehuetoca centro', 'El viaje más largo')}${num('tarifas.mandado', 'Mandado', 'Tarifa fija')}${num('tarifas.servicio', 'Servicio manda2', 'Por pedido; lo ve el cliente antes de pagar')}${num('tarifas.repaPct', 'Parte del envío para el repartidor', 'El resto es de manda2', '', ' %')}${num('tarifas.pedidoPequeno.cargo', 'Cargo por pedido pequeño', `A compras de menos de ${money(cfg.tarifas.pedidoPequeno.umbral)}; va al repartidor`)}${num('tarifas.lluvia.extra', 'Extra por lluvia', 'Va al repartidor')}</div>
-      <div class="card" style="padding:4px 14px">${num('negocios.mensualidad', 'Mensualidad del negocio', '0 % de comisión')}${num('anuncios.destacado', 'Anuncio destacado (7 días)', 'Sale primero en la lista')}${num('anuncios.carrusel', 'Anuncio en el carrusel (7 días)', 'Sale en la portada')}${num('plus.precio', 'manda2 Plus al mes', `Envío gratis desde ${money(cfg.plus.envioGratisDesde)}, hasta ${cfg.plus.enviosMes} al mes`)}${num('promos.vecino', 'Premio por invitar a un vecino', 'Para cada uno')}${num('gas.precioMaxKg', 'Precio máximo del gas LP por kg', 'Lo publica la CNE cada semana para tu región', '$', '/kg')}</div>
+      <div class="card"><h3>Operación de hoy</h3>${sw('tarifas.lluvia.activa', 'Está lloviendo', `Sube el envío ${money(cfg.tarifas.lluvia.extra)}; todo va al repartidor`)}${sw('operacion.leySeca', 'Ley seca', 'No se vende alcohol en toda la app')}${sw('promos.bienvenida', 'Primer envío gratis', 'Lo paga De Una para atraer clientes')}</div>
+      <div class="card" style="padding:4px 14px">${num('tarifas.mismo', 'Envío en el mismo fraccionamiento', 'Negocio y cliente en la misma zona')}${num('tarifas.cerca', 'Envío a zona cercana', 'Entre fraccionamientos vecinos')}${num('tarifas.lejos', 'Envío desde o hacia Huehuetoca centro', 'El viaje más largo')}${num('tarifas.mandado', 'Mandado', 'Tarifa fija')}${num('tarifas.servicio', 'Servicio De Una', 'Por pedido; lo ve el cliente antes de pagar')}${num('tarifas.repaPct', 'Parte del envío para el repartidor', 'El resto es de De Una', '', ' %')}${num('tarifas.pedidoPequeno.cargo', 'Cargo por pedido pequeño', `A compras de menos de ${money(cfg.tarifas.pedidoPequeno.umbral)}; va al repartidor`)}${num('tarifas.lluvia.extra', 'Extra por lluvia', 'Va al repartidor')}</div>
+      <div class="card" style="padding:4px 14px">${num('negocios.mensualidad', 'Mensualidad del negocio', '0 % de comisión')}${num('anuncios.destacado', 'Anuncio destacado (7 días)', 'Sale primero en la lista')}${num('anuncios.carrusel', 'Anuncio en el carrusel (7 días)', 'Sale en la portada')}${num('plus.precio', 'De Una Plus al mes', `Envío gratis desde ${money(cfg.plus.envioGratisDesde)}, hasta ${cfg.plus.enviosMes} al mes`)}${num('promos.vecino', 'Premio por invitar a un vecino', 'Para cada uno')}${num('gas.precioMaxKg', 'Precio máximo del gas LP por kg', 'Lo publica la CNE cada semana para tu región', '$', '/kg')}</div>
       <div class="card" style="padding:4px 14px">${num('limites.efectivoNuevo', 'Efectivo para clientes nuevos', `En sus primeros ${cfg.limites.pedidosNuevo} pedidos`)}${num('limites.efectivoMax', 'Efectivo máximo por pedido', 'Arriba se paga por adelantado')}${num('limites.efectivoRepa', 'Efectivo máximo que trae un repartidor', 'Arriba ya no recibe pedidos en efectivo')}${num('limites.suspenderRepa', 'Efectivo para suspender', 'Se pausa su cuenta hasta que deposite')}${num('limites.adelantoMandado', 'Adelanto máximo en mandados', 'Lo que el repartidor paga con su dinero')}${num('limites.creditoOperador', 'Devolución máxima del operador', 'Más lo aprueba el dueño')}${num('limites.cancelTardiaPct', 'Pago al negocio si cancelan tarde', 'Del subtotal, con pago en línea', '', ' %')}</div>
       <div class="card"><h3>Bitácora</h3><p class="small muted" style="margin:0">Todo lo que hacen el dueño, los operadores y el sistema.</p><ol class="timeline">${W.bitacora.slice(0, 40).map((b) => `<li><time>${hora(b.t)}</time><span><b>${esc(b.quien)}</b> · ${esc(b.texto)}</span></li>`).join('')}</ol></div>
       <button class="btn ghost block" data-act="reiniciar">Reiniciar la demo</button>`;
@@ -828,7 +836,7 @@
     document.getElementById('reloj').innerHTML = relojHTML(false);
     document.getElementById('reloj-mini').innerHTML = relojHTML(true);
     const t = W.config.tarifas;
-    document.getElementById('model').innerHTML = [['Negocio paga al mes, sin comisión', money(W.config.negocios.mensualidad)], ['Cliente paga por pedido (servicio)', money(t.servicio)], ['Envío por zona', `${money(t.mismo)}–${money(t.lejos)}`], ['Repartidor: envío + propina', `${t.repaPct} % + 100 %`], ['manda2 Plus', `${money(W.config.plus.precio)} al mes`], ['Anuncios', `desde ${money(W.config.anuncios.destacado)} / semana`]].map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('');
+    document.getElementById('model').innerHTML = [['Negocio paga al mes, sin comisión', money(W.config.negocios.mensualidad)], ['Cliente paga por pedido (servicio)', money(t.servicio)], ['Envío por zona', `${money(t.mismo)}–${money(t.lejos)}`], ['Repartidor: envío + propina', `${t.repaPct} % + 100 %`], ['De Una Plus', `${money(W.config.plus.precio)} al mes`], ['Anuncios', `desde ${money(W.config.anuncios.destacado)} / semana`]].map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('');
     document.getElementById('phone').classList.toggle('wide', UI.role === 'admin' && !document.body.classList.contains('mobile'));
     const app = document.getElementById('app'), sc = app.querySelector('.scroll'), keep = sc ? sc.scrollTop : 0;
     app.innerHTML = UI.role === 'cliente' ? vCliente() : UI.role === 'negocio' ? vNegocio() : UI.role === 'repartidor' ? vRepa() : vAdmin();
@@ -921,7 +929,7 @@
     'c-fracc': (f) => { yo().fracc = f; render.keep = true; },
     'c-savedir': () => { yo().dir = val('c-dir2') || yo().dir; UI.cli.sheet = null; toast('Dirección guardada'); render.keep = true; },
     'c-install': async () => { if (!deferredPrompt) return; const p = deferredPrompt; deferredPrompt = null; UI.cli.sheet = null; p.prompt(); try { await p.userChoice; } catch (e) { /* cancelado */ } render(); },
-    'c-share': (code) => { const msg = `¡Ya llegó manda2 a la zona! Pide comida, gas y garrafones a tu casa. Usa mi código ${code} y ganamos $${W.config.promos.vecino} cada uno.`; try { navigator.clipboard.writeText(msg).then(() => toast('Invitación copiada. Pégala en WhatsApp'), () => toast(msg)); } catch (e) { toast(msg); } },
+    'c-share': (code) => { const msg = `¡Ya llegó De Una a la zona! Pide comida, gas y garrafones a tu casa. Usa mi código ${code} y ganamos $${W.config.promos.vecino} cada uno.`; try { navigator.clipboard.writeText(msg).then(() => toast('Invitación copiada. Pégala en WhatsApp'), () => toast(msg)); } catch (e) { toast(msg); } },
     'c-plus': () => { const cl = yo(); const r = cl.plus.activo ? M.cancelarPlus(W, cl.id) : M.suscribirPlus(W, cl.id); toast(r.ok ? (cl.plus.activo ? '¡Ya tienes Plus!' : 'Cancelaste Plus') : r.error); render.keep = true; },
     'c-adeudo': () => { const r = M.pagarAdeudo(W, UI.cli.id); toast(r.ok ? `Recibimos ${money(r.monto)}. Gracias` : r.error); },
     'c-salir': () => { UI.cli.step = 'onb'; UI.cli.onb = 0; },
@@ -1044,13 +1052,13 @@
   function layout() { document.body.classList.toggle('mobile', isMobile()); render.keep = true; render(); }
   window.addEventListener('resize', () => { if (isMobile() !== document.body.classList.contains('mobile')) layout(); });
   window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-  window.addEventListener('appinstalled', () => { deferredPrompt = null; toast('manda2 quedó instalada'); });
+  window.addEventListener('appinstalled', () => { deferredPrompt = null; toast('De Una quedó instalada'); });
   const h0 = (location.hash || '').slice(1);
   if (ROLES.some((r) => r.id === h0)) UI.role = h0;
   window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (ROLES.some((r) => r.id === h) && h !== UI.role) { UI.role = h; render(); } });
-  document.getElementById('brandbig').innerHTML = brand();
+  document.getElementById('brandbig').innerHTML = brandBig();
   document.getElementById('appicon').innerHTML = `<span class="appicon" style="display:block">${APPICON}</span>`;
   layout();
-  window.manda2 = { W: () => W, UI, render, M }; // para pruebas desde la consola
+  window.deuna = { W: () => W, UI, render, M }; // para pruebas desde la consola
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => { /* sin sw */ });
 })();

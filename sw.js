@@ -1,8 +1,8 @@
-// manda2: guarda la app en el celular para que abra rápido y aguante la mala señal.
+// De Una Delivery: guarda la app en el celular para que abra rápido y aguante la mala señal.
 // Archivos propios: primero la red (para ver siempre la versión nueva) y, sin señal, la copia guardada.
 // Fuentes de Google: primero la copia guardada.
-const CACHE = 'manda2-v4';
-const SHELL = ['./', 'index.html', 'ilustraciones.js', 'js/motor.js', 'js/datos.js', 'js/app.js', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+const CACHE = 'deuna-v5';
+const SHELL = ['./', 'index.html', 'js/marca.js', 'ilustraciones.js', 'js/motor.js', 'js/datos.js', 'js/app.js', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });

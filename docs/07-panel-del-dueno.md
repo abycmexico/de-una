@@ -5,7 +5,7 @@ El panel está pensado para que una sola persona opere la zona desde el celular:
 ## Pantallas
 
 ### En vivo
-- **Números del día:** pedidos, ventas de los negocios, lo que ganó manda2 con pedidos y el efectivo que hay en la calle.
+- **Números del día:** pedidos, ventas de los negocios, lo que ganó De Una con pedidos y el efectivo que hay en la calle.
 - **Atiende esto:** las alertas, de la más grave a la menos grave (ver abajo).
 - **En curso:** cada pedido activo con su estado, el repartidor y su nivel de riesgo.
 
@@ -19,10 +19,10 @@ El panel está pensado para que una sola persona opere la zona desde el celular:
   - Desglose del cobro.
   - **Cómo se movió el dinero** (quién le pagó a quién) y el **libro de movimientos** de ese pedido.
 - **Acciones:** confirmar transferencia, subir bono, asignar repartidor (con la lista de candidatos y por qué cada uno está o no disponible), autorizar sin código y cancelar con motivo.
-- **Reclamos:** decidir si procede, cuánto devolver, cómo (saldo o transferencia) y quién lo paga (manda2, el negocio o el repartidor). En los casos de cliente ausente se puede confirmar o perdonar el adeudo.
+- **Reclamos:** decidir si procede, cuánto devolver, cómo (saldo o transferencia) y quién lo paga (De Una, el negocio o el repartidor). En los casos de cliente ausente se puede confirmar o perdonar el adeudo.
 
 ### Dinero
-- **Resultado de manda2:** cada ingreso y cada costo.
+- **Resultado de De Una:** cada ingreso y cada costo.
 - **Efectivo en la calle**, por pagar a repartidores, por depositar a negocios y por cobrar a negocios.
 - **Corte de repartidores:** registrar depósitos y pagos.
 - **Depósitos y cobros a negocios**, con el estado de su mensualidad.

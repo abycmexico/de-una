@@ -1,6 +1,6 @@
 # 0. Benchmark de la zona y la competencia
 
-> Investigación del 16 de noviembre de 2026. Es la base de las decisiones de diseño de manda2.
+> Investigación del 16 de noviembre de 2026. Es la base de las decisiones de diseño de De Una.
 
 
 Fecha: 16 nov 2026. Fuentes al final.
@@ -12,7 +12,7 @@ Fecha: 16 nov 2026. Fuentes al final.
 - Fraccionamientos a cubrir (por confirmar en campo): **Toscana Alta, Casas Quma, Paseos de la Pradera, Atotonilco centro, Huehuetoca centro**. Ojo: se escribe *Quma*, no *Cuma*.
 - **Rappi, DiDi Food y Uber Eats no publican cobertura** para Atotonilco de Tula ni Huehuetoca. Su cobertura es por polígonos. Hay que probar en campo con una dirección de cada fraccionamiento; lo más probable es que no lleguen o que haya muy pocos negocios.
 
-**Qué significa para manda2**
+**Qué significa para De Una**
 1. El cliente típico es una familia joven que compró con crédito, trabaja fuera (CDMX, Tula, Huehuetoca, parque industrial) y regresa tarde. Está acostumbrada a pedir por WhatsApp y a Mercado Libre o Amazon, y muchos ya usaron Rappi o DiDi en la ciudad.
 2. Lo que más le duele es la **distancia a todo**: gas, garrafón, farmacia y tiendita. Por eso gas y agua van en la portada, no escondidos.
 3. Se paga mucho en efectivo y transferencia, así que la tarjeta puede esperar.
@@ -20,7 +20,7 @@ Fecha: 16 nov 2026. Fuentes al final.
 
 ## 2. La competencia
 
-| | Rappi | DiDi Food | Uber Eats | **manda2** |
+| | Rappi | DiDi Food | Uber Eats | **De Una** |
 |---|---|---|---|---|
 | Color | Coral / naranja | Naranja | Verde y negro | **Naranja + amarillo** |
 | Comisión al restaurante | ~22–30 % + IVA | 30 % + IVA (bajó a 22 % en un acuerdo temporal) | Caso por caso, 15–30 % | **0 %, $399 al mes** |
@@ -34,7 +34,7 @@ Fecha: 16 nov 2026. Fuentes al final.
 - **Fechas y temporadas:** el Mundial 2026, "Viva México", "comida gratis los viernes de octubre", alianzas con marcas (OXXO, Starbucks).
 - **Links de cupón que se comparten** en Promodescuentos, grupos de Facebook y WhatsApp. La gente caza cupones.
 - **Tono:** cercano, con humor y memes, frases cortas ("¿Antojo? Pídelo").
-- **Para negocios:** prometen ventas extra, y el pleito público es por las comisiones. Ahí manda2 tiene su mejor argumento.
+- **Para negocios:** prometen ventas extra, y el pleito público es por las comisiones. Ahí De Una tiene su mejor argumento.
 
 ### Lógica de app que el usuario ya conoce (y que copiamos para que no tenga que aprender nada)
 1. **Arriba la dirección** ("Entregar en ▾") y un buscador grande.
@@ -48,13 +48,13 @@ Fecha: 16 nov 2026. Fuentes al final.
 9. **Barra inferior:** Inicio, Buscar, Pedidos, Cuenta.
 10. **Bienvenida:** 3 pantallas que explican la app, luego registro con número y código de verificación. Nada de contraseñas.
 
-## 3. Decisiones para manda2
+## 3. Decisiones para De Una
 
 1. **Color naranja de comida** con amarillo para promociones y café oscuro para el texto. Se siente "antojo" sin copiar el coral de Rappi.
 2. **Misma lógica que Rappi y DiDi** (la lista de arriba), para que el nuevo usuario la use sin pensar.
 3. **Gas y agua en la portada**, con botón grande. Es lo que ninguna otra app tiene en la zona.
-4. **Promo de bienvenida:** primer envío gratis (lo absorbe manda2, ~$25 por cliente) y **"Invita a un vecino: $30 para los dos"**. Es más barato que los $100–150 de DiDi y crece por grupos de WhatsApp del fraccionamiento.
-5. **App instalable (PWA):** se abre con un link, sale el aviso "Agrega manda2 a tu inicio" y queda con su ícono como cualquier app, sin App Store ni Play Store.
+4. **Promo de bienvenida:** primer envío gratis (lo absorbe De Una, ~$25 por cliente) y **"Invita a un vecino: $30 para los dos"**. Es más barato que los $100–150 de DiDi y crece por grupos de WhatsApp del fraccionamiento.
+5. **App instalable (PWA):** se abre con un link, sale el aviso "Agrega De Una a tu inicio" y queda con su ícono como cualquier app, sin App Store ni Play Store.
 6. **Mensaje para negocios:** "Vende sin que te quiten el 30 %". Es el dolor número uno de los restaurantes con las apps grandes.
 
 ## 4. Ideas de publicidad para el lanzamiento

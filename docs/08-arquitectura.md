@@ -4,7 +4,9 @@
 
 ```
 index.html          La página: estilos y esqueleto (PWA instalable)
-ilustraciones.js    Ilustraciones propias (sin emojis)
+marca/              Logo, ícono y marca/generar.js, que los genera
+js/marca.js         Piezas de la marca para la app (generado)
+ilustraciones.js    Ilustraciones propias con estilo de estampa (sin emojis)
 js/motor.js         TODAS las reglas del negocio, sin pantallas
 js/datos.js         Datos de ejemplo, generados pasando pedidos por el motor
 js/app.js           Pantallas: dibujan y preguntan al motor
@@ -74,13 +76,13 @@ En la maqueta el reloj se adelanta a mano. En la app real, una tarea programada 
 - **Supabase Realtime** en `pedidos` y `ofertas`: el cliente ve su pedido avanzar, el negocio escucha pedidos nuevos y el repartidor, sus ofertas.
 - **Avisos push de la PWA** (Web Push). En iPhone funcionan con la app instalada en la pantalla de inicio.
 - **WhatsApp** para lo crítico: código de inicio de sesión, pedido nuevo para un negocio que no tiene la app abierta, adeudos.
-- **Llamadas enmascaradas:** el negocio y el repartidor llaman por medio de manda2 y nadie ve el número completo.
+- **Llamadas enmascaradas:** el negocio y el repartidor llaman por medio de De Una y nadie ve el número completo.
 
 ### Pagos
 
 | Etapa | Cómo |
 |---|---|
-| Piloto | Efectivo y transferencia SPEI a una CLABE de manda2, con referencia `M2-<pedido>`. El dueño confirma el pago cuando lo ve en el banco. |
+| Piloto | Efectivo y transferencia SPEI a una CLABE de De Una, con referencia `DU-<pedido>`. El dueño confirma el pago cuando lo ve en el banco. |
 | Siguiente | Cobro con tarjeta y OXXO por una pasarela (por ejemplo, Mercado Pago). El aviso de la pasarela llama a `confirmar_pago` solo. |
 | Después | CLABE única por pedido para que las transferencias se confirmen solas. |
 

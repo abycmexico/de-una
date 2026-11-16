@@ -1,8 +1,10 @@
-# manda2
+# De Una Delivery
 
-**¿Qué ocupas? Te lo manda2.** Una app de pedidos hecha para una sola zona: Toscana Alta, Casas Quma, Paseos de la Pradera, Atotonilco de Tula y Huehuetoca. Junta comida, tiendita, farmacia, **gas, garrafones** y mandados, con repartidores de la misma zona.
+<img src="marca/logo.png" alt="De Una Delivery" width="420">
 
-**Abrir la app:** https://abycmexico.github.io/manda2/
+**¿Se te antojó? ¡De una!** Una app de pedidos hecha para una sola zona: Toscana Alta, Casas Quma, Paseos de la Pradera, Atotonilco de Tula y Huehuetoca. Junta comida, tiendita, farmacia, **gas, garrafones** y mandados, con repartidores de la misma zona.
+
+**Abrir la app:** https://abycmexico.github.io/de-una/
 
 > **Estado: piloto.** Es una maqueta que funciona de verdad: todas las reglas (precios, estados del pedido, dinero, tiempos y antifraude) corren en un motor con pruebas automáticas. Todavía no tiene base de datos, así que cada celular ve su propia copia con datos de ejemplo.
 
@@ -49,12 +51,15 @@ Arriba eliges desde qué rol ves la app: **Cliente, Negocio, Repartidor o Admin*
 | [7. Panel del dueño](docs/07-panel-del-dueno.md) | Pantallas, alertas, dueño y operador, bitácora |
 | [8. Arquitectura](docs/08-arquitectura.md) | Cómo está hecho, tablas para Supabase, seguridad y hoja de ruta |
 | [9. Reglas y cumplimiento](docs/09-reglas-y-cumplimiento.md) | PROFECO, alcohol, medicamentos, gas, datos personales |
+| [10. La marca](docs/10-marca.md) | Logo, ícono, colores, tipografía, ilustraciones y tono de voz |
 
 ## Cómo está hecho
 
 ```
 index.html          La página (PWA instalable)
-ilustraciones.js    Ilustraciones propias
+marca/              Logo, ícono y el script que los genera (marca/generar.js)
+js/marca.js         Piezas de la marca para la app (generado)
+ilustraciones.js    Ilustraciones propias, con estilo de estampa
 js/motor.js         Todas las reglas del negocio, sin pantallas
 js/datos.js         Datos de ejemplo, generados con el mismo motor
 js/app.js           Las pantallas: dibujan y le preguntan al motor
@@ -72,7 +77,7 @@ Necesitas [Node.js](https://nodejs.org) 20 o más reciente.
 node --test
 ```
 
-Son 23 pruebas: precios, estados, tiempos límite, asignación de repartidores, efectivo, promos, reclamos, cancelaciones y mensualidades, y que **el dinero cuadre en cada pedido** para el cliente, el negocio, el repartidor y manda2.
+Son 23 pruebas: precios, estados, tiempos límite, asignación de repartidores, efectivo, promos, reclamos, cancelaciones y mensualidades, y que **el dinero cuadre en cada pedido** para el cliente, el negocio, el repartidor y De Una.
 
 ## El modelo en una tabla
 
@@ -81,7 +86,7 @@ Son 23 pruebas: precios, estados, tiempos límite, asignación de repartidores, 
 | Cliente | Productos al precio del local + envío por zona ($25 / $35 / $45) + $7 de servicio + propina opcional | Su pedido, con código de entrega |
 | Negocio | $399 al mes, 0 % de comisión | El 100 % de sus ventas: en tienda (efectivo) o depositado cada noche (en línea) |
 | Repartidor | Nada | 85 % del envío + 100 % de propina, lluvia y pedido pequeño |
-| manda2 | Promos y garantías | Mensualidades, servicio, 15 % del envío, Plus ($49 al mes) y anuncios |
+| De Una | Promos y garantías | Mensualidades, servicio, 15 % del envío, Plus ($49 al mes) y anuncios |
 
 ---
 

@@ -23,7 +23,7 @@ Cada control está en el motor ([`js/motor.js`](../js/motor.js)) y casi todos ti
 | Fraude o problema | Cómo lo frenamos | Dónde |
 |---|---|---|
 | Marcar entregado sin entregar | Sin el código del cliente no se cierra. Con 3 errores, alerta al dueño. | `entregar` |
-| Quedarse con el efectivo | Con más de $500 de manda2 ya no recibe pedidos en efectivo; con más de $800 se suspende. Corte semanal con referencia. | `candidatos()`, `revisarCuentas()` |
+| Quedarse con el efectivo | Con más de $500 de De Una ya no recibe pedidos en efectivo; con más de $800 se suspende. Corte semanal con referencia. | `candidatos()`, `revisarCuentas()` |
 | Inflar el ticket de un mandado | Foto obligatoria y el cliente aprueba el monto **antes** de que salga. Tope de $500. | `enviar_ticket`, `aprobar_ticket` |
 | Inventar que el cliente no salió | Se registra la hora de llegada y cada llamada. No se puede marcar antes de 10 min ni sin 2 llamadas. El caso lo revisa el dueño. | `cliente_ausente` |
 | Prestar la cuenta a otra persona | Selfie comparada con la INE al registrarse. A futuro, selfie al conectarse. | Alta, [arquitectura](08-arquitectura.md) |
@@ -41,7 +41,7 @@ Cada control está en el motor ([`js/motor.js`](../js/motor.js)) y casi todos ti
 | Gas arriba del precio oficial | El producto se bloquea y el dueño recibe una alerta. | `precioGasOk()` |
 | Vender sin permisos | Documentos obligatorios por giro antes de aprobar. | `docsRequeridos()` |
 
-## Dentro de manda2 (operadores)
+## Dentro de De Una (operadores)
 
 | Riesgo | Control | Dónde |
 |---|---|---|

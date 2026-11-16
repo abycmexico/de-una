@@ -1,4 +1,4 @@
-/* manda2 · Datos de ejemplo
+/* De Una Delivery · Datos de ejemplo
  *
  * Negocios, repartidores y clientes ficticios de la zona. Los pedidos del día
  * NO se escriben a mano: se generan pasándolos por el motor de reglas, así que

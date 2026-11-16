@@ -35,7 +35,7 @@ El botón **Entregar** solo aparece cuando el pedido está listo **y** el repart
 
 1. Marcan **Salió a entregar** y después **Llegamos al domicilio**.
 2. Cierran con el **código del cliente**, igual que un repartidor.
-3. Cobran ellos y le deben a manda2 solo el servicio ($7), que se descuenta de sus depósitos.
+3. Cobran ellos y le deben a De Una solo el servicio ($7), que se descuenta de sus depósitos.
 
 **Gas LP:**
 - El precio de cada cilindro no puede pasar el **precio máximo oficial por kilo** que el dueño captura cada semana en Ajustes.
@@ -53,7 +53,7 @@ El botón **Entregar** solo aparece cuando el pedido está listo **y** el repart
 
 ## Precio de mostrador
 
-En manda2 el negocio cobra lo mismo que en su local. Es parte de la promesa al cliente y es posible porque no hay comisión. Si un cliente reporta precios inflados, el dueño puede hablar con el negocio y, si se repite, pausarlo.
+En De Una el negocio cobra lo mismo que en su local. Es parte de la promesa al cliente y es posible porque no hay comisión. Si un cliente reporta precios inflados, el dueño puede hablar con el negocio y, si se repite, pausarlo.
 
 ## Mensualidad
 

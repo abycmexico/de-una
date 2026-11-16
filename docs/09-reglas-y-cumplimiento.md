@@ -6,7 +6,7 @@
 
 En su revista de octubre de 2026, PROFECO advirtió que pedir por app puede subir mucho la cuenta. Señaló los cargos por servicio, por pedido pequeño, por alta demanda o mal clima, las membresías y los precios más altos dentro de la app. También recordó que la propina es opcional y debe ir completa al repartidor. Las apps tienen que mostrar con claridad cada cargo.
 
-Cómo lo resuelve manda2:
+Cómo lo resuelve De Una:
 
 - El desglose completo (productos, envío, lluvia, pedido pequeño, servicio, propina, descuentos y total) se ve **antes** de pedir.
 - La propina es opcional, tiene la opción “Ahora no” y el 100 % es del repartidor.
@@ -29,7 +29,7 @@ Cómo lo resuelve manda2:
 
 ## Gas LP
 
-- Lo entrega siempre la gasera, con su permiso de distribución, su camión y su personal. manda2 solo toma el pedido.
+- Lo entrega siempre la gasera, con su permiso de distribución, su camión y su personal. De Una solo toma el pedido.
 - Desde la extinción de la CRE, la **Comisión Nacional de Energía (CNE)** publica cada semana los precios máximos por región. En enero de 2026 la CNE quitó el precio máximo para algunas modalidades de venta (bodegas y estaciones), pero la nota de Milenio dice que **sigue vigente para la distribución**, que es la entrega a domicilio. Conviene confirmarlo en el DOF.
 - El dueño captura el máximo de la semana en Ajustes. Un cilindro arriba de ese precio se bloquea solo.
 
@@ -39,7 +39,7 @@ Cómo lo resuelve manda2:
 - Minimizar lo que se comparte:
   - El negocio ve el nombre y la dirección del cliente, pero no su teléfono completo.
   - El repartidor ve la dirección solo después de aceptar.
-  - Las llamadas pasan por manda2.
+  - Las llamadas pasan por De Una.
 - Las fotos de INE, recetas y tickets se guardan en almacenamiento privado, con acceso solo para el dueño.
 
 ## Facturación e impuestos

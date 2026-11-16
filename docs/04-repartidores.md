@@ -41,7 +41,7 @@ puntos = distancia × 30 + (5 − calificación) × 20 + (1 − aceptación) × 
 - Tiene **1 minuto** para aceptar. Si no contesta o rechaza, pasa al siguiente.
 - Su tasa de aceptación baja y eso pesa en futuras asignaciones.
 - Si nadie lo toma en 5 minutos, el dueño recibe una alerta y puede:
-  - **Subir el bono** ($10 por defecto, lo paga manda2). Se le vuelve a ofrecer a todos, incluso a quien ya había rechazado.
+  - **Subir el bono** ($10 por defecto, lo paga De Una). Se le vuelve a ofrecer a todos, incluso a quien ya había rechazado.
   - **Asignar a mano.**
 
 ## El viaje
@@ -63,17 +63,17 @@ Puede **soltar el viaje** antes de recoger el pedido (por ejemplo, si se le ponc
 | Extra por lluvia | 100 % |
 | Cargo por pedido pequeño | 100 % |
 | Propina | 100 % |
-| Bono de manda2 | 100 % |
+| Bono de De Una | 100 % |
 | Viaje cancelado cuando ya iba en camino | $15 de compensación |
 | Cliente que no sale | Se le repone la compra y se le paga el viaje |
 
-En **Repartidor → Dinero** ve lo que ganó hoy, cuánto le debe manda2 o cuánto efectivo trae de manda2, y cada movimiento.
+En **Repartidor → Dinero** ve lo que ganó hoy, cuánto le debe De Una o cuánto efectivo trae de De Una, y cada movimiento.
 
 ## Mandados
 
 1. El cliente escribe qué necesita, dónde y cuánto cree que cueste (máximo $500 en el piloto).
 2. El repartidor compra con su dinero y sube la foto y el total del ticket.
-3. El cliente lo aprueba antes de que salga. Si no está de acuerdo, se abre un reclamo y manda2 lo revisa.
+3. El cliente lo aprueba antes de que salga. Si no está de acuerdo, se abre un reclamo y De Una lo revisa.
 4. Al entregar, cobra el ticket más el mandado.
 
 ## En la maqueta

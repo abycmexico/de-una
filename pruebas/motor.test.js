@@ -1,4 +1,4 @@
-// Pruebas del motor de reglas de manda2. Corre con:  node --test pruebas/
+// Pruebas del motor de reglas de De Una. Corre con:  node --test pruebas/
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const M = require('../js/motor.js');
@@ -34,11 +34,11 @@ const hacer = (W, id, acc, a, d) => { const r = M.ejecutar(W, id, acc, a, d); as
 /* El dinero de cada pedido siempre cuadra entre todos */
 function cuadra(W, p) {
   const e = M.economia(W, p);
-  assert.equal(r2(e.m2.caja - e.repa.libro - e.neg.libro - e.cli.libro), e.m2.resultado, `manda2 no cuadra en #${p.id}`);
+  assert.equal(r2(e.du.caja - e.repa.libro - e.neg.libro - e.cli.libro), e.du.resultado, `De Una no cuadra en #${p.id}`);
   const k = W.config.tarifas.repaPct / 100, c = p.cot;
   // Los cargos por reclamos se descuentan a propósito; se suman de vuelta para revisar el reparto original.
   const cargos = (pre) => W.movimientos.filter((m) => m.pedidoId === p.id && m.cuenta.startsWith(pre) && m.concepto.startsWith('Cargo por el reclamo')).reduce((s, m) => s + m.monto, 0);
-  if (p.estado === 'entregado' && p.entrega === 'manda2') assert.equal(r2(e.repa.caja + e.repa.libro - cargos('repa:')), r2(c.E * k + c.L + c.PP + c.P + p.asignacion.bono), `repartidor #${p.id}`);
+  if (p.estado === 'entregado' && p.entrega === 'deuna') assert.equal(r2(e.repa.caja + e.repa.libro - cargos('repa:')), r2(c.E * k + c.L + c.PP + c.P + p.asignacion.bono), `repartidor #${p.id}`);
   if (p.estado === 'entregado' && p.tipo === 'tienda') {
     const derecho = p.entrega === 'propia' ? c.S + c.E + c.P - c.Dn : c.S - c.Dn;
     assert.equal(r2(e.neg.caja + e.neg.libro - cargos('neg:')), r2(derecho), `negocio #${p.id}`);
@@ -105,7 +105,7 @@ test('pedido en efectivo de punta a punta: código de entrega y dinero cuadrado'
   assert.equal(p.pinIntentos, 1);
   hacer(W, p.id, 'entregar', R('luis'), { pin: p.pin });
   assert.equal(p.estado, 'entregado');
-  // El repartidor le debe a manda2 el servicio + el 15 % del envío
+  // El repartidor le debe a De Una el servicio + el 15 % del envío
   assert.equal(M.saldo(W, 'repa:luis'), r2(-(7 + 35 * 0.15)));
   cuadra(W, p);
 });
@@ -147,7 +147,7 @@ test('la oferta expira en 1 min y pasa al siguiente repartidor', () => {
   assert.ok(p.asignacion.rechazos.includes('luis'));
 });
 
-test('sin repartidores: alerta al dueño, que puede subir el bono (pagado por manda2)', () => {
+test('sin repartidores: alerta al dueño, que puede subir el bono (pagado por De Una)', () => {
   const W = mundo();
   W.repartidores.forEach((r) => { r.enLinea = false; });
   const p = pedir(W, { clienteId: 'jorge', negocioId: 'tacos', tipo: 'tienda', items: [{ id: 1, q: 2 }], pago: 'efectivo' });
@@ -162,7 +162,7 @@ test('sin repartidores: alerta al dueño, que puede subir el bono (pagado por ma
   hacer(W, p.id, 'entregar_a_repa', N('tacos'));
   M.avanzarReloj(W, 2);
   assert.equal(p.estado, 'entregado');
-  assert.equal(M.saldo(W, 'm2:bonos'), -10);
+  assert.equal(M.saldo(W, 'du:bonos'), -10);
   cuadra(W, p);
 });
 
@@ -283,7 +283,7 @@ test('gas: precio tope oficial y entrega propia con dinero cuadrado', () => {
   hacer(W, p.id, 'salio', N('gas'));
   hacer(W, p.id, 'llegue_domicilio', N('gas'));
   hacer(W, p.id, 'entregar', N('gas'), { pin: p.pin });
-  assert.equal(M.saldo(W, 'neg:gas'), -7, 'la gasera le debe a manda2 solo el servicio');
+  assert.equal(M.saldo(W, 'neg:gas'), -7, 'la gasera le debe a De Una solo el servicio');
   cuadra(W, p);
   const q = pedir(W, { clienteId: 'jorge', negocioId: 'gas', tipo: 'tienda', items: [{ id: 2, q: 1 }], pago: 'transferencia' });
   hacer(W, q.id, 'confirmar_pago', SIS);
@@ -363,7 +363,7 @@ test('Plus: envío gratis desde $150 hasta 8 al mes', () => {
   const p = pedir(W, { clienteId: 'jorge', negocioId: 'tacos', tipo: 'tienda', items: [{ id: 1, q: 3 }], pago: 'efectivo' });
   assert.equal(p.promoUsada, 'plus');
   entregarConLuis(W, p);
-  assert.equal(M.saldo(W, 'm2:promos'), -35);
+  assert.equal(M.saldo(W, 'du:promos'), -35);
   cuadra(W, p);
   M.cliente(W, 'jorge').plus.enviosUsados = 8;
   assert.equal(M.cotizar(W, { clienteId: 'jorge', negocioId: 'tacos', tipo: 'tienda', items: [{ id: 1, q: 3 }] }).promo, null);

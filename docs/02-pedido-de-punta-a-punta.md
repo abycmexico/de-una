@@ -4,7 +4,7 @@ Cada pedido sigue una **máquina de estados**: solo puede pasar de un estado a o
 
 Hay tres tipos de pedido:
 
-1. **Tienda con repartidor de manda2**: restaurantes, tiendita y farmacia.
+1. **Tienda con repartidor de De Una**: restaurantes, tiendita y farmacia.
 2. **Tienda con entrega propia**: gaseras y purificadoras, que llevan el pedido con su propio personal.
 3. **Mandado**: el repartidor compra o recoge algo en cualquier lugar.
 
@@ -48,7 +48,7 @@ stateDiagram-v2
 
 | Estado | Quién actúa | Acciones permitidas |
 |---|---|---|
-| `pago_pendiente` | manda2 (cuando llega el dinero) | `confirmar_pago`. El cliente solo puede cancelar. |
+| `pago_pendiente` | De Una (cuando llega el dinero) | `confirmar_pago`. El cliente solo puede cancelar. |
 | `nuevo` | Negocio | `aceptar` (con tiempo de preparación, productos agotados y revisión de receta), `rechazar` (con motivo) |
 | `preparando` | Negocio / repartidor | `listo` · `llegue_tienda` · `soltar` (el repartidor deja el viaje) · `salio` (entrega propia) |
 | `listo` | Negocio | `entregar_a_repa`, solo si el repartidor ya llegó |
@@ -56,7 +56,7 @@ stateDiagram-v2
 | `por_aprobar` | Cliente | `aprobar_ticket`, `rechazar_ticket` |
 | `en_camino` | Repartidor o negocio | `llegue_domicilio` |
 | `en_puerta` | Repartidor o negocio | `entregar` (con código), `llamar_cliente`, `cliente_ausente` |
-| Cualquiera activo | manda2 | `cancelar`, `asignar`, `subir_bono`, `autorizar_sin_pin` |
+| Cualquiera activo | De Una | `cancelar`, `asignar`, `subir_bono`, `autorizar_sin_pin` |
 
 ## Tiempos límite
 
@@ -88,7 +88,7 @@ Antes de pagar, el cliente elige qué hacer si algo no hay:
 | Preferencia | Qué hace el negocio al aceptar | Resultado |
 |---|---|---|
 | Quítalo y ajusta el total | Marca el producto como agotado | Se quita, el total baja y, si pagó en línea, se le devuelve la diferencia al momento. |
-| Llámame | Llama (la llamada pasa por manda2) y registra lo que decidió el cliente | Quitarlo o cancelar. Sin esa decisión no puede aceptar. |
+| Llámame | Llama (la llamada pasa por De Una) y registra lo que decidió el cliente | Quitarlo o cancelar. Sin esa decisión no puede aceptar. |
 | Cancela todo | Marca el producto como agotado | El pedido se cancela sin costo para nadie. |
 
 Quitar productos **nunca sube el cobro**: si el pedido queda por debajo de $100, no se agrega el cargo por pedido pequeño.
@@ -102,7 +102,7 @@ Quitar productos **nunca sube el cobro**: si el pedido queda por debajo de $100,
 | Cliente | Mientras se prepara, en efectivo | Sin cobro, pero cuenta como **cancelación tardía**. Con 2, solo podrá pagar por adelantado. |
 | Cliente | Ya en camino | No se puede desde la app; se atiende desde Ayuda. |
 | Negocio | Antes de entregar al repartidor | Al cliente se le devuelve todo. Si ya había repartidor asignado, el negocio le paga $15 por el viaje perdido. |
-| manda2 | En cualquier momento | Se le devuelve todo al cliente. Si el repartidor ya iba en camino se le pagan $15, y si ya había pagado en tienda o comprado un mandado, se le repone. |
+| De Una | En cualquier momento | Se le devuelve todo al cliente. Si el repartidor ya iba en camino se le pagan $15, y si ya había pagado en tienda o comprado un mandado, se le repone. |
 
 El texto exacto que ve el cliente antes de confirmar sale de `politicaCancelacion()`.
 
@@ -124,7 +124,7 @@ El texto exacto que ve el cliente antes de confirmar sale de `politicaCancelacio
 - Si falta algo, llegó algo equivocado o llegó en mal estado, la **foto es obligatoria**.
 - El dueño u operador decide:
   - **Cómo se devuelve:** como saldo a favor (al momento) o por transferencia.
-  - **Quién lo paga:** manda2, el negocio o el repartidor.
+  - **Quién lo paga:** De Una, el negocio o el repartidor.
 - Un operador puede devolver hasta $100; más lo aprueba el dueño.
 - El reclamo sale marcado como **sospechoso** si es el tercero del cliente en 30 días, si dice “no llegó” pero se entregó con su código, o si su celular tiene varias cuentas.
 
