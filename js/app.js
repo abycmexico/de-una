@@ -47,7 +47,7 @@
   const MK = window.MARCA;
   const TILE = MK.tile;
   const APPICON = TILE;
-  const wm = (sub = false) => `<svg class="wm" viewBox="-7 33 258 ${sub ? 104 : 68}" aria-hidden="true"><g class="wm-de">${MK.letras.de}</g><g class="wm-una">${MK.letras.una}</g>${sub ? `<g class="wm-sub" transform="translate(126 118) scale(.8)">${MK.letras.delivery}</g>` : ''}</svg>`;
+  const wm = (sub = false) => `<svg class="wm" viewBox="-7 30 292 ${sub ? 107 : 72}" aria-hidden="true"><g class="wm-letras">${MK.letras.de}${MK.letras.una}</g><path class="wm-signo" fill-rule="evenodd" d="${MK.letras.signo}"/><path class="wm-signo" d="${MK.letras.signoPunto}"/>${sub ? `<g class="wm-sub" transform="translate(162 118) scale(.8)">${MK.letras.delivery}</g>` : ''}</svg>`;
   const brand = (cls = '') => `<span class="brand ${cls}" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm()}</span>`;
   const brandBig = () => `<span class="brand big" role="img" aria-label="De Una Delivery"><span class="brand-tile">${TILE}</span>${wm(true)}</span>`;
   // Ilustraciones con borde blanco de estampa (filtro #sticker de index.html)
@@ -318,7 +318,7 @@
       <path id="ruta" d="M70 40 V150 H300 V105" fill="none" stroke="var(--accent)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
       <circle cx="70" cy="40" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest(ilDe(p), 56, 26, 28)}
       <circle cx="300" cy="105" r="20" fill="#fff" stroke="var(--accent)" stroke-width="3"/>${nest('house', 286, 90, 28)}
-      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#3B2416"/>${nest('moto', -15, -16, 30)}</g>` : ''}
+      ${p.asignacion.repaId || p.entrega === 'propia' ? `<g id="moto" data-p="${prog}"><circle r="21" fill="#1C2340"/>${nest('moto', -15, -16, 30)}</g>` : ''}
     </svg></div>`;
   }
   const incidenciaDe = (p) => W.incidencias.filter((i) => i.pedidoId === p.id && i.tipo !== 'cliente_ausente').pop();

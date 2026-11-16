@@ -1,74 +1,90 @@
 # 10. La marca
 
-<img src="../marca/logo.png" alt="De Una Delivery" width="420">
+<img src="../marca/logo.png" alt="De Una Delivery" width="440">
 
 **De Una Delivery.** El nombre viene de “¡de una!”: rápido, sin rodeos y con buena actitud. Es lo que dices cuando se te antoja algo y lo quieres ya.
 
-## El ícono: la bolsita feliz
+## La idea: el pin que es “!”
 
-<img src="../marca/icono.png" alt="Ícono de De Una Delivery" width="160">
+<img src="../marca/icono.png" alt="Ícono de De Una Delivery" width="150">
 
-- **Una bolsa de papel café** con el borde picado: el pedido, recién salido del negocio de la esquina.
-- **Carita contenta** (ojos cerrados de gusto, cachetes coral y sonrisa color miel): así llega tu pedido y así te sientes cuando llega.
-- **Rayas de velocidad** a la izquierda y un **destello**: va de prisa, ¡de una!
-- **Fondo naranja** en un cuadro redondeado, listo para la pantalla del celular.
+Un **pin de ubicación** y un **punto** debajo forman el signo de exclamación de “¡De una!”.
 
-Se distingue de Rappi (bigote, coral y blanco), de DiDi (una “D” naranja) y de Uber Eats (letras en negro y verde) porque usa **café como color principal** junto al naranja, y una mascota en lugar de una letra.
+- **El pin** dice qué hacemos: llevarte el pedido a tu ubicación.
+- **El signo** dice cómo: rápido, con energía, de una.
+- **El punto** es tu casa, donde aterriza el pin.
+
+Sigue las reglas de los mejores logos de delivery del benchmark (Swiggy, Just Eat, DoorDash, Deliveroo):
+
+- un solo color plano;
+- una sola forma blanca;
+- una doble lectura (pin + “!”);
+- se reconoce a 24 px;
+- se puede dibujar de memoria.
+
+Ninguna app de la zona usa un signo de exclamación.
 
 ## El logotipo
 
-Las letras de “de una” están **dibujadas a mano** con trazos redondos del mismo grosor, así que no dependen de ninguna tipografía. “de” va en chocolate y “una” en naranja; abajo, **DELIVERY** en letras pequeñas color canela.
+“de una!” está **dibujado a mano**: letras redondas de trazo grueso que no dependen de ninguna tipografía. Termina con el mismo pin del ícono. Abajo, **DELIVERY** en letras pequeñas.
 
 | Versión | Archivo | Úsala en |
 |---|---|---|
-| Logo con ícono | `marca/logo.svg` / `marca/logo.png` | Fondos claros: lonas, volantes, documentos |
-| Logo sobre chocolate | `marca/logo-oscuro.svg` / `marca/logo-oscuro.png` | Fondos oscuros, redes sociales, playeras |
+| Logo horizontal | `marca/logo.svg` / `.png` | Fondos claros: lonas, volantes, documentos |
+| Logo sobre azul noche | `marca/logo-oscuro.svg` / `.png` | Fondos oscuros, redes sociales, playeras |
+| Logo vertical | `marca/logo-vertical.svg` / `.png` | Espacios cuadrados, perfiles, stickers |
+| Un solo color | `marca/logo-un-color.svg` / `.png` | Sellos, grabados, impresión a una tinta |
 | Solo letras | `marca/logotipo.svg` | Cuando el ícono ya aparece cerca |
-| Ícono | `marca/icono.svg` / `marca/icono.png` | Foto de perfil, la app, sellos |
-| Mascota sola | `marca/bolsita.svg` | Stickers, bolsas, ilustraciones |
+| Ícono | `marca/icono.svg` / `.png` | La app, foto de perfil |
+| Ícono sobre noche | `marca/icono-noche.svg` / `.png` | Fondos naranjas o fotos con mucho color |
+| Símbolo solo | `marca/simbolo.svg` | Bolsas, cajas, mochilas de reparto |
 
-Todo sale de un solo script: si cambias un color en `marca/generar.js` y corres `node marca/generar.js`, se actualizan el ícono de la app, los logos y las piezas que usa la app.
+Todo sale de un solo script: si cambias algo en `marca/generar.js` y corres `node marca/generar.js`, se actualizan el ícono de la app, los logos y las piezas que usa la app.
 
-**No hagas esto:** estirar el logo, cambiarle los colores a otros que no sean los de abajo, ponerlo sobre fondos naranjas sin el ícono, o escribir “de una” con otra letra.
+**Reglas de uso:**
+- Deja alrededor del logo un espacio libre del tamaño del punto del signo.
+- Tamaño mínimo: el ícono a 24 px y el logo horizontal a 120 px de ancho.
+- No lo estires, no lo rotes y no le pongas sombras ni degradados.
+- No cambies sus colores ni pongas el pin naranja sobre fondo naranja (para eso está la versión blanca).
 
 ## Colores
 
 | Nombre | Hex | Para qué |
 |---|---|---|
-| Naranja | `#EE6A1F` | Botones, lo que se puede tocar, acentos |
-| Naranja claro | `#F7923A` | Degradados, el código de entrega |
-| Miel | `#F6A93B` | Promociones, la sonrisa |
-| Canela | `#8A4B2A` | Textos secundarios de marca, “DELIVERY” |
-| Chocolate | `#3B2416` | Encabezados, la bolsita, fondos importantes |
-| Casi negro café | `#2A170C` | Texto principal y texto sobre naranja |
-| Crema | `#FBF4EC` | Fondo de la app |
+| Mandarina | `#FF6B1A` | El color de la marca: ícono, botones, lo que se toca |
+| Mandarina clara | `#FF9A4D` | El código de entrega y los acentos sobre azul |
+| Miel | `#FFB547` | Promociones |
+| Azul noche | `#1C2340` | Encabezados, fondos importantes, el logotipo |
+| Tinta | `#141A2E` | Texto principal y texto sobre mandarina |
+| Crema | `#FFF8F2` | Fondo de la app |
+| Mandarina para texto | `#C2410C` | Texto naranja pequeño sobre blanco |
 
-**Reglas de contraste:**
-- Sobre naranja, el texto va en **café oscuro**, no en blanco: se lee mejor (4.6:1) y nos distingue.
-- Sobre chocolate, el texto va en **crema**.
-- Para texto naranja pequeño sobre blanco se usa `#B5470C`, que es más oscuro.
+**Por qué mandarina con azul noche:** el naranja y el rojo están llenos (Rappi, DiDi Food, DoorDash, Just Eat, Swiggy). El azul noche es su complementario: hace que el naranja brille más, se ve premium y ninguna app de comida en México lo usa.
 
-La app tiene **modo oscuro** con fondos chocolate y el mismo naranja.
+**Contraste:**
+- Sobre mandarina, el texto va en **tinta** (6:1), no en blanco: se lee mejor y nos distingue.
+- Sobre azul noche, el texto va en **crema**.
+
+La app tiene **modo oscuro** con fondos azul noche y la misma mandarina.
 
 ## Tipografía
 
-- **Títulos:** Bricolage Grotesque (700–800), con personalidad y fácil de leer.
-- **Texto:** Figtree (400–800), clara en pantallas chicas.
+- **Títulos:** Bricolage Grotesque (700–800).
+- **Texto:** Figtree (400–800).
 - **Logotipo:** dibujado a mano, no usa tipografía.
 
-## Ilustraciones
+## Ilustraciones e íconos
 
-Todas las ilustraciones (comida, tiendita, farmacia, gas, garrafón, moto, regalos) son propias, en estilo plano y cálido, con un **borde blanco de estampa** y una sombra suave. Eso las hace reconocibles y les da un toque de sticker que va con la mascota. Viven en `ilustraciones.js`; el borde lo pone el filtro `#sticker` de `index.html`.
-
-Los íconos de la interfaz (inicio, buscar, pedidos, cuenta…) son de línea con un **relleno suave**. Cuando están activos, el relleno se vuelve naranja y aparece una píldora detrás.
+- **Ilustraciones:** todas son propias (comida, tiendita, farmacia, gas, garrafón, moto, regalos), en estilo plano y cálido, con un **borde blanco de estampa**. La bolsa de entrega lleva el símbolo de la marca. Viven en `ilustraciones.js`, y el borde lo pone el filtro `#sticker` de `index.html`.
+- **Íconos de la interfaz:** de línea, con un relleno suave que se vuelve mandarina cuando están activos.
 
 ## Tono de voz
 
 - Cercano y directo, como un vecino que te hace el paro: “¿Se te antojó? ¡De una!”.
 - Claro con el dinero: todos los cargos a la vista, sin letras chiquitas.
-- Nunca regañón: los límites se explican con el motivo (“En tus primeros 3 pedidos el efectivo es para compras de hasta $400”).
+- Nunca regañón: los límites se explican con el motivo.
 
 ## Pendiente antes de lanzar
 
-- **Buscar la marca** en el IMPI antes de imprimir lonas, y registrarla. Ojo: en Ecuador existe una app de pagos llamada *Deuna*.
-- Registrar los usuarios en redes sociales (por ejemplo, @deunadelivery) y el dominio.
+- **Buscar y registrar la marca en el IMPI** antes de imprimir. Ojo: en Ecuador existe una app de pagos llamada *Deuna*.
+- Registrar los usuarios en redes (por ejemplo, @deunadelivery) y el dominio.
